@@ -114,8 +114,8 @@ public class ComboListUtilsDao extends Dao {
         try {
             // コネクション接続
             this.connect();
-
             StringBuffer strSql = new StringBuffer();
+            strSql.append("SELECT * FROM m_shift ");
            
 
             PreparedStatement ps = connection.prepareStatement(strSql.toString());
