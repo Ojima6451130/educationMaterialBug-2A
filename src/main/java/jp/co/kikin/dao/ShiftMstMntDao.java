@@ -223,7 +223,7 @@ public class ShiftMstMntDao extends Dao {
             strSql.append("shift_id, ");
             strSql.append("shift_name, ");
             strSql.append("symbol, ");
-            strSql.append("end_time, ");
+            strSql.append("start_time, ");
             strSql.append("end_time, ");
             strSql.append("break_time, ");
             strSql.append("updater_employee_id, ");
@@ -251,7 +251,7 @@ public class ShiftMstMntDao extends Dao {
             ps.setString(2, shiftMstMntDto.getShiftName());
             ps.setString(3, shiftMstMntDto.getSymbol());
             ps.setString(4, shiftMstMntDto.getStartTime());
-            ps.setString(5, shiftMstMntDto.getStartTime());
+            ps.setString(5, shiftMstMntDto.getEndTime());
             ps.setString(6, shiftMstMntDto.getBreakTime());
             ps.setString(7, loginUserDto.getEmployeeId());
             ps.setString(8, loginUserDto.getEmployeeId());
