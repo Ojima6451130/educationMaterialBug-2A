@@ -45,6 +45,6 @@ public class DateBean {
 		return publicHolidayFlg;
 	}
 	public void setPublicHolidayFlg(boolean publicHolidayFlg) {
-		this.publicHolidayFlg = false;
+		this.publicHolidayFlg = publicHolidayFlg;
 	}
 }
