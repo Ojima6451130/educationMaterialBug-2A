@@ -38,7 +38,7 @@ public class EmployeeMstMntDto {
 
 
 	public String getEmployeeId() {
-		return password;
+		return employeeId;
 	}
 
 	public void setEmployeeId(String employeeId) {
@@ -46,7 +46,7 @@ public class EmployeeMstMntDto {
 	}
 
 	public String getPassword() {
-		return employeeId;
+		return password;
 	}
 
 	public void setPassword(String password) {

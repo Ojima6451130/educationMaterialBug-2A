@@ -83,7 +83,10 @@ public class EmployeeMstMntRegisterController {
 
         // ロジック生成
         EmployeeMstMntLogic employeeMstMntLogic = new EmployeeMstMntLogic();
-
+        
+        //登録
+        employeeMstMntLogic.registerM_employee(m_employeeDto, loginUserDto);
+        
         // 権限セレクトボックスの取得
         ComboListUtilLogic comboListUtils = new ComboListUtilLogic();
         Map<String, String> comboMap = comboListUtils.getCombo(CategoryId.AUTHORITY.getCategoryId(),

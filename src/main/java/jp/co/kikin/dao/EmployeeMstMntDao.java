@@ -239,6 +239,32 @@ public class EmployeeMstMntDao extends Dao {
             this.connect();
 
             StringBuffer strSql = new StringBuffer();
+            
+            strSql.append("INSERT INTO ");
+            strSql.append("m_employee ");
+            strSql.append(" ( ");
+            strSql.append("employee_id, ");
+            strSql.append("password, ");
+            strSql.append("employee_name, ");
+            strSql.append("employee_name_kana, ");
+            strSql.append("authority_id, ");
+            strSql.append("creator_employee_id, ");
+            strSql.append("creation_datetime, ");
+            strSql.append("updater_employee_id, ");
+            strSql.append("update_datetime");
+            strSql.append(") ");
+            strSql.append("VALUES ");
+            strSql.append(" ( ");
+            strSql.append("? ");
+            strSql.append(",? ");
+            strSql.append(",? ");
+            strSql.append(",? ");
+            strSql.append(",? ");
+            strSql.append(",? ");
+            strSql.append(", current_timestamp()");
+            strSql.append(",? ");
+            strSql.append(", current_timestamp()");
+            strSql.append(") ");
            
             PreparedStatement ps = connection.prepareStatement(strSql.toString());
 
