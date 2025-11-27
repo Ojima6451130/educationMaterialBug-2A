@@ -158,10 +158,8 @@
                             <tbody>
                                 <tr th:each="item, itemStat : ${employeeMstMntForm.employeeMstMntBeanList}"
                                     class="employeeMntList">
-                                    <td style="width: 200px; text-align: center;">
-                                        <input type="text"
-                                            th:field="*{employeeMstMntBeanList[__${itemStat.index}__].employeeId}"
-                                            size="20" readonly="true" />
+                                    <td style="width: 200px; text-align: center;" th:text="*{employeeMstMntBeanList[__${itemStat.index}__].employeeId}"
+                                            size="20" readonly="true" >
                                     </td>
 
                                     <td style="width: 200px; text-align: center;">
