@@ -47,11 +47,12 @@ public class EmployeeMstMntLogic {
             for (int i = 0; i < employeeMstMntDtoList.size(); i++) {
 
                 EmployeeMstMntDto employeeMstMntDto = employeeMstMntDtoList.get(i);
+                String employeeId = employeeMstMntDtoList.get(i).getEmployeeId();
                 boolean deleteFlg = employeeMstMntDto.getDeleteFlg();
 
                 if (deleteFlg) {
                     // 削除
-                    employeeMstMntDao.updateEmployeeMst(employeeMstMntDto, loginUserDto);
+                    employeeMstMntDao.deleteEmployeeMst(employeeId);
                 } else {
                     // 更新
                     employeeMstMntDao.updateEmployeeMst(employeeMstMntDto, loginUserDto);
