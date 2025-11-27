@@ -219,6 +219,7 @@ public class EmployeeMstMntController {
 
             // Dtoに値をセットする
             
+            employeeMstMntDto.setEmployeeId(employeeMstMntBean.getEmployeeId());
             employeeMstMntDto.setEmployeeName(employeeMstMntBean.getEmployeeName());
             employeeMstMntDto.setEmployeeNameKana(employeeMstMntBean.getEmployeeNameKana());
             employeeMstMntDto.setPassword(employeeMstMntBean.getPassword());
