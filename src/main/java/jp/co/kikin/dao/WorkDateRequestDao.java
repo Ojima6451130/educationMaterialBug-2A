@@ -138,7 +138,6 @@ public class WorkDateRequestDao extends Dao{
             strSql.append("ORDER BY ");
             strSql.append("employee_id,");
             strSql.append("year_month_day");
-            strSql.append(" limit 3");
 
             PreparedStatement ps = connection.prepareStatement(strSql.toString());
 
@@ -308,9 +307,19 @@ public class WorkDateRequestDao extends Dao{
 
             StringBuffer strSql = new StringBuffer();
             
-
+            strSql.append("UPDATE ");
+            strSql.append("t_shift ");
+            strSql.append("SET ");
+            strSql.append("request_shift_id = ?, ");
+            strSql.append("updater_employee_id = ?, ");
+            strSql.append("update_datetime = current_timestamp() ");
+            strSql.append("WHERE ");
+            strSql.append("employee_id = ? ");
+            strSql.append("AND ");
+            strSql.append("year_month_day = ? ");
+            
             PreparedStatement ps = connection.prepareStatement(strSql.toString());
-
+            
             ps.setString(1, workDateRequestInputDto.getMyRequestShiftId());
             ps.setString(2, loginUserDto.getEmployeeId());
             ps.setString(3, workDateRequestInputDto.getEmployeeId());
