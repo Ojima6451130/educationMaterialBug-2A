@@ -107,7 +107,7 @@
         <tr>
           <td id="footLeft">
             <input value="凡例表示" type="button" class="longButton" onclick="openWindow()" />
-            <form id="excelForm" action="/kikin/monthlyShiftCheck/print" method="post" th:object="${MonthlyShiftCheckForm}">
+            <form id="excelForm" style="display:inline;" action="/kikin/monthlyShiftCheck/print" method="post" th:object="${MonthlyShiftCheckForm}">
               <input id="yearMonth" type="hidden" th:field="*{yearMonth}" th:value="${yearMonth}">
               <input type="submit" class="smallButton" id="btn_excel" value="印刷">
             </form>
