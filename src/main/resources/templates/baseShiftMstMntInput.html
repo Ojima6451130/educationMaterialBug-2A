@@ -32,7 +32,7 @@
         </div>
         <div id="businessBody">
             <div class="centered-container">
-                <div id="pattern" style="width:10000px; margin-left:80px; float:left">
+                <div id="pattern" style="width:476px; margin-left:20%; float:left">
                     <div>
                         <table class="tableHeader">
                             <tr>
@@ -75,8 +75,8 @@
                     </div>
                 </div>
                 <div id="data" style="width: max-content; margin-left:20px;  overflow:auto; float:left ">
-                    <div style="width: 10000px;">
-                        <table>
+                    <div style="width: 580px;">
+                        <table class="tableHeader">
                             <tr>
                                 <td width="230px" align="center">
                                     社員名
@@ -157,7 +157,7 @@
                                         </td>
 
                                         <!-- 木曜日のシフト -->
-                                        <td width="10000px" align="center">
+                                        <td width="50px" align="center">
                                             <select
                                                 th:field="*{baseShiftMstMntBeanList[__${employeeStat.index}__].shiftIdOnThursday}" disabled="disabled">
                                                 <option th:each="entry : ${baseShiftMstMntForm.shiftCmbMap}"
