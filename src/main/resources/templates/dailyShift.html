@@ -41,6 +41,7 @@
       </div>
       <div id="businessBody" style="height: 500px;">
         <table class="dailyShiftTable">
+        
           <thead>
             <tr>
               <td style="display: block; position: sticky; top: 0; left: 0; z-index: 1000;">
@@ -52,6 +53,7 @@
                   </tr>
                 </table>
               </td>
+              
               <td th:each="dailyShiftBean : ${dailyShiftBeanList}" style="width: 154px; text-align: center; white-space: nowrap;">
                 <table class="tableHeaderDaily">
                   <tr>
@@ -63,6 +65,7 @@
               </td>
             </tr>
           </thead>
+          
           <tbody class="dailyShiftTableBody">
             <tr>
               <!-- 左側のテーブル部分 -->
@@ -82,7 +85,7 @@
                         <td th:if="${dailyShiftBean.boolTime00}" style="width: 154px; text-align: center; font-size: 15px; white-space: nowrap; ">
                           <span th:if="${dailyShiftBean.strTime00 == '出勤'}">[[${dailyShiftBean.workTime}]]</span>
                           <br>
-                          <span th:if="${dailyShiftBean.strTime00 == '出勤'}">[[${dailyShiftBean.breakTime}]]</span>
+                          <span th:if="${dailyShiftBean.strTime00 == '休憩'}">[[${dailyShiftBean.breakTime}]]</span>
                         </td>
                         <td th:if="${!dailyShiftBean.boolTime00}" style="width: 154px; text-align: center; white-space: nowrap;"></td>
                       </tr>
@@ -90,7 +93,7 @@
                         <td th:if="${dailyShiftBean.boolTime01}" style="width: 154px; text-align: center; font-size: 15px; white-space: nowrap; ">
                           <span th:if="${dailyShiftBean.strTime01 == '出勤'}">[[${dailyShiftBean.workTime}]]</span>
                           <br>
-                          <span th:if="${dailyShiftBean.strTime01 == '出勤'}">[[${dailyShiftBean.breakTime}]]</span>
+                          <span th:if="${dailyShiftBean.strTime01 == '休憩'}">[[${dailyShiftBean.breakTime}]]</span>
                         </td>
                         <td th:if="${!dailyShiftBean.boolTime01}" style="width: 154px; text-align: center; white-space: nowrap;"></td>
                       </tr>
@@ -98,7 +101,7 @@
                         <td th:if="${dailyShiftBean.boolTime02}" style="width: 154px; text-align: center; font-size: 15px; white-space: nowrap; ">
                           <span th:if="${dailyShiftBean.strTime02 == '出勤'}">[[${dailyShiftBean.workTime}]]</span>
                           <br>
-                          <span th:if="${dailyShiftBean.strTime02 == '出勤'}">[[${dailyShiftBean.breakTime}]]</span>
+                          <span th:if="${dailyShiftBean.strTime02 == '休憩'}">[[${dailyShiftBean.breakTime}]]</span>
                         </td>
                         <td th:if="${!dailyShiftBean.boolTime02}" style="width: 154px; text-align: center; white-space: nowrap;"></td>
                       </tr>
@@ -106,7 +109,7 @@
                         <td th:if="${dailyShiftBean.boolTime03}" style="width: 154px; text-align: center; font-size: 15px; white-space: nowrap; ">
                           <span th:if="${dailyShiftBean.strTime03 == '出勤'}">[[${dailyShiftBean.workTime}]]</span>
                           <br>
-                          <span th:if="${dailyShiftBean.strTime03 == '出勤'}">[[${dailyShiftBean.breakTime}]]</span>
+                          <span th:if="${dailyShiftBean.strTime03 == '休憩'}">[[${dailyShiftBean.breakTime}]]</span>
                         </td>
                         <td th:if="${!dailyShiftBean.boolTime03}" style="width: 154px; text-align: center; white-space: nowrap;"></td>
                       </tr>
@@ -114,7 +117,7 @@
                         <td th:if="${dailyShiftBean.boolTime04}" style="width: 154px; text-align: center; font-size: 15px; white-space: nowrap; ">
                           <span th:if="${dailyShiftBean.strTime04 == '出勤'}">[[${dailyShiftBean.workTime}]]</span>
                           <br>
-                          <span th:if="${dailyShiftBean.strTime04 == '出勤'}">[[${dailyShiftBean.breakTime}]]</span>
+                          <span th:if="${dailyShiftBean.strTime04 == '休憩'}">[[${dailyShiftBean.breakTime}]]</span>
                         </td>
                         <td th:if="${!dailyShiftBean.boolTime04}" style="width: 154px; text-align: center; white-space: nowrap;"></td>
                       </tr>
@@ -122,7 +125,7 @@
                         <td th:if="${dailyShiftBean.boolTime05}" style="width: 154px; text-align: center; font-size: 15px; white-space: nowrap; ">
                           <span th:if="${dailyShiftBean.strTime05 == '出勤'}">[[${dailyShiftBean.workTime}]]</span>
                           <br>
-                          <span th:if="${dailyShiftBean.strTime05 == '出勤'}">[[${dailyShiftBean.breakTime}]]</span>
+                          <span th:if="${dailyShiftBean.strTime05 == '休憩'}">[[${dailyShiftBean.breakTime}]]</span>
                         </td>
                         <td th:if="${!dailyShiftBean.boolTime05}" style="width: 154px; text-align: center; white-space: nowrap;"></td>
                       </tr>
@@ -130,7 +133,7 @@
                         <td th:if="${dailyShiftBean.boolTime06}" style="width: 154px; text-align: center; font-size: 15px; white-space: nowrap; ">
                           <span th:if="${dailyShiftBean.strTime06 == '出勤'}">[[${dailyShiftBean.workTime}]]</span>
                           <br>
-                          <span th:if="${dailyShiftBean.strTime06 == '出勤'}">[[${dailyShiftBean.breakTime}]]</span>
+                          <span th:if="${dailyShiftBean.strTime06 == '休憩'}">[[${dailyShiftBean.breakTime}]]</span>
                         </td>
                         <td th:if="${!dailyShiftBean.boolTime06}" style="width: 154px; text-align: center; white-space: nowrap;"></td>
                       </tr>
@@ -138,7 +141,7 @@
                         <td th:if="${dailyShiftBean.boolTime07}" style="width: 154px; text-align: center; font-size: 15px; white-space: nowrap; ">
                           <span th:if="${dailyShiftBean.strTime07 == '出勤'}">[[${dailyShiftBean.workTime}]]</span>
                           <br>
-                          <span th:if="${dailyShiftBean.strTime07 == '出勤'}">[[${dailyShiftBean.breakTime}]]</span>
+                          <span th:if="${dailyShiftBean.strTime07 == '休憩'}">[[${dailyShiftBean.breakTime}]]</span>
                         </td>
                         <td th:if="${!dailyShiftBean.boolTime07}" style="width: 154px; text-align: center; white-space: nowrap;"></td>
                       </tr>
@@ -146,7 +149,7 @@
                         <td th:if="${dailyShiftBean.boolTime08}" style="width: 154px; text-align: center; font-size: 15px; white-space: nowrap; ">
                           <span th:if="${dailyShiftBean.strTime08 == '出勤'}">[[${dailyShiftBean.workTime}]]</span>
                           <br>
-                          <span th:if="${dailyShiftBean.strTime08 == '出勤'}">[[${dailyShiftBean.breakTime}]]</span>
+                          <span th:if="${dailyShiftBean.strTime08 == '休憩'}">[[${dailyShiftBean.breakTime}]]</span>
                         </td>
                         <td th:if="${!dailyShiftBean.boolTime08}" style="width: 154px; text-align: center; white-space: nowrap;"></td>
                       </tr>
@@ -154,7 +157,7 @@
                         <td th:if="${dailyShiftBean.boolTime09}" style="width: 154px; text-align: center; font-size: 15px; white-space: nowrap; ">
                           <span th:if="${dailyShiftBean.strTime09 == '出勤'}">[[${dailyShiftBean.workTime}]]</span>
                           <br>
-                          <span th:if="${dailyShiftBean.strTime09 == '出勤'}">[[${dailyShiftBean.breakTime}]]</span>
+                          <span th:if="${dailyShiftBean.strTime09 == '休憩'}">[[${dailyShiftBean.breakTime}]]</span>
                         </td>
                         <td th:if="${!dailyShiftBean.boolTime09}" style="width: 154px; text-align: center; white-space: nowrap;"></td>
                       </tr>
@@ -162,7 +165,7 @@
                         <td th:if="${dailyShiftBean.boolTime10}" style="width: 154px; text-align: center; font-size: 15px; white-space: nowrap; ">
                           <span th:if="${dailyShiftBean.strTime10 == '出勤'}">[[${dailyShiftBean.workTime}]]</span>
                           <br>
-                          <span th:if="${dailyShiftBean.strTime10 == '出勤'}">[[${dailyShiftBean.breakTime}]]</span>
+                          <span th:if="${dailyShiftBean.strTime10 == '休憩'}">[[${dailyShiftBean.breakTime}]]</span>
                         </td>
                         <td th:if="${!dailyShiftBean.boolTime10}" style="width: 154px; text-align: center; white-space: nowrap;"></td>
                       </tr>
@@ -170,7 +173,7 @@
                         <td th:if="${dailyShiftBean.boolTime11}" style="width: 154px; text-align: center; font-size: 15px; white-space: nowrap; ">
                           <span th:if="${dailyShiftBean.strTime11 == '出勤'}">[[${dailyShiftBean.workTime}]]</span>
                           <br>
-                          <span th:if="${dailyShiftBean.strTime11 == '出勤'}">[[${dailyShiftBean.breakTime}]]</span>
+                          <span th:if="${dailyShiftBean.strTime11 == '休憩'}">[[${dailyShiftBean.breakTime}]]</span>
                         </td>
                         <td th:if="${!dailyShiftBean.boolTime11}" style="width: 154px; text-align: center; white-space: nowrap;"></td>
                       </tr>
@@ -178,7 +181,7 @@
                         <td th:if="${dailyShiftBean.boolTime12}" style="width: 154px; text-align: center; font-size: 15px; white-space: nowrap; ">
                           <span th:if="${dailyShiftBean.strTime12 == '出勤'}">[[${dailyShiftBean.workTime}]]</span>
                           <br>
-                          <span th:if="${dailyShiftBean.strTime12 == '出勤'}">[[${dailyShiftBean.breakTime}]]</span>
+                          <span th:if="${dailyShiftBean.strTime12 == '休憩'}">[[${dailyShiftBean.breakTime}]]</span>
                         </td>
                         <td th:if="${!dailyShiftBean.boolTime12}" style="width: 154px; text-align: center; white-space: nowrap;"></td>
                       </tr>
@@ -186,7 +189,7 @@
                         <td th:if="${dailyShiftBean.boolTime13}" style="width: 154px; text-align: center; font-size: 15px; white-space: nowrap; ">
                           <span th:if="${dailyShiftBean.strTime13 == '出勤'}">[[${dailyShiftBean.workTime}]]</span>
                           <br>
-                          <span th:if="${dailyShiftBean.strTime13 == '出勤'}">[[${dailyShiftBean.breakTime}]]</span>
+                          <span th:if="${dailyShiftBean.strTime13 == '休憩'}">[[${dailyShiftBean.breakTime}]]</span>
                         </td>
                         <td th:if="${!dailyShiftBean.boolTime13}" style="width: 154px; text-align: center; white-space: nowrap;"></td>
                       </tr>
@@ -194,7 +197,7 @@
                         <td th:if="${dailyShiftBean.boolTime14}" style="width: 154px; text-align: center; font-size: 15px; white-space: nowrap; ">
                           <span th:if="${dailyShiftBean.strTime14 == '出勤'}">[[${dailyShiftBean.workTime}]]</span>
                           <br>
-                          <span th:if="${dailyShiftBean.strTime14 == '出勤'}">[[${dailyShiftBean.breakTime}]]</span>
+                          <span th:if="${dailyShiftBean.strTime14 == '休憩'}">[[${dailyShiftBean.breakTime}]]</span>
                         </td>
                         <td th:if="${!dailyShiftBean.boolTime14}" style="width: 154px; text-align: center; white-space: nowrap;"></td>
                       </tr>
@@ -202,7 +205,7 @@
                         <td th:if="${dailyShiftBean.boolTime15}" style="width: 154px; text-align: center; font-size: 15px; white-space: nowrap; ">
                           <span th:if="${dailyShiftBean.strTime15 == '出勤'}">[[${dailyShiftBean.workTime}]]</span>
                           <br>
-                          <span th:if="${dailyShiftBean.strTime15 == '出勤'}">[[${dailyShiftBean.breakTime}]]</span>
+                          <span th:if="${dailyShiftBean.strTime15 == '休憩'}">[[${dailyShiftBean.breakTime}]]</span>
                         </td>
                         <td th:if="${!dailyShiftBean.boolTime15}" style="width: 154px; text-align: center; white-space: nowrap;"></td>
                       </tr>
@@ -210,7 +213,7 @@
                         <td th:if="${dailyShiftBean.boolTime16}" style="width: 154px; text-align: center; font-size: 15px; white-space: nowrap; ">
                           <span th:if="${dailyShiftBean.strTime16 == '出勤'}">[[${dailyShiftBean.workTime}]]</span>
                           <br>
-                          <span th:if="${dailyShiftBean.strTime16 == '出勤'}">[[${dailyShiftBean.breakTime}]]</span>
+                          <span th:if="${dailyShiftBean.strTime16 == '休憩'}">[[${dailyShiftBean.breakTime}]]</span>
                         </td>
                         <td th:if="${!dailyShiftBean.boolTime16}" style="width: 154px; text-align: center; white-space: nowrap;"></td>
                       </tr>
@@ -218,7 +221,7 @@
                         <td th:if="${dailyShiftBean.boolTime17}" style="width: 154px; text-align: center; font-size: 15px; white-space: nowrap; ">
                           <span th:if="${dailyShiftBean.strTime17 == '出勤'}">[[${dailyShiftBean.workTime}]]</span>
                           <br>
-                          <span th:if="${dailyShiftBean.strTime17 == '出勤'}">[[${dailyShiftBean.breakTime}]]</span>
+                          <span th:if="${dailyShiftBean.strTime17 == '休憩'}">[[${dailyShiftBean.breakTime}]]</span>
                         </td>
                         <td th:if="${!dailyShiftBean.boolTime17}" style="width: 154px; text-align: center; white-space: nowrap;"></td>
                       </tr>
@@ -226,7 +229,7 @@
                         <td th:if="${dailyShiftBean.boolTime18}" style="width: 154px; text-align: center; font-size: 15px; white-space: nowrap; ">
                           <span th:if="${dailyShiftBean.strTime18 == '出勤'}">[[${dailyShiftBean.workTime}]]</span>
                           <br>
-                          <span th:if="${dailyShiftBean.strTime18 == '出勤'}">[[${dailyShiftBean.breakTime}]]</span>
+                          <span th:if="${dailyShiftBean.strTime18 == '休憩'}">[[${dailyShiftBean.breakTime}]]</span>
                         </td>
                         <td th:if="${!dailyShiftBean.boolTime18}" style="width: 154px; text-align: center; white-space: nowrap;"></td>
                       </tr>
@@ -234,7 +237,7 @@
                         <td th:if="${dailyShiftBean.boolTime19}" style="width: 154px; text-align: center; font-size: 15px; white-space: nowrap; ">
                           <span th:if="${dailyShiftBean.strTime19 == '出勤'}">[[${dailyShiftBean.workTime}]]</span>
                           <br>
-                          <span th:if="${dailyShiftBean.strTime19 == '出勤'}">[[${dailyShiftBean.breakTime}]]</span>
+                          <span th:if="${dailyShiftBean.strTime19 == '休憩'}">[[${dailyShiftBean.breakTime}]]</span>
                         </td>
                         <td th:if="${!dailyShiftBean.boolTime19}" style="width: 154px; text-align: center; white-space: nowrap;"></td>
                       </tr>
@@ -242,7 +245,7 @@
                         <td th:if="${dailyShiftBean.boolTime20}" style="width: 154px; text-align: center; font-size: 15px; white-space: nowrap; ">
                           <span th:if="${dailyShiftBean.strTime20 == '出勤'}">[[${dailyShiftBean.workTime}]]</span>
                           <br>
-                          <span th:if="${dailyShiftBean.strTime20 == '出勤'}">[[${dailyShiftBean.breakTime}]]</span>
+                          <span th:if="${dailyShiftBean.strTime20 == '休憩'}">[[${dailyShiftBean.breakTime}]]</span>
                         </td>
                         <td th:if="${!dailyShiftBean.boolTime20}" style="width: 154px; text-align: center; white-space: nowrap;"></td>
                       </tr>
@@ -250,7 +253,7 @@
                         <td th:if="${dailyShiftBean.boolTime21}" style="width: 154px; text-align: center; font-size: 15px; white-space: nowrap; ">
                           <span th:if="${dailyShiftBean.strTime21 == '出勤'}">[[${dailyShiftBean.workTime}]]</span>
                           <br>
-                          <span th:if="${dailyShiftBean.strTime21 == '出勤'}">[[${dailyShiftBean.breakTime}]]</span>
+                          <span th:if="${dailyShiftBean.strTime21 == '休憩'}">[[${dailyShiftBean.breakTime}]]</span>
                         </td>
                         <td th:if="${!dailyShiftBean.boolTime21}" style="width: 154px; text-align: center; white-space: nowrap;"></td>
                       </tr>
@@ -258,7 +261,7 @@
                         <td th:if="${dailyShiftBean.boolTime22}" style="width: 154px; text-align: center; font-size: 15px; white-space: nowrap; ">
                           <span th:if="${dailyShiftBean.strTime22 == '出勤'}">[[${dailyShiftBean.workTime}]]</span>
                           <br>
-                          <span th:if="${dailyShiftBean.strTime22 == '出勤'}">[[${dailyShiftBean.breakTime}]]</span>
+                          <span th:if="${dailyShiftBean.strTime22 == '休憩'}">[[${dailyShiftBean.breakTime}]]</span>
                         </td>
                         <td th:if="${!dailyShiftBean.boolTime22}" style="width: 154px; text-align: center; white-space: nowrap;"></td>
                       </tr>
@@ -266,7 +269,7 @@
                         <td th:if="${dailyShiftBean.boolTime23}" style="width: 154px; text-align: center; font-size: 15px; white-space: nowrap; ">
                           <span th:if="${dailyShiftBean.strTime23 == '出勤'}">[[${dailyShiftBean.workTime}]]</span>
                           <br>
-                          <span th:if="${dailyShiftBean.strTime23 == '出勤'}">[[${dailyShiftBean.breakTime}]]</span>
+                          <span th:if="${dailyShiftBean.strTime23 == '休憩'}">[[${dailyShiftBean.breakTime}]]</span>
                         </td>
                         <td th:if="${!dailyShiftBean.boolTime23}" style="width: 154px; text-align: center; white-space: nowrap;"></td>
                       </tr>
