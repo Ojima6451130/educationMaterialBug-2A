@@ -187,6 +187,7 @@ public class ShiftMstMntDao extends Dao {
             strSql.append("DELETE FROM ");
             strSql.append("m_shift ");
             strSql.append("WHERE ");
+            strSql.append("shift_id = ? ");
            
 
             PreparedStatement ps = connection.prepareStatement(strSql.toString());
