@@ -155,9 +155,29 @@ public class MonthlyShiftDao extends Dao{
     public void registerShiftTbl(MonthlyShiftDto monthlyShiftDto, LoginUserDto loginUserDto) throws SQLException{
 
         try {
-
+        	
             StringBuffer strSql = new StringBuffer();
-            
+            strSql.append("INSERT INTO ");
+            strSql.append("t_shift ");
+            strSql.append(" ( ");
+            strSql.append("employee_id, ");
+            strSql.append("year_month_day, ");
+            strSql.append("shift_id, ");
+            strSql.append("creator_employee_id, ");
+            strSql.append("creation_datetime, ");
+            strSql.append("updater_employee_id, ");
+            strSql.append("update_datetime");
+            strSql.append(") ");
+            strSql.append("VALUES ");
+            strSql.append(" ( ");
+            strSql.append("? ");
+            strSql.append(",? ");
+            strSql.append(",? ");
+            strSql.append(",? ");
+            strSql.append(", current_timestamp()");
+            strSql.append(",? ");
+            strSql.append(", current_timestamp()");
+            strSql.append(") ");
 
             PreparedStatement ps = connection.prepareStatement(strSql.toString());
 
@@ -200,6 +220,8 @@ public class MonthlyShiftDao extends Dao{
             strSql.append("update_datetime = current_timestamp() ");
             strSql.append("WHERE ");
             strSql.append("employee_id = ? ");
+            strSql.append("AND ");
+            strSql.append("year_month_day = ? ");
             
 
 
