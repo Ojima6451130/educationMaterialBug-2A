@@ -82,6 +82,7 @@ public class BaseShiftDao extends Dao {
                 baseShiftDto.setEmployeeId        (rs.getString(M_base_shift.EMPLOYEE_ID.getName()));          // 社員ID
                 baseShiftDto.setEmployeeName      (rs.getString(M_employee.EMPLOYEE_NAME.getName()));             // 社員名
                 baseShiftDto.setShiftIdOnSunday   (rs.getString(M_base_shift.SUNDAY.getName()));            // 日曜日シフトＩＤ
+                baseShiftDto.setShiftIdOnMonday   (rs.getString(M_base_shift.MONDAY.getName()));            // 月曜日シフトＩＤ
                 baseShiftDto.setShiftIdOnTuesday  (rs.getString(M_base_shift.TUESDAY.getName()));           // 火曜日シフトＩＤ
                 baseShiftDto.setShiftIdOnWednesday(rs.getString(M_base_shift.WEDNESDAY.getName()));         // 水曜日シフトＩＤ
                 baseShiftDto.setShiftIdOnThursday (rs.getString(M_base_shift.THURSDAY.getName()));          // 木曜日シフトＩＤ
