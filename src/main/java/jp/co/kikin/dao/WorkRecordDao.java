@@ -253,6 +253,7 @@ public class WorkRecordDao extends Dao {
 			ps.setString(4, employeeId);
 			ps.setString(5, startDay);
 			ps.setString(6, endDay);
+			
 
 			// ログ出力
 			log.info(ps);
