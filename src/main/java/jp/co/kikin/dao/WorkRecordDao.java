@@ -247,10 +247,10 @@ public class WorkRecordDao extends Dao {
 
 			PreparedStatement ps = connection.prepareStatement(strSql.toString());
 
-			ps.setString(1, "sh0001");
+			ps.setString(1, employeeId);
 			ps.setString(2, startDay);
 			ps.setString(3, endDay);
-			ps.setString(4, "sh0001");
+			ps.setString(4, employeeId);
 			ps.setString(5, startDay);
 			ps.setString(6, endDay);
 
