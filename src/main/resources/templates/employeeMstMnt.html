@@ -46,19 +46,25 @@
 
             // パスワードエラーメッセージ
             var passwordErrorMsg = '';
+            // 社員名エラーメッセージ
+            var employeeNameErrorMsg = '';
             // 社員名カナエラーメッセージ
             var employeeNameKanaErrorMsg = '';
+            // エラーメッセージ
             var errorMsg = '';
 
             with (document.forms['mntform'].elements) {
                 for (var i = 0; i < listSize; i++) {
                     // パスワードを取得する。
-                    var password = document.getElementById('password_' + i + '_value').value;
+                    var password = document.getElementById('password_' + i).value;
+                    // 社員名を取得する。
+                    var employeeName = document.getElementById('employeeName_' + i).value;
                     // 社員名カナを取得する。
                     var employeeNameKana = document.getElementById('employeeNameKana_' + i).value;
 
                     // 背景色をクリアする
                     document.getElementById('password_' + i).style.backgroundColor = 'white';
+                    document.getElementById('employeeName_' + i).style.backgroundColor = 'white';
                     document.getElementById('employeeNameKana_' + i).style.backgroundColor = 'white';
 
                     // パスワードチェック
@@ -69,7 +75,24 @@
                             document.getElementById('password_' + i).style.backgroundColor = 'red';
                         }
                     }
-                    // 社員名カナチェック
+                    //　社員名チェック
+                    if (!employeeNameErrorMsg) {
+                        if (!checkRequired(employeeName)) {
+                            var strArr = ['社員名'];
+                            employeeNameErrorMsg = getMessage('E-MSG-000001', strArr);
+                            document.getElementById('employeeName_' + i).style.backgroundColor = 'red';
+                        }
+                    }
+                    //　社員名カナチェック
+                    if (!employeeNameKanaErrorMsg) {
+                        if (!checkRequired(employeeNameKana)) {
+                            var strArr = ['社員名カナ'];
+                            employeeNameKanaErrorMsg = getMessage('E-MSG-000001', strArr);
+                            document.getElementById('employeeNameKana_' + i).style.backgroundColor = 'red';
+                        }
+                    }
+                    
+                    // 社員名カナ半角チェック
                     if (!employeeNameKanaErrorMsg) {
                         if (!checkHalfWidthKana(employeeNameKana)) {
                             var strArr = ['社員名カナ'];
@@ -78,14 +101,14 @@
                         }
                     }
 
-                    if (passwordErrorMsg && employeeNameKanaErrorMsg) {
-                        // パスワード 、社員名カナが共にエラーの場合
+                    if (passwordErrorMsg && employeeNameErrorMsg && employeeNameKanaErrorMsg) {
+                        // パスワード 、社員名、社員名カナが共にエラーの場合
                         break;
                     }
                 }
             }
             // エラーメッセージ
-            errorMsg = passwordErrorMsg + employeeNameKanaErrorMsg;
+            errorMsg = passwordErrorMsg + employeeNameErrorMsg + employeeNameKanaErrorMsg;
 
             if (errorMsg) {
                 alert(errorMsg);
@@ -167,16 +190,12 @@
                                         <input type="text"
                                             th:field="*{employeeMstMntBeanList[__${itemStat.index}__].password}"
                                             size="10" th:id="'password_' + ${itemStat.index}" maxlength="6" />
-                                        <input type="hidden"
-                                            th:value="*{employeeMstMntBeanList[__${itemStat.index}__].password}"
-                                            size="10" th:id="'password_' + ${itemStat.index} + '_value'"
-                                            maxlength="6" />
                                     </td>
 
                                     <td style="width: 200px; text-align: center;">
                                         <input type="text"
                                             th:field="*{employeeMstMntBeanList[__${itemStat.index}__].employeeName}"
-                                            size="20" maxlength="10" />
+                                            th:id="'employeeName_' + ${itemStat.index}" size="20" maxlength="10" />
                                     </td>
 
                                     <td style="width: 200px; text-align: center;">
