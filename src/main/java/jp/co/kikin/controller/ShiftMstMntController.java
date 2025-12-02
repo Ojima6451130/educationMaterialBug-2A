@@ -28,6 +28,7 @@ import jp.co.kikin.dto.LoginUserDto;
 import jp.co.kikin.dto.ShiftMstMntDto;
 import jp.co.kikin.model.ShiftMstMntBean;
 import jp.co.kikin.model.ShiftMstMntForm;
+import jp.co.kikin.service.CheckUtils;
 import jp.co.kikin.service.ShiftMstMntLogic;
 
 /**
@@ -156,6 +157,17 @@ public class ShiftMstMntController {
         List<ShiftMstMntDto> dtoList = formToDto(form);
         ShiftMstMntLogic shiftMstMntLogic = new ShiftMstMntLogic();
         shiftMstMntLogic.updateShiftMst(dtoList, loginUserDto);
+        
+        // シフト情報を再検索する
+        dtoList = shiftMstMntLogic.getShiftData(loginUserDto);
+
+        if (CheckUtils.isEmpty(dtoList)) {
+            // データなし
+            // forward = CommonConstant.NODATA;
+        } else {
+            // フォームへ一覧をセットする
+            form.setShiftMstMntBeanList(dtoToForm(dtoList));
+        }
 
         // 更新後のフォームをリダイレクト先に渡す
         redirectAttributes.addFlashAttribute("shiftMstMntForm", form);
