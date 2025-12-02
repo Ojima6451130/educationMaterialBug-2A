@@ -18,7 +18,7 @@
 
 		// 一覧のサイズ
 		// var listSize = <%= beanListSize %>;
-		var row = document.querySelectorAll('.list');
+		var row = document.querySelectorAll('.tableBody');
 		var listSize = row.length;
 
 		// 開始時間エラーメッセージ
@@ -74,9 +74,9 @@
 					}
 				}
 				if (!endTimeErrMsg) {
-					if (!checkHalfWidthKana(endTimeValue)) {
+					if (!checkTime(endTimeValue)) {
 						var strArr = [ '終了時間' ];
-						endTimeErrMsg = getMessage('E-MSG-000006', strArr);
+						endTimeErrMsg = getMessage('E-MSG-000004', strArr);
 						endTimeInput.style.backgroundColor = 'red';
 					} else {
 						endTimeInput.style.backgroundColor = 'white';
@@ -86,7 +86,7 @@
 					if (!checkTime(breakTimeValue)) {
 						var strArr = [ '休憩時間' ];
 						breakTimeErrMsg = getMessage('E-MSG-000004', strArr);
-						breakTimeInput.style.backgroundColor = 'blue';
+						breakTimeInput.style.backgroundColor = 'red';
 					} else {
 						breakTimeInput.style.backgroundColor = 'white';
 					}
@@ -108,7 +108,8 @@
 		errorMsg = startTimeErrMsg + endTimeErrMsg + breakTimeErrMsg
 				+ fromToErrMsg;
 
-		if (errorMsg) {
+		if (errorMsg ) {
+			alert(errorMsg);
 			// エラー
 			return false;
 		}
@@ -222,7 +223,7 @@
 					<td id="footRight">
 						<form action="/kikin/shiftMstMnt/regist" method="post">
 							<input value="新規登録" type="submit" class="smallButton"
-								name="regist" /> <input value="更新" form="update" type="submit"
+								name="regist" /><input value="更新" form="update" type="submit"
 								class="smallButton" style="margin: 10px;"
 								onclick="return shiftMstMntUpdate()" />
 						</form>
