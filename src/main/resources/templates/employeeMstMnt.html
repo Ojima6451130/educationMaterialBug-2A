@@ -153,7 +153,7 @@
                 th:object="${employeeMstMntForm}">
                 <div style="height: 440px;  margin: auto; width: 1030px; width: max-content;">
                     <div>
-                        <table class="tableHeader" style="position: fixed;">
+                        <table class="tableHeader">
                             <tr>
                                 <td width="200px" align="center">
                                     社員ＩＤ
@@ -177,7 +177,7 @@
                         </table>
                     </div>
                     <div>
-                        <table class="tableBody" style="margin-top: 25px;">
+                        <table class="tableBody">
                             <tbody>
                                 <tr th:each="item, itemStat : ${employeeMstMntForm.employeeMstMntBeanList}"
                                     class="employeeMntList">
