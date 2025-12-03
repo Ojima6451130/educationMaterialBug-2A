@@ -55,7 +55,7 @@ public class WorkRecordDao extends Dao {
 			strSql.append("SELECT ");
 			strSql.append("    shift.employee_id         AS employee_id, ");
 			strSql.append("    shift.shift_id         AS shift_id, ");
-			strSql.append("    shift.shift_name           AS symbol, ");
+			strSql.append("    shift.symbol          AS symbol, ");
 			strSql.append("    shift.start_time_shift AS start_time_shift, ");
 			strSql.append("    shift.end_time_shift   AS end_time_shift,  ");
 			strSql.append("    shift.break_time_shift AS break_time_shift, ");
@@ -85,7 +85,7 @@ public class WorkRecordDao extends Dao {
 			strSql.append("    FROM ");
 			strSql.append("        t_shift ");
 			strSql.append("    WHERE ");
-			strSql.append("        employee_id = 'sh0001' AND ");
+			strSql.append("        employee_id = ? AND ");
 			strSql.append("        year_month_day >= ? AND ");
 			strSql.append("        year_month_day <= ? ");
 			strSql.append("    ORDER BY ");
@@ -97,7 +97,7 @@ public class WorkRecordDao extends Dao {
 			strSql.append("        ts.employee_id, ");
 			strSql.append("        ts.year_month_day AS work_day, ");
 			strSql.append("        ms.shift_id AS shift_id, ");
-			strSql.append("        ms.shift_name, ");
+			strSql.append("        ms.symbol, ");
 			strSql.append("        ms.start_time AS start_time_shift, ");
 			strSql.append("        ms.end_time AS end_time_shift, ");
 			strSql.append("        ms.break_time AS break_time_shift ");
@@ -109,11 +109,12 @@ public class WorkRecordDao extends Dao {
 
 			PreparedStatement ps = connection.prepareStatement(strSql.toString());
 
-			ps.setString(1, startDay);
-			ps.setString(2, endDay);
-			ps.setString(3, employeeId);
-			ps.setString(4, startDay);
-			ps.setString(5, endDay);
+			ps.setString(1, employeeId);
+			ps.setString(2, startDay);
+			ps.setString(3, endDay);
+			ps.setString(4, employeeId);
+			ps.setString(5, startDay);
+			ps.setString(6, endDay);
 
 			// ログ出力
 			log.info(ps);
