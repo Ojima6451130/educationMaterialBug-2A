@@ -214,7 +214,7 @@
           <tbody class="tableBody" style="display: block; width: max-content; height: 400px; overflow-y: scroll; scrollbar-gutter: stable;">
             <tr th:each="workRecordInput, iterStat : ${workRecordInputForm.workRecordInputList }" class="list">
               <td style="width: 70px; text-align: center; box-sizing: border-box;">
-                <span th:text="${workRecordInput.workDayDisp}">
+                <span th:text="${workRecordInput.workDayDisp}"></span>
               </td>
               <td style="width: 50px; text-align: center; box-sizing: border-box;"
                 th:class="${workRecordInput.weekDay == '土' ? 'fontBlue' : (workRecordInput.weekDay == '日' or workRecordInput.publicHolidayFlg) ? 'fontRed' : 'fontBlack'}">
@@ -251,7 +251,9 @@
               </td>
               <input type="hidden" th:field="*{WorkRecordInputList[__${iterStat.index}__].workDay}" />
               <input type="hidden" th:field="*{WorkRecordInputList[__${iterStat.index}__].employeeId}" />
-
+              <input type="hidden" th:field="*{WorkRecordInputList[__${iterStat.index}__].startTimeShift}" />
+              <input type="hidden" th:field="*{WorkRecordInputList[__${iterStat.index}__].breakTimeShift}" />
+              <input type="hidden" th:field="*{WorkRecordInputList[__${iterStat.index}__].endTimeShift}" />
               <input type="hidden" th:field="*{WorkRecordInputList[__${iterStat.index}__].workDayDisp}" />
               <input type="hidden" th:field="*{WorkRecordInputList[__${iterStat.index}__].weekDay}" />
               <input type="hidden" th:field="*{WorkRecordInputList[__${iterStat.index}__].symbol}" />
