@@ -56,7 +56,7 @@
             with (document.forms['mntform'].elements) {
                 for (var i = 0; i < listSize; i++) {
                     // パスワードを取得する。
-                    var password = document.getElementById('password_' + i).value;
+                    var password = document.getElementById('password_' + i + '_value').value;
                     // 社員名を取得する。
                     var employeeName = document.getElementById('employeeName_' + i).value;
                     // 社員名カナを取得する。
@@ -190,6 +190,9 @@
                                         <input type="text"
                                             th:field="*{employeeMstMntBeanList[__${itemStat.index}__].password}"
                                             size="10" th:id="'password_' + ${itemStat.index}" maxlength="6" />
+                                        <input type="hidden"
+                                            th:value="*{employeeMstMntBeanList[__${itemStat.index}__].password}"
+                                            size="10" th:id="'password_' + ${itemStat.index} + '_value'" maxlength="6" />
                                     </td>
 
                                     <td style="width: 200px; text-align: center;">

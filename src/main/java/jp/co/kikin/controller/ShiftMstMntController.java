@@ -161,13 +161,10 @@ public class ShiftMstMntController {
         // シフト情報を再検索する
         dtoList = shiftMstMntLogic.getShiftData(loginUserDto);
 
-        if (CheckUtils.isEmpty(dtoList)) {
-            // データなし
-            // forward = CommonConstant.NODATA;
-        } else {
-            // フォームへ一覧をセットする
-            form.setShiftMstMntBeanList(dtoToForm(dtoList));
-        }
+        
+        // フォームへ一覧をセットする
+        form.setShiftMstMntBeanList(dtoToForm(dtoList));
+        
 
         // 更新後のフォームをリダイレクト先に渡す
         redirectAttributes.addFlashAttribute("shiftMstMntForm", form);
