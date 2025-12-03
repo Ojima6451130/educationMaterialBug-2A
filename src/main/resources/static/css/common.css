@@ -6,6 +6,7 @@ body {
     overflow: hidden;
     width:100%;
 }
+
 errorbody {
     background-color: red;
 }
@@ -213,6 +214,14 @@ errorbody {
         padding: 0;
         border: 1px solid black;
 }
+
+/* 月別シフト確認のテーブルスタイル */
+.tableBodyMonthly{
+	background-color: #98FB98;
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
 /* 日別シフト確認のテーブルヘッダー */
 .tableBodyDaily {
     background-color: #E0FFFF;
@@ -232,6 +241,7 @@ errorbody {
     border: 1px solid black;
     font-size: 15px;
     width: 100%;
+    
 }
 .full-width {
         width: 100%;
