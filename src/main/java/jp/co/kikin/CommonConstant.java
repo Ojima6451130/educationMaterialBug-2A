@@ -25,7 +25,7 @@ public class CommonConstant {
     /** 空白ID */
     public static final String BLANK_ID = "-1";
     /** ハイフン */
-    public static final String HYPHEN = "?";
+    public static final String HYPHEN = "-";
 
     /** 次 **/
     public static final String NEXT = "next";

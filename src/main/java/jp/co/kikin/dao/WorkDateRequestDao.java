@@ -179,7 +179,7 @@ public class WorkDateRequestDao extends Dao{
                 dto.setEmployeeName(rs.getString(M_employee.EMPLOYEE_NAME.getName()));
                 dto.setYearMonthDay(rs.getString(T_Shift.YEAR_MONTH_DAY.getName()));
                 dto.setMyRequestShiftId(rs.getString(T_Shift.REQUEST_SHIFT_ID.getName()));
-                dto.setMyRequestSymbol(CommonUtils.changeNullToBlank(rs.getString(M_shift.SYMBOL.getName())));
+                dto.setMyRequestSymbol(CommonUtils.changeNullToHyphen(rs.getString(M_shift.SYMBOL.getName())));
                 // 取得した値を戻り値のリストにセットする。
                 shiftRequestCheckDtoList.add(dto);
             }

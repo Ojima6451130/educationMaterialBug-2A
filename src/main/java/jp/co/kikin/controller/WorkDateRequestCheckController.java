@@ -227,11 +227,7 @@ public class WorkDateRequestCheckController {
                 if (methods[i].getName().startsWith("setSymbol") && listSize > index) {
                     WorkDateRequestCheckDto workDateRequestCheckDto = workRequestCheckDtoList.get(index);
                     // メソッド実行
-                    if(workDateRequestCheckDto.getMyRequestSymbol().isEmpty()) {
-                    	methods[i].invoke(workDateRequestCheckBean, "-");
-                    }else {
-                    	methods[i].invoke(workDateRequestCheckBean, workDateRequestCheckDto.getMyRequestSymbol());
-                    }
+                    methods[i].invoke(workDateRequestCheckBean, workDateRequestCheckDto.getMyRequestSymbol());
                     employeeId = workDateRequestCheckDto.getEmployeeId();
                     employeeName = workDateRequestCheckDto.getEmployeeName();
                     index++;
