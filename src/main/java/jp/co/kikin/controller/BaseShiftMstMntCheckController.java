@@ -182,8 +182,8 @@ public class BaseShiftMstMntCheckController {
             baseShiftMstMntBean.setShiftIdOnWednesday(baseShiftDto.getShiftIdOnWednesday());
             baseShiftMstMntBean.setShiftIdOnThursday(baseShiftDto.getShiftIdOnThursday());
             baseShiftMstMntBean.setShiftIdOnFriday(baseShiftDto.getShiftIdOnFriday());
-            baseShiftMstMntBean.setShiftIdOnSaturday(baseShiftDto.getShiftIdOnSunday());
-            baseShiftMstMntBean.setShiftIdOnSunday(baseShiftDto.getShiftIdOnSaturday());
+            baseShiftMstMntBean.setShiftIdOnSaturday(baseShiftDto.getShiftIdOnSaturday());
+            baseShiftMstMntBean.setShiftIdOnSunday(baseShiftDto.getShiftIdOnSunday());
 
             returnList.add(baseShiftMstMntBean);
         }
