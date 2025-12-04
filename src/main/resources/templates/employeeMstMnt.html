@@ -148,7 +148,7 @@
                 </tr>
             </table>
         </div>
-        <div id="businessBody" style="overflow-x: hidden;">
+        <div id="businessBody" style="overflow-x: hidden; overflow-y: hidden;">
             <form id="mntform" action="/kikin/employeeMstMnt/update" class="employeeMstMntForm" method="post"
                 th:object="${employeeMstMntForm}">
                 <div style="height: 440px;  margin: auto; width: 1030px; width: max-content;">
@@ -176,7 +176,7 @@
                             </tr>
                         </table>
                     </div>
-                    <div>
+                    <div  style="height: 490px; overflow-y:scroll;">
                         <table class="tableBody">
                             <tbody>
                                 <tr th:each="item, itemStat : ${employeeMstMntForm.employeeMstMntBeanList}"
