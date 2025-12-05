@@ -39,8 +39,8 @@
           <input type="submit" value="表示" />
         </form>
       </div>
-      <div id="businessBody" style="height: 500px; margin: auto; width: 1030px;">
-        <table class="dailyShiftTable">
+      <div id="businessBody" style="height: 500px; margin: auto; width: 1030px; overflow-x: hidden; overflow-y: hidden;">
+        <table class="dailyShiftTable"  style="height: 490px; overflow-x:scroll;">
         
           <thead>
             <tr>
@@ -69,7 +69,7 @@
           <tbody class="dailyShiftTableBody">
             <tr>
               <!-- 左側のテーブル部分 -->
-              <td style="display: block; position: sticky; left: 0; z-index: 1;">
+              <td style="display: block; position: sticky; left: 0; z-index: 1; ">
                   <table class="tableBodyDaily">
                       <tr th:each="item : ${TimeZoneArray}" style="height: 50px;">
                           <td style="width: 154px; text-align: center; white-space: nowrap;">
@@ -80,7 +80,7 @@
               </td>
               <!-- 右側のテーブル部分 -->
               <td th:each="dailyShiftBean : ${dailyShiftBeanList}">
-                  <table class="tableBodyDaily">
+                  <table class="tableBodyDaily"   style="height: 490px; overflow-y:scroll;">
                       <tr style="height: 50px;">
                         <td th:if="${dailyShiftBean.boolTime00}" style="width: 154px; text-align: center; font-size: 15px; white-space: nowrap; background-color: lightpink;">
                           <span th:if="${dailyShiftBean.strTime00 == '出勤'}">[[${dailyShiftBean.workTime}]]</span>
