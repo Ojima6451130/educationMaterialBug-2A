@@ -137,6 +137,10 @@ errorbody {
 	margin-left:130px;
 }
 
+.maskedPassword {
+    -webkit-text-security: disc;
+}
+
 /*
 * ボタンサイズ通常
 */
