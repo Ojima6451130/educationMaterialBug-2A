@@ -87,8 +87,8 @@ public class MonthlyShiftInputController {
     /** 「出勤希望反映」押下時 */
     public static final String SCREEN_PATH_DATEREQUEST = "/monthlyShiftInput/dateRequest";
 
-    // public static final String SCREEN_PATH_PAGE =
-    // "/monthlyShiftInput/monthlyShiftInputPage";
+    public static final String SCREEN_PATH_PAGE =
+    "/monthlyShiftInput/monthlyShiftInputPage";
 
     public static final String PATH = "/kikin";
 
@@ -222,15 +222,15 @@ public class MonthlyShiftInputController {
         form.setShiftCmbMap(shiftCmbMap);
         form.setYearMonthCmbMap(yearMonthCmbMap);
 
-        // int offset = form.getOffset();
-        // int limit = 16;
-        // int startIndex = Math.max(0, offset - limit);
-        // int endIndex = Math.min(offset, monthlyShiftInputBean.size());
-        // List<MonthlyShiftInputBean> subList =
-        // monthlyShiftInputBean.subList(startIndex, endIndex);
+        int offset = form.getOffset();
+        int limit = 16;
+        int startIndex = Math.max(0, offset - limit);
+        int endIndex = Math.min(offset, monthlyShiftInputBean.size());
+        List<MonthlyShiftInputBean> subList =
+        monthlyShiftInputBean.subList(startIndex, endIndex);
 
-        // form.setMonthlyShiftInputBeanList(subList);
-        form.setMonthlyShiftInputBeanList(monthlyShiftInputBean);
+        form.setMonthlyShiftInputBeanList(subList);
+        //form.setMonthlyShiftInputBeanList(monthlyShiftInputBean);
 
         form.setDateBeanList(dateBeanList);
 
@@ -246,10 +246,11 @@ public class MonthlyShiftInputController {
         model.addAttribute("sunday", sunday);
         model.addAttribute("monthlyShiftInputForm", form);
         model.addAttribute("shiftCmbMap", shiftCmbMap);
-        model.addAttribute("monthlyShiftInputBean", monthlyShiftInputBean);
+        model.addAttribute("monthlyShiftInputBean", subList);
         model.addAttribute("yearMonthValues", yearMonthValues);
         model.addAttribute("monthlyShiftDtoMap", monthlyShiftDtoMap);
         model.addAttribute("dateBeanList", dateBeanList);
+        
 
         return "monthlyShiftInput";
     }
@@ -524,76 +525,61 @@ public class MonthlyShiftInputController {
 
     }
 
-    // @RequestMapping(value = SCREEN_PATH_PAGE)
-    // public String monthlyshiftinputpage(HttpServletRequest request, HttpSession
-    // session, Model model,
-    // MonthlyShiftInputForm form, BindingResult bindingResult) throws Exception {
-
-    // LoginUserDto loginUserDto = (LoginUserDto) session
-    // .getAttribute(RequestSessionNameConstant.SESSION_CMN_LOGIN_USER_INFO);
-
-    // Map<String, List<MonthlyShiftDto>> monthlyShiftDtoMap =
-    // monthlyShiftLogic.getMonthlyShiftDtoMap(
-    // form.getYearMonth(),
-    // true);
-    // List<MonthlyShiftInputBean> monthlyShiftInputBean = new
-    // ArrayList<MonthlyShiftInputBean>();
-
-    // monthlyShiftInputBean = dtoToBean(monthlyShiftDtoMap, loginUserDto);
-
-    // form.setMonthlyShiftInputBeanList(monthlyShiftInputBean);
-    // // フォーム フォーマット
-    // MonthlyShiftInputForm monthlyShiftForm = (MonthlyShiftInputForm) form;
-
-    // // ページング
-    // String paging = monthlyShiftForm.getPaging();
-
-    // int listSize = monthlyShiftForm.getMonthlyShiftInputBeanList().size();
-    // int MaxPage = form.getMaxPage();
-    // int offset = monthlyShiftForm.getOffset();
-
-    // int countPage = monthlyShiftForm.getCountPage();
-
-    // int nextOffset = 0;
-
-    // if (CommonConstant.NEXT.equals(paging)) {
-    // // 次ページ
-
-    // if (countPage == MaxPage) {
-    // offset = listSize;
-    // } else {
-    // nextOffset = offset + 16;
-
-    // offset = nextOffset;
-    // countPage++;
-    // }
-    // } else {
-    // // 前ページ
-    // nextOffset = offset - 16;
-
-    // if (countPage != 0) {
-    // if (nextOffset < 0) {
-    // offset = 0;
-    // } else {
-    // offset = nextOffset;
-    // countPage--;
-    // }
-    // }
-
-    // }
-    // monthlyShiftForm.setOffset(offset);
-    // monthlyShiftForm.setCountPage(countPage);
-
-    // // 登録フラグ初期化
-    // List<MonthlyShiftInputBean> monthlyShiftBeanList =
-    // monthlyShiftForm.getMonthlyShiftInputBeanList();
-    // for (MonthlyShiftInputBean monthlyShiftBean : monthlyShiftBeanList) {
-    // monthlyShiftBean.setRegisterFlg(false);
-    // }
-
-    // return view("init", request, session, model, monthlyShiftForm,
-    // bindingResult);
-    // }
+     @RequestMapping(value = SCREEN_PATH_PAGE)
+     public String monthlyshiftinputpage(HttpServletRequest request, HttpSession
+     session, Model model,
+     MonthlyShiftInputForm form, BindingResult bindingResult) throws Exception {
+     LoginUserDto loginUserDto = (LoginUserDto) session
+     .getAttribute(RequestSessionNameConstant.SESSION_CMN_LOGIN_USER_INFO);
+     Map<String, List<MonthlyShiftDto>> monthlyShiftDtoMap =
+     monthlyShiftLogic.getMonthlyShiftDtoMap(
+     form.getYearMonth(),
+     true);
+     List<MonthlyShiftInputBean> monthlyShiftInputBean = new
+     ArrayList<MonthlyShiftInputBean>();
+     monthlyShiftInputBean = dtoToBean(monthlyShiftDtoMap, loginUserDto);
+     form.setMonthlyShiftInputBeanList(monthlyShiftInputBean);
+     // フォーム フォーマット
+     MonthlyShiftInputForm monthlyShiftForm = (MonthlyShiftInputForm) form;
+     // ページング
+     String paging = monthlyShiftForm.getPaging();
+     int listSize = monthlyShiftForm.getMonthlyShiftInputBeanList().size();
+     int MaxPage = form.getMaxPage();
+     int offset = monthlyShiftForm.getOffset();
+     int countPage = monthlyShiftForm.getCountPage();
+     int nextOffset = 0;
+     if (CommonConstant.NEXT.equals(paging)) {
+     // 次ページ
+     if (countPage == MaxPage) {
+     offset = listSize;
+     } else {
+     nextOffset = offset + 16;
+     offset = nextOffset;
+     countPage++;
+     }
+     } else {
+     // 前ページ
+     nextOffset = offset - 16;
+     if (countPage != 0) {
+     if (nextOffset < 0) {
+     offset = 0;
+     } else {
+     offset = nextOffset;
+     countPage--;
+     }
+     }
+     }
+     monthlyShiftForm.setOffset(offset);
+     monthlyShiftForm.setCountPage(countPage);
+     // 登録フラグ初期化
+     List<MonthlyShiftInputBean> monthlyShiftBeanList =
+     monthlyShiftForm.getMonthlyShiftInputBeanList();
+     for (MonthlyShiftInputBean monthlyShiftBean : monthlyShiftBeanList) {
+     monthlyShiftBean.setRegisterFlg(false);
+     }
+     return view("init", request, session, model, monthlyShiftForm,
+     bindingResult);
+     }
 
     /**
      * DtoからBeanへ変換する
