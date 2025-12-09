@@ -226,11 +226,11 @@ public class MonthlyShiftInputController {
         int limit = 16;
         int startIndex = Math.max(0, offset - limit);
         int endIndex = Math.min(offset, monthlyShiftInputBean.size());
-        List<MonthlyShiftInputBean> subList =
+        monthlyShiftInputBean =
         monthlyShiftInputBean.subList(startIndex, endIndex);
 
-        form.setMonthlyShiftInputBeanList(subList);
-        //form.setMonthlyShiftInputBeanList(monthlyShiftInputBean);
+        //form.setMonthlyShiftInputBeanList(subList);
+        form.setMonthlyShiftInputBeanList(monthlyShiftInputBean);
 
         form.setDateBeanList(dateBeanList);
 
@@ -246,7 +246,7 @@ public class MonthlyShiftInputController {
         model.addAttribute("sunday", sunday);
         model.addAttribute("monthlyShiftInputForm", form);
         model.addAttribute("shiftCmbMap", shiftCmbMap);
-        model.addAttribute("monthlyShiftInputBean", subList);
+        model.addAttribute("monthlyShiftInputBean", monthlyShiftInputBean);
         model.addAttribute("yearMonthValues", yearMonthValues);
         model.addAttribute("monthlyShiftDtoMap", monthlyShiftDtoMap);
         model.addAttribute("dateBeanList", dateBeanList);
