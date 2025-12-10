@@ -13,6 +13,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
@@ -21,6 +22,10 @@ import java.util.Map;
 import java.util.Set;
 
 import org.springframework.context.annotation.Scope;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -44,6 +49,7 @@ import jp.co.kikin.model.WorkDateRequestCheckBean;
 
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 
 
@@ -63,7 +69,7 @@ public class WorkDateRequestCheckController {
     public static final String SCREEN_PATH_SEARCH = "/workDateRequestCheck/search";
 
     public static final String PATH = "/kikin";
-
+    
     /**
      * Viewに共通URLを渡す.
      *
@@ -84,8 +90,8 @@ public class WorkDateRequestCheckController {
      * @author hashimoto
      */
     @RequestMapping(value = SCREEN_PATH)
-    public String init(HttpServletRequest request, HttpSession session, Model model, WorkDateRequestCheckForm form, BindingResult result) throws Exception {
-        return view("init", request, session, model, form, result);
+    public String init(HttpServletRequest request, HttpSession session, Model model, WorkDateRequestCheckForm form, BindingResult result, @PageableDefault(page = 0, size = 19)Pageable pageable) throws Exception {
+        return view("init", request, session, model, form, result, pageable);
     }
 
     /**
@@ -97,7 +103,7 @@ public class WorkDateRequestCheckController {
      * @throws Exception
      * @author hashimoto
      */
-    private String view(String processType, HttpServletRequest request, HttpSession session, Model model, WorkDateRequestCheckForm form, BindingResult bindingResult) throws Exception {
+    private String view(String processType, HttpServletRequest request, HttpSession session, Model model, WorkDateRequestCheckForm form, BindingResult bindingResult, Pageable pageable) throws Exception {
 
         // ログインユーザ情報をセッションより取得
         LoginUserDto loginUserDto = (LoginUserDto) session
@@ -169,6 +175,24 @@ public class WorkDateRequestCheckController {
         //----------------
         // 画面への受渡し
         //----------------
+        
+        int pageSize = pageable.getPageSize();
+        int currentPage = pageable.getPageNumber();
+        int startItem = currentPage * pageSize;
+        
+        List<WorkDateRequestCheckBean> list = workDateRequestCheckBeanList;
+        List<WorkDateRequestCheckBean> pageList;
+        
+        if (workDateRequestCheckBeanList.size() < startItem) {
+			pageList = Collections.emptyList();
+		}else {
+			int toIndex = Math.min(startItem + pageSize, list.size());
+			pageList = list.subList(startItem, toIndex);
+		}
+        
+        Page<WorkDateRequestCheckBean> page = new PageImpl<>(pageList, pageable, list.size());
+        model.addAttribute("page", page);
+        
         // 対象年月
         model.addAttribute("yearMonthValues", yearMonthValues);
         model.addAttribute("datebeanList", dateBeanList);
@@ -188,8 +212,8 @@ public class WorkDateRequestCheckController {
      * @author naraki
      */
     @RequestMapping(value = SCREEN_PATH_SEARCH)
-    public String search(HttpServletRequest request, HttpSession session, Model model, WorkDateRequestCheckForm form, BindingResult result) throws Exception {
-        return view("search", request, session, model, form, result);
+    public String search(HttpServletRequest request, HttpSession session, Model model, WorkDateRequestCheckForm form, BindingResult result, @PageableDefault(page = 0, size = 19)Pageable pageable) throws Exception {
+        return view("search", request, session, model, form, result, pageable);
     }
 
     /**
