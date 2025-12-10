@@ -63,12 +63,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping(value = "/kikin")
 public class WorkDateRequestCheckController {
 
+    private final CommonConstant commonConstant;
+
     /** 画面URL */
     public static final String SCREEN_PATH = "/workDateRequestCheck";
     /** 「検索」押下時 */
     public static final String SCREEN_PATH_SEARCH = "/workDateRequestCheck/search";
 
     public static final String PATH = "/kikin";
+
+    WorkDateRequestCheckController(CommonConstant commonConstant) {
+        this.commonConstant = commonConstant;
+    }
     
     /**
      * Viewに共通URLを渡す.
@@ -90,8 +96,8 @@ public class WorkDateRequestCheckController {
      * @author hashimoto
      */
     @RequestMapping(value = SCREEN_PATH)
-    public String init(HttpServletRequest request, HttpSession session, Model model, WorkDateRequestCheckForm form, BindingResult result, @PageableDefault(page = 0, size = 19)Pageable pageable) throws Exception {
-        return view("init", request, session, model, form, result, pageable);
+    public String init(HttpServletRequest request, HttpSession session, Model model, WorkDateRequestCheckForm form, BindingResult result, @PageableDefault(page = 0, size = 19)Pageable pageable, @RequestParam(name = "yearMonth", required = false)String yearMonth) throws Exception {
+        return view("init", request, session, model, form, result, pageable, yearMonth);
     }
 
     /**
@@ -103,7 +109,7 @@ public class WorkDateRequestCheckController {
      * @throws Exception
      * @author hashimoto
      */
-    private String view(String processType, HttpServletRequest request, HttpSession session, Model model, WorkDateRequestCheckForm form, BindingResult bindingResult, Pageable pageable) throws Exception {
+    private String view(String processType, HttpServletRequest request, HttpSession session, Model model, WorkDateRequestCheckForm form, BindingResult bindingResult, Pageable pageable, @RequestParam(required = false)String yearMonthParam) throws Exception {
 
         // ログインユーザ情報をセッションより取得
         LoginUserDto loginUserDto = (LoginUserDto) session
@@ -136,7 +142,7 @@ public class WorkDateRequestCheckController {
             form.setYearMonth(initYearMonth);
         } else {
             // 共通部品で対象年月の1ヶ月分の日付情報格納クラスのリストを取得する。
-            String searchYearMonth = form.getYearMonth();
+            String searchYearMonth = (yearMonthParam != null)?yearMonthParam:form.getYearMonth();
             yearMonth = CommonUtils.changeFormat(searchYearMonth, CommonConstant.YEARMONTH, CommonConstant.YEARMONTH_NOSL);
             dateBeanList = CommonUtils.getDateBeanList(yearMonth);
             yearMonthCmbMap = comboListUtils.getComboYearMonth(yearMonth, 2, 1, false);
@@ -199,6 +205,7 @@ public class WorkDateRequestCheckController {
         model.addAttribute("workDateRequestCheckBeanList", workDateRequestCheckBeanList);
         model.addAttribute("saturday", saturday);
         model.addAttribute("sunday", sunday);
+        model.addAttribute("yearMonth", CommonUtils.changeFormat(yearMonth ,CommonConstant.YEARMONTH_NOSL,commonConstant.YEARMONTH));
         return "workDateRequestCheck";
     }
     /**
@@ -212,8 +219,8 @@ public class WorkDateRequestCheckController {
      * @author naraki
      */
     @RequestMapping(value = SCREEN_PATH_SEARCH)
-    public String search(HttpServletRequest request, HttpSession session, Model model, WorkDateRequestCheckForm form, BindingResult result, @PageableDefault(page = 0, size = 19)Pageable pageable) throws Exception {
-        return view("search", request, session, model, form, result, pageable);
+    public String search(HttpServletRequest request, HttpSession session, Model model, WorkDateRequestCheckForm form, BindingResult result, @PageableDefault(page = 0, size = 19)Pageable pageable, @RequestParam(name = "yearMonth", required = false) String yearMonth) throws Exception {
+        return view("search", request, session, model, form, result, pageable, yearMonth);
     }
 
     /**
