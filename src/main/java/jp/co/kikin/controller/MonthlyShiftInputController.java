@@ -210,6 +210,8 @@ public class MonthlyShiftInputController {
             }
 
         }
+        
+        //ページング用
 
         if (form.getCountPage() == 0) {
             form.setCountPage(1);
@@ -218,9 +220,6 @@ public class MonthlyShiftInputController {
 
         form.setMaxPage(CommonUtils.getMaxPage(monthlyShiftDtoMap.size(), 16));
 
-        // フォームにデータをセットする
-        form.setShiftCmbMap(shiftCmbMap);
-        form.setYearMonthCmbMap(yearMonthCmbMap);
 
         int offset = form.getOffset();
         int limit = 16;
@@ -229,9 +228,11 @@ public class MonthlyShiftInputController {
         monthlyShiftInputBean =
         monthlyShiftInputBean.subList(startIndex, endIndex);
 
+        // フォームにデータをセットする
         //form.setMonthlyShiftInputBeanList(subList);
+        form.setShiftCmbMap(shiftCmbMap);
+        form.setYearMonthCmbMap(yearMonthCmbMap);
         form.setMonthlyShiftInputBeanList(monthlyShiftInputBean);
-
         form.setDateBeanList(dateBeanList);
 
          //----------------------
@@ -301,7 +302,7 @@ public class MonthlyShiftInputController {
         // 画面の希望シフト情報をList<MonthlyShiftInputBean>に格納 ※対象社員分のみ変更される
         String[] shiftIds = form.getShiftIdList();
         List<MonthlyShiftInputBean> monthlyShiftBeanList2 = this.getEditedBeanList(monthlyShiftBeanList, shiftIds,
-                loginUserDto, dateBeanList);
+                loginUserDto, dateBeanList, form);
 
         // フォームデータをDtoに変換する
         List<List<MonthlyShiftDto>> monthlyShiftDtoNestedList = this.formToDto(monthlyShiftBeanList2, dateBeanList);
@@ -577,7 +578,7 @@ public class MonthlyShiftInputController {
      for (MonthlyShiftInputBean monthlyShiftBean : monthlyShiftBeanList) {
      monthlyShiftBean.setRegisterFlg(false);
      }
-     return view("init", request, session, model, monthlyShiftForm,
+     return view("search", request, session, model, monthlyShiftForm,
      bindingResult);
      }
 
@@ -721,14 +722,19 @@ public class MonthlyShiftInputController {
      *
      */
     private List<MonthlyShiftInputBean> getEditedBeanList(List<MonthlyShiftInputBean> monthlyShiftBeanList,
-            String[] shiftIds, LoginUserDto loginUserDto, List<DateBean> dateBeanList) throws Exception {
+            String[] shiftIds, LoginUserDto loginUserDto, List<DateBean> dateBeanList, MonthlyShiftInputForm form) throws Exception {
 
            // 社員数を推定（1日目のデータを split して数える）
-    int employeeCount = shiftIds[0].split(",", -1).length;
+    //int employeeCount = shiftIds[0].split(",", -1).length;
 
     // 社員ごとのBeanを用意（元のデータがあれば再利用）
     List<MonthlyShiftInputBean> editedList = new ArrayList<>();
-    for (int i = 0; i < employeeCount; i++) {
+    
+    MonthlyShiftInputForm monthlyShiftForm = (MonthlyShiftInputForm) form;
+    
+    int offset = monthlyShiftForm.getOffset();
+    
+    for (int i = offset - 16; i < offset; i++) {
         MonthlyShiftInputBean bean = new MonthlyShiftInputBean();
 
         // 元のリストから社員情報をコピー
@@ -736,9 +742,11 @@ public class MonthlyShiftInputController {
             MonthlyShiftInputBean original = monthlyShiftBeanList.get(i);
             bean.setEmployeeId(original.getEmployeeId());
             bean.setEmployeeName(original.getEmployeeName());
+            editedList.add(bean);
+        }else {
+        	break;
         }
 
-        editedList.add(bean);
     }
 
     // shiftIds[i] は各日（1日〜）

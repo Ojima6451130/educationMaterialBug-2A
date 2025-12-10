@@ -39,6 +39,8 @@ import jp.co.kikin.dto.MonthlyShiftDto;
 import jp.co.kikin.model.DateBean;
 import jp.co.kikin.model.MonthlyShiftCheckBean;
 import jp.co.kikin.model.MonthlyShiftCheckForm;
+import jp.co.kikin.model.MonthlyShiftInputBean;
+import jp.co.kikin.model.MonthlyShiftInputForm;
 import jp.co.kikin.service.ComboListUtilLogic;
 import jp.co.kikin.service.CommonUtils;
 import jp.co.kikin.service.MethodComparator;
@@ -76,6 +78,9 @@ public class MonthlyShiftCheckController {
     public static final String SCREEN_PATH_PRINT = "/monthlyShiftCheck/print";
 
     public static final String PATH = "/kikin";
+    
+    public static final String SCREEN_PATH_PAGE =
+    	    "/monthlyShiftCheck/monthlyShiftCheckPage";
 
     /** サービス機能名={@value} */
     public static final String CONTENTS = "月別シフト確認画面";
@@ -186,8 +191,25 @@ public class MonthlyShiftCheckController {
             // データあり
             monthlyShiftCheckBean = dtoToBean(monthlyShiftDtoMap, loginUserDto);
         }
+        
+        //ページング用
+        
+        if (form.getCountPage() == 0) {
+            form.setCountPage(1);
+            form.setOffset(16);
+        }
+
+        form.setMaxPage(CommonUtils.getMaxPage(monthlyShiftDtoMap.size(), 16));
+
+
+        int offset = form.getOffset();
+        int limit = 16;
+        int startIndex = Math.max(0, offset - limit);
+        int endIndex = Math.min(offset, monthlyShiftCheckBean.size());
+        monthlyShiftCheckBean =
+        		monthlyShiftCheckBean.subList(startIndex, endIndex);
+
         // フォームにデータをセットする
-        // form.setShiftCmbMap(shiftCmbMap);
         form.setYearMonthCmbMap(yearMonthCmbMap);
         form.setMonthlyShiftCheckBeanList(monthlyShiftCheckBean);
         form.setDateBeanList(dateBeanList);
@@ -241,6 +263,62 @@ public class MonthlyShiftCheckController {
         // Excel出力メソッドを呼び出す
         monthlyShiftLogic.print(response, dateBeanList, monthlyShiftCheckBean);
         
+    }
+    
+    @RequestMapping(value = SCREEN_PATH_PAGE)
+    public String monthlyshiftcheckpage(HttpServletRequest request, HttpSession
+    session, Model model,
+    MonthlyShiftCheckForm form, BindingResult bindingResult) throws Exception {
+    LoginUserDto loginUserDto = (LoginUserDto) session
+    .getAttribute(RequestSessionNameConstant.SESSION_CMN_LOGIN_USER_INFO);
+    Map<String, List<MonthlyShiftDto>> monthlyShiftDtoMap =
+    monthlyShiftLogic.getMonthlyShiftDtoMap(
+    form.getYearMonth(),
+    true);
+    List<MonthlyShiftCheckBean> monthlyShiftCheckBean = new
+    ArrayList<MonthlyShiftCheckBean>();
+    monthlyShiftCheckBean = dtoToBean(monthlyShiftDtoMap, loginUserDto);
+    form.setMonthlyShiftCheckBeanList(monthlyShiftCheckBean);
+    // フォーム フォーマット
+    MonthlyShiftCheckForm monthlyShiftForm = (MonthlyShiftCheckForm) form;
+    // ページング
+    String paging = monthlyShiftForm.getPaging();
+    int listSize = monthlyShiftForm.getMonthlyShiftCheckBeanList().size();
+    int MaxPage = form.getMaxPage();
+    int offset = monthlyShiftForm.getOffset();
+    int countPage = monthlyShiftForm.getCountPage();
+    int nextOffset = 0;
+    if (CommonConstant.NEXT.equals(paging)) {
+    // 次ページ
+    if (countPage == MaxPage) {
+    offset = listSize;
+    } else {
+    nextOffset = offset + 16;
+    offset = nextOffset;
+    countPage++;
+    }
+    } else {
+    // 前ページ
+    nextOffset = offset - 16;
+    if (countPage != 0) {
+    if (nextOffset < 0) {
+    offset = 0;
+    } else {
+    offset = nextOffset;
+    countPage--;
+    }
+    }
+    }
+    monthlyShiftForm.setOffset(offset);
+    monthlyShiftForm.setCountPage(countPage);
+    // 登録フラグ初期化
+//    List<MonthlyShiftCheckBean> monthlyShiftBeanList =
+//    monthlyShiftForm.getMonthlyShiftCheckBeanList();
+//    for (MonthlyShiftCheckBean monthlyShiftBean : monthlyShiftBeanList) {
+//    monthlyShiftBean.setRegisterFlg(false);
+//    }
+    return view("search", request, model, monthlyShiftForm,
+    bindingResult);
     }
 
     /**
