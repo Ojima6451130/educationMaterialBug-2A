@@ -1,58 +1,35 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
 <head>
-<meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Cache-Control" content="no-cache">
-<meta http-equiv="Expires" content="Thu, 01 Dec 1994 16:00:00 GMT">
-<title>ログイン画面Login</title>
-<link rel="stylesheet" media="all" th:href="@{/css/common.css}" />
-<script type="text/javascript" th:src="@{/js/common.js}"></script>
-<script type="text/javascript" th:src="@{/js/message.js}"></script>
+<meta charset="UTF-8">
+<title>Switch Login</title>
+<link rel="stylesheet" th:href="@{/css/login.css}">
 </head>
-
 <body>
 
-	<!-- エラーメッセージの表示 -->
-	<script th:if="${error}" th:inline="javascript">
-		showMessage("E-MSG-000002", []);
-	</script>
+	<!-- ホワイトフラッシュ -->
+	<div id="flash"></div>
 
-	<div id="wrapper">
-		<div id="header">
-			<table class="full-width">
-				<tr>
-					<td id="headLeft"></td>
-					<td id="headCenter"></td>
-					<td id="headRight"></td>
-				</tr>
-			</table>
-		</div>
+	<div class="login-wrapper">
 
-		<div id="businessBody">
-			<div align="center">
-				<div>ID・パスワードを入力してください。</div>
-				<form action="/kikin/dologin" method="post">
-					<input type="text" id="employeeId" name="employeeId" size="16"
-					 required /> <br /> <input type="password"
-						id="password" name="password" size="16" required />
-					<br /> <br /> <input type="submit" value="ログイン" /> <input
-						type="reset" value="リセット" />
-				</form>
-			</div>
-		</div>
+		<!-- Switch本体（ふわふわ + 傾き） -->
+		<div class="switch-wrapper" id="switch">
+			<img src="/img/switch_console.png" class="switch-img">
 
-		<div id="footer">
-			<table>
-				<tr>
-					<td id="footLeft"></td>
-					<td id="footCenter"></td>
-					<td id="footRight"></td>
-				</tr>
-			</table>
+			
+			<!-- ログインフォーム -->
+			<form action="/kikin/dologin" method="post" id="loginForm" class="login-box">
+				<input type="text" name="employeeId" placeholder="社員番号"> <input
+					type="password" name="password" placeholder="パスワード">
+					
+				<button type="submit" id="loginButton">Login</button>
+				<button type="reset" id="loginButton">Reset</button>
+			</form>
+
 		</div>
 	</div>
+	
 
+	<script src="/js/login.js"></script>
 </body>
-
 </html>
