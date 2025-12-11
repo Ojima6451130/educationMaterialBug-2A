@@ -1,0 +1,274 @@
+body {
+	margin: 0;
+	background: #e6e7e4;
+	font-family: "Noto Sans JP", "Inter", "Helvetica Neue", sans-serif;
+}
+
+/* =====  ステータスバー  ===== */
+.status-bar {
+	position: fixed;
+	top: 6vh; /* ← モニター枠の上端に合わせる */
+	right: 18vw; /* ← Joy-Con 分を避けて右端に合わせる */
+	font-size: 22px;
+	color: var(--text-color);
+	display: flex;
+	align-items: center;
+	gap: 15px;
+	z-index: 20;
+	font-weight: 500;
+	letter-spacing: 0.03em;
+}
+
+#clock {
+	font-size: 20px;
+	font-weight: 500;
+}
+
+/* バッテリー表示 */
+#battery {
+	width: 35px;
+	height: 15px;
+	border: 3px solid #505050;
+	border-radius: 4px;
+	position: relative;
+}
+
+#battery::after {
+	content: "";
+	position: absolute;
+	width: 5px;
+	height: 10px;
+	background: #505050;
+	right: -8px;
+	top: 3px;
+	border-radius: 2px;
+}
+
+#battery-level {
+	height: 100%;
+	background: #505050;
+	width: 70%; /* JSで更新される */
+}
+
+/* ===== メニュー部分 ===== */
+.menu-wrapper {
+	position: fixed;
+	top: 10vh; /* ← 画面の上端に合わせる */
+	left: 18vw; /* ← Joy-Con を完全に避ける */
+	width: 64vw; /* ← 中央の黒枠幅にフィット！ */
+	height: 64vh;
+	overflow: hidden;
+	display: flex;
+	align-items: center;
+}
+
+.menu {
+	display: flex;
+	gap: 10px;
+	transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+	padding: 40px 0;
+	position: relative;
+}
+
+/* ソフトのカード */
+.app-card {
+	font-size: 12px;
+	font-weight: 500;
+	letter-spacing: 0.02em;
+	margin-top: 12px;
+	text-align: center;
+}
+
+.app-card.active {
+	transform: scale(1.1);
+}
+
+/* アイコン画像 */
+.app-img {
+	width: 200px;
+	height: 200px;
+	object-fit: cover;
+}
+
+/* 選択枠 */
+.select-frame {
+	position: absolute;
+	width: 205px;
+	height: 206px;
+	border: 5px solid #07fed9;
+	transition: transform 0.25s ease, opacity 0.25s ease;
+	pointer-events: none;
+}
+
+/* ホワイトフラッシュ（白→白でフェードアウト） */
+#flash {
+	position: fixed;
+	inset: 0;
+	background: white;
+	opacity: 0;
+	pointer-events: none;
+	transition: opacity 0.25s ease;
+	z-index: 9999;
+}
+
+.switch-bg {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	height: 170vh; /* ← アップ倍率。調整可能 */
+	width: auto; /* ← アスペクト比維持 */
+	transform: translate(-50%, -50%);
+	pointer-events: none;
+	z-index: -1;
+}
+/* 起動時のアイコンズーム */
+.icon-zoom {
+	animation: iconZoom 0.35s ease forwards;
+}
+
+
+
+/* 下部バー選択枠 */
+:root {
+	--text-color: #000000;
+	--bottom-bar-bg: rgba(0, 0, 0, 0.7);
+}
+
+[data-theme="dark"] {
+	--text-color: #ffffff;
+	--bottom-bar-bg: rgba(0, 0, 0, 0.85);
+}
+
+[data-theme="light"] {
+	--text-color: #000000;
+	--bottom-bar-bg: rgba(255, 255, 255, 0.8);
+}
+
+/* ===== Switch風 下部バー背景 ===== */
+
+/* ===== 下部システムメニュー（Switch仕様） ===== */
+.system-menu {
+	position: fixed;
+	bottom: 20vh;
+	left: 50%;
+	transform: translateX(-50%);
+	display: flex;
+	gap: 0px;
+	z-index: 30;
+}
+
+.system-icon {
+	width: 90px; /* ← 固定幅（お好みで調整可能） */
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: flex-start;
+	text-align: center;
+	white-space: nowrap; /* ← 改行を禁止（本物のSwitchと同じ） */
+	color: #07fed9;
+	font-weight: bold;
+}
+
+.system-icon img {
+	width: 50px;
+	height: 50px;
+	object-fit: contain;
+	border-radius: 50px;
+	margin-bottom: 5px;
+}
+
+/* 選択時アイコン（Switch水色リング） */
+.bottom-select-frame {
+	position: absolute;
+	width: 50px;
+	height: 50px;
+	border: 5px solid #07fed9;
+	border-radius: 50px;
+	transform: translate(-9999px, -9999px);
+	transition: transform 0.25s ease, opacity 0.25s ease;
+	pointer-events: none;
+	z-index: 40;
+	opacity: 0;
+}
+
+.system-icon span {
+	opacity: 0;
+	font-size: 12px;
+	transition: opacity 0.25s ease;
+}
+
+/* 選択中のアイコンだけタイトルを表示 */
+.system-icon.active span {
+	opacity: 1;
+}
+
+
+
+/* 下部メニューを包む黒い線 */
+.system-menu::after {
+    content: "";
+    position: absolute;
+    bottom: -30px;   /* 下に表示される位置（調整OK） */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 170%;      /* Switch の比率にかなり近い */
+    height: 2px;     /* 線の太さ */
+    background: #000; /* 黒色 */
+    opacity: 0.3;     /* Switchっぽい薄さ */
+}
+
+.switch-left-icon {
+    position: fixed;
+    left: 240px;        /* Switch 本体の黒い枠あたりに寄せる */
+    bottom: 10px;      /* 下の線の少し上 */
+    z-index: 100;
+    opacity: 5;      /* 本物っぽく少し薄め */
+}
+
+.switch-left-icon img {
+    width: 100px;       /* 本物と同等の小さなサイズ */
+    height: auto;
+}
+
+/* 右下 UI（Switchと同じ表示） */
+.bottom-help {
+    position: fixed;
+    right: 20vw;
+    bottom: 8vh;
+    font-size: 20px;
+    font-weight: 500;
+    color: #505050;
+    display: flex;
+    gap: 35px;
+    z-index: 1000;
+    transition: opacity 0.2s ease;
+    font-weight: bold;
+}
+
+/* 初期状態：上段にカーソル → ＋ オプション / A はじめる を表示 */
+#help-plus,
+#help-a-start {
+    display: inline;
+}
+
+#help-a-select {
+    display: none; /* 下段のときのみ表示 */
+}
+
+/* Switch ボタン：黒丸に白抜き文字 */
+.btn-icon.invert-btn {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #505050;        /* 黒丸 */
+    color: #fff;             /* 白抜き文字 */
+    font-size: 18px;
+    font-weight: 700;
+    border: 2px solid #505050;  /* 外枠も黒（Switchっぽい） */
+    margin-right: 6px;
+    vertical-align: middle;
+}
+

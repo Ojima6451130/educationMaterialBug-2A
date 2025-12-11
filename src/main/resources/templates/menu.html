@@ -1,127 +1,105 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
 <head>
-  <meta http-equiv="Pragma" content="no-cache">
-  <meta http-equiv="Cache-Control" content="no-cache">
-  <meta http-equiv="Expires" content="Thu, 01 Dec 1994 16:00:00 GMT">
-  <title>メニュー画面</title>
-  <link rel="stylesheet" media="all" th:href="@{/css/common.css}" />
-  <script type="text/javascript" th:src="@{/js/common.js}"></script>
-  <script type="text/javascript" th:src="@{/js/message.js}"></script>
+<meta charset="UTF-8">
+<title>Switch Menu</title>
+<link rel="stylesheet" th:href="@{/css/switch-menu.css}">
+<link
+	href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600&display=swap"
+	rel="stylesheet">
+<link
+	href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600&family=Inter:wght@400;500;600&display=swap"
+	rel="stylesheet">
+
 </head>
 
 <body>
-  <div id="wrapper">
-    <div id="header">
-      <table class="full-width">
-        <tr>
-          <td id="headLeft">
-            　
-          </td>
-          <td id="headCenter">
-            <div th:if="${authority_id == adminAuthority}">
-              　　メニュー(管理者)
-            </div>
-            <div th:if="${authority_id == userAuthority}">
-              　　メニュー(一般)
-            </div>
-          </td>
-          <td id="headRight">
-            <input value="ログアウト" type="button" class="smallButton" onclick="logout()" />
-          </td>
-        </tr>
-      </table>
-    </div>
-    <div id="businessBody">
-      <div th:if="${authority_id == adminAuthority}" style="margin: auto;">
+	<img src="/img/switch_console.png" class="switch-bg">
 
-          <div class="menuBlock">
-            <form action="/kikin/monthlyShiftCheck">
-              <input type="submit" value="月別シフト確認" class="bigButton" />
-            </form>
-            <form action="/kikin/dailyShift" method="post">
-              <input type="submit" value="日別シフト確認" class="bigButton" />
-            </form>
-          </div>
+	<!-- 上部ステータス（時刻・バッテリー） -->
+	<div class="status-bar">
 
-          <div class="menuBlock">
-            <form action="/kikin/workRecordCheck">
-              <input type="submit" value="勤務実績確認" class="bigButton" />
-            </form>
-            <form action="/kikin/workRecordInput">
-              <input type="submit" value="勤務実績入力" class="bigButton" />
-            </form>
-          </div>
+		<span id="clock"></span>
+		<div id="battery">
+			<div id="battery-level"></div>
+		</div>
+	</div>
 
-          <div class="menuBlock">
-            <form action="/kikin/workDateRequestCheck">
-              <input type="submit" value="出勤希望日確認" class="bigButton" />
-            </form>
-            <form action="/kikin/monthlyShiftInput">
-              <input type="submit" value="月別シフト入力" class="bigButton" />
-            </form>
-          </div>
+	<!-- メニュー全体 -->
+	<div class="menu-wrapper">
 
-          <div class="menuBlock">
-            <form action="/kikin/employeeMstMnt">
-              <input type="submit" value="社員マスタメンテナンス" class="bigButton" />
-            </form>
-            <form action="/kikin/shiftMstMnt">
-              <input type="submit" value="シフトマスタメンテナンス" class="bigButton" />
-            </form>
-            <form action="/kikin/baseShiftInput">
-              <input type="submit" value="基本シフト登録" class="bigButton" />
-            </form>
+		<div class="menu" id="menu">
+			<div class="select-frame"></div>
 
-          </div>
-      </div>
-      <div th:if="${authority_id == userAuthority}" style="margin: auto;">
-          <div class="menuBlock">
-            <form action="/kikin/monthlyShiftCheck">
-              <input type="submit" value="月別シフト確認" class="bigButton" />
-            </form>
-            <form action="/kikin/dailyShift">
-              <input type="submit" value="日別シフト確認" class="bigButton" />
-            </form>
-          </div>
-	
-          <div class="menuBlock">
-            <form action="/kikin/workRecordInput">
-              <input type="submit" value="勤務実績入力" class="bigButton" />
-            </form>
-          </div>
+			<a href="/kikin/monthlyShiftCheck" class="app-card">
+				<p>月別シフト確認</p> <img src="/img/pokemon.jpg" class="app-img">
 
-          <div class="menuBlock">
-            <form action="/kikin/workDateRequestInput" method="post">
-              <input type="submit" value="出勤希望日入力" class="bigButton" />
-            </form>
-          </div>
+			</a> <a href="/kikin/dailyShift" class="app-card">
+				<p>日別シフト確認</p> <img src="/img/zeruda.jpg" class="app-img">
 
-          <div class="menuBlock">
-            <form action="/kikin/BaseShiftCheck">
-              <input type="submit" value="基本シフト確認" class="bigButton" />
-            </form>
-          </div>
-        </div>
-    </div>
-  </div>
+			</a> <a href="/kikin/workRecordCheck" class="app-card">
+				<p>勤務実績確認</p> <img src="/img/pikmin.jpg" class="app-img">
 
-  <div id="footer">
-    <table>
-      <tr>
-        <td id="footLeft">
-          　
-        </td>
-        <td id="footCenter">
-          　
-        </td>
-        <td id="footRight">
-          　
-        </td>
-      </tr>
-    </table>
-  </div>
+			</a> <a href="/kikin/workRecordInput" class="app-card">
+				<p>勤務実績入力</p> <img src="/img/atsumori.jpg" class="app-img">
+
+			</a> <a href="/kikin/workDateRequestCheck" class="app-card">
+				<p>出席希望日確認</p> <img src="/img/carby.jpg" class="app-img">
+
+			</a> <a href="/kikin/monthlyShiftInput" class="app-card">
+				<p>月別シフト入力</p> <img src="/img/draque.jpg" class="app-img">
+
+			</a> <a href="/kikin/employeeMstMnt" class="app-card">
+				<p>社員マスタメンテナンス</p> <img src="/img/mariocart.jpg" class="app-img">
+
+			</a> <a href="/kikin/shiftMstMnt" class="app-card">
+				<p>シフトマスタメンテナンス</p> <img src="/img/xenoblade.jpg" class="app-img">
+
+			</a> <a href="/kikin/baseShiftInput" class="app-card">
+				<p>基本シフト登録</p> <img src="/img/splatoon.jpg" class="app-img">
+
+			</a>
+
+		</div>
+	</div>
+	<!-- 下部バー背景 -->
+<div class="bottom-bar-bg"></div>
+
+<!-- Switch 下部メニュー -->
+<div class="system-menu" id="systemMenu">
+
+    <div class="bottom-select-frame" id="bottomSelectFrame"></div>
+
+    <div class="system-icon"><img src="/img/news.png"><span>ニュース</span></div>
+    <div class="system-icon"><img src="/img/store.png"><span>ストア</span></div>
+    <div class="system-icon"><img src="/img/album.png"><span>アルバム</span></div>
+    <div class="system-icon"><img src="/img/controller.png"><span>コントローラー</span></div>
+    <div class="system-icon"><img src="/img/settings.png"><span>設定</span></div>
+    <div class="system-icon"><img src="/img/power.png"><span>スリープ</span></div>
+</div>
+
+<div class="switch-left-icon">
+    <img src="/img/switch_bottom_icon.png" alt="switch icon">
+</div>
+
+<div class="bottom-help" id="bottomHelp">
+    <span id="help-plus">
+        <span class="btn-icon invert-btn">＋</span>オプション
+    </span>
+    <span id="help-a-start">
+        <span class="btn-icon invert-btn">A</span>はじめる
+    </span>
+    <span id="help-a-select">
+        <span class="btn-icon invert-btn">A</span>決定
+    </span>
+</div>
+
+
+	<!-- ホワイトフラッシュ -->
+	<div id="flash"></div>
+
+	<!-- JS -->
+	<script src="/js/switch-menu.js"></script>
+
 </body>
-
 </html>
