@@ -9,6 +9,8 @@
 package jp.co.kikin.controller;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -187,9 +189,17 @@ public class DailyShiftController {
         form.setYearMonthDayDisplay(yearMonthDayDisplay);
         form.setDailyShiftBeanList(dailyShiftBeanList);
 
+        LocalDate baseDate = LocalDate.parse(yearMonthDayDisplay);
+        String prevDay = baseDate.minusDays(1).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        String nextDay = baseDate.plusDays(1).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        
+        model.addAttribute("prevDay", prevDay);
+        model.addAttribute("nextDay", nextDay);
+        model.addAttribute("displayDay", yearMonthDayDisplay);
         model.addAttribute("TimeZoneArray", TimeZoneArray);
         model.addAttribute("yearMonthDay", yearMonthDayDisplay);
         model.addAttribute("dailyShiftBeanList", dailyShiftBeanList);
+        model.addAttribute("currentDate", yearMonthDayDisplay);
 
         return "dailyShift";
     }

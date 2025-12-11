@@ -276,6 +276,11 @@ errorbody {
         padding: 0;
 }
 
+.date-nav{
+	text-align:center;
+}
+
+
 .daysTable {
     border-collapse: collapse;
     table-layout: auto;
@@ -352,3 +357,4 @@ errorbody {
 .fontRed {
     color: red;
 }
+
