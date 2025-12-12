@@ -155,10 +155,14 @@ document.addEventListener("keydown", (e) => {
 
 
         // ▼ Aボタン
-        if (e.key === "Enter") {
-            const url = cards[index].getAttribute("href");
-            playLaunchAnimation(cards[index], url);
-        }
+		if (e.key === "Enter") {
+		    const link = cards[index].querySelector("a");
+		    if (link) {
+		        const url = link.getAttribute("href");
+		        playLaunchAnimation(cards[index], url);
+		    }
+		}
+
 
         return;
     }
@@ -199,10 +203,10 @@ document.addEventListener("keydown", (e) => {
 
 
         // ▼ Aボタン
-        if (e.key === "Enter") {
-            const url = bottomItems[bottomIndex].getAttribute("href");
-            playLaunchAnimation(bottomItems[bottomIndex], url);
-        }
+		if (e.key === "Enter") {
+		    const url = bottomItems[bottomIndex].dataset.url; // href の代わりに data-url
+		    if (url) playLaunchAnimation(bottomItems[bottomIndex], url);
+		}
 
         return;
     }
@@ -229,9 +233,14 @@ function playLaunchAnimation(card, url) {
 document.querySelectorAll(".app-card").forEach(card => {
     card.addEventListener("click", (e) => {
         e.preventDefault();
-        playLaunchAnimation(card, card.href);
+        const link = card.querySelector("a");
+        if (link) {
+            const url = link.getAttribute("href");
+            playLaunchAnimation(card, url);
+        }
     });
 });
+
 
 
 // ===========================

@@ -36,9 +36,9 @@
 </head>
 
 <body>
-	
+
 	<img src="/img/switch_console.png" class="switch-bg">
-	
+
 
 	<!-- 上部ステータス（時刻・バッテリー） -->
 	<div class="status-bar">
@@ -48,134 +48,132 @@
 			<div id="battery-level"></div>
 		</div>
 	</div>
-	
+
 
 	<!-- メニュー全体 -->
 	<div class="menu-wrapper">
+		<div id="menu">
 
-		<div th:if="${authority_id == adminAuthority}" class="menu" id="menu">
+			<div th:if="${authority_id == adminAuthority}" class="menu">
 			<div class="select-frame"></div>
-			
-		
-			<div class="app-card">
-				<span class="app-title">月別シフト確認</span>
-				<a href="/kikin/monthlyShiftCheck">
-					<img src="/img/pokemon.jpg" class="app-img">
-				</a>
-			</div>
-			
-			<div class="app-card">
-				<span class="app-title">日別シフト確認</span>
-				<a href="/kikin/dailyShift">
-					<img src="/img/atsumori.jpg" class="app-img">
-				</a>
-			</div>
-			
-			<div class="app-card">
-				<span class="app-title">勤務実績確認</span>
-				<a href="/kikin/workRecordCheck">
-					<img src="/img/draque.jpg" class="app-img">
-				</a>
-			</div>
-			
-			<div class="app-card">
-				<span class="app-title">勤務実績入力</span>
-				<a href="/kikin/workRecordInput">
-					<img src="/img/momotetsu.jpg" class="app-img">
-				</a>
-			</div>
-			 
-			<div class="app-card">
-				<span class="app-title">出席希望日確認</span>
-				<a href="/kikin/workDateRequestCheck">
-					<img src="/img/pikmin.jpg" class="app-img">
-				</a>
-			</div>
-			
-			<div class="app-card">
-				<span class="app-title">月別シフト入力</span>
-				<a href="/kikin/monthlyShiftInput">
-					<img src="/img/splatoon.jpg" class="app-img">
-				</a>
-			</div>
-			
-			<div class="app-card">
-				<span class="app-title">社員マスタメンテナンス</span>
-				<a href="/kikin/employeeMstMnt">
-					<img src="/img/sumabura.jpg" class="app-img">
-				</a>
-			</div>
-			
-			<div class="app-card">
-				<span class="app-title">シフトマスタメンテナンス</span>
-				<a href="/kikin/shiftMstMnt">
-					<img src="/img/zeruda.jpg" class="app-img">
-				</a>
-			</div>
-			
-			<div class="app-card">
-				<span class="app-title">基本シフト登録</span>
-				<a href="/kikin/baseShiftInput">
-					<img src="/img/carby.jpg" class="app-img">
-				</a>
-			</div> 
-			 
-	
-	</div>
-      <div th:if="${authority_id == userAuthority}" class="menu" id="menu">
-      			<div class="select-frame"></div>
-      			
-          <div class="app-card">
-				<span class="app-title">月別シフト確認</span>
-				<a href="/kikin/monthlyShiftCheck">
-					<img src="/img/pokemon.jpg" class="app-img">
-				</a>
-			</div>
-			
-			<div class="app-card">
-				<span class="app-title">日別シフト確認</span>
-				<a href="/kikin/dailyShift">
-					<img src="/img/atsumori.jpg" class="app-img">
-				</a>
-			</div>
-			
-			
-			<div class="app-card">
-				<span class="app-title">勤務実績入力</span>
-				<a href="/kikin/workRecordInput">
-					<img src="/img/momotetsu.jpg" class="app-img">
-				</a>
-			</div>
-			 
-			<div class="app-card">
-				<span class="app-title">出勤希望日入力</span>
-				<a href="/kikin/workDateRequestInput">
-					<img src="/img/splatoon.jpg" class="app-img">
-				</a>
-			</div>
-			
-			<div class="app-card">
-				<span class="app-title">基本シフト確認</span>
-				<a href="/kikin/BaseShiftCheck">
-					<img src="/img/sumabura.jpg" class="app-img">
-				</a>
-			</div>
-			
-			
-	</div>
-</div>
 
-<div class="bottom-bar-bg"></div>
+
+				<div class="app-card">
+					<span class="app-title">月別シフト確認</span> <a
+						href="/kikin/monthlyShiftCheck"> <img src="/img/pokemon.jpg"
+						class="app-img">
+					</a>
+				</div>
+
+				<div class="app-card">
+					<span class="app-title">日別シフト確認</span> <a href="/kikin/dailyShift">
+						<img src="/img/atsumori.jpg" class="app-img">
+					</a>
+				</div>
+
+				<div class="app-card">
+					<span class="app-title">勤務実績確認</span> <a
+						href="/kikin/workRecordCheck"> <img src="/img/draque.jpg"
+						class="app-img">
+					</a>
+				</div>
+
+				<div class="app-card">
+					<span class="app-title">勤務実績入力</span> <a
+						href="/kikin/workRecordInput"> <img src="/img/momotetsu.jpg"
+						class="app-img">
+					</a>
+				</div>
+
+				<div class="app-card">
+					<span class="app-title">出席希望日確認</span> <a
+						href="/kikin/workDateRequestCheck"> <img src="/img/pikmin.jpg"
+						class="app-img">
+					</a>
+				</div>
+
+				<div class="app-card">
+					<span class="app-title">月別シフト入力</span> <a
+						href="/kikin/monthlyShiftInput"> <img src="/img/splatoon.jpg"
+						class="app-img">
+					</a>
+				</div>
+
+				<div class="app-card">
+					<span class="app-title">社員マスタメンテナンス</span> <a
+						href="/kikin/employeeMstMnt"> <img src="/img/sumabura.jpg"
+						class="app-img">
+					</a>
+				</div>
+
+				<div class="app-card">
+					<span class="app-title">シフトマスタメンテナンス</span> <a
+						href="/kikin/shiftMstMnt"> <img src="/img/zeruda.jpg"
+						class="app-img">
+					</a>
+				</div>
+
+				<div class="app-card">
+					<span class="app-title">基本シフト登録</span> <a
+						href="/kikin/baseShiftInput"> <img src="/img/carby.jpg"
+						class="app-img">
+					</a>
+				</div>
+
+
+			</div>
+			<div th:if="${authority_id == userAuthority}" class="menu">
+						<div class="select-frame"></div>
+
+				<div class="app-card">
+					<span class="app-title">月別シフト確認</span> <a
+						href="/kikin/monthlyShiftCheck"> <img src="/img/pokemon.jpg"
+						class="app-img">
+					</a>
+				</div>
+
+				<div class="app-card">
+					<span class="app-title">日別シフト確認</span> <a href="/kikin/dailyShift">
+						<img src="/img/atsumori.jpg" class="app-img">
+					</a>
+				</div>
+
+
+				<div class="app-card">
+					<span class="app-title">勤務実績入力</span> <a
+						href="/kikin/workRecordInput"> <img src="/img/momotetsu.jpg"
+						class="app-img">
+					</a>
+				</div>
+
+				<div class="app-card">
+					<span class="app-title">出勤希望日入力</span> <a
+						href="/kikin/workDateRequestInput"> <img
+						src="/img/splatoon.jpg" class="app-img">
+					</a>
+				</div>
+
+				<div class="app-card">
+					<span class="app-title">基本シフト確認</span> <a
+						href="/kikin/BaseShiftCheck"> <img src="/img/sumabura.jpg"
+						class="app-img">
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="bottom-bar-bg"></div>
 
 	<!-- Switch 下部メニュー -->
 	<div class="system-menu" id="systemMenu">
 
 		<div class="bottom-select-frame" id="bottomSelectFrame"></div>
 
-		<div class="system-icon">
+		<div class="system-icon"  data-url="https://docs.google.com/spreadsheets/d/1rt4qp8b0rDMtVtNDRrfhqqFqjhRlKc88/edit?gid=705472983#gid=705472983">
 			<img src="/img/news.png"><span>ニュース</span>
 		</div>
-		<div class="system-icon">
+		<div class="system-icon"  data-url="/kikin/news">
 			<img src="/img/store.png"><span>ストア</span>
 		</div>
 		<div class="system-icon">
@@ -206,7 +204,7 @@
 
 	<!-- ホワイトフラッシュ -->
 	<div id="flash"></div>
-			
+
 	<!-- JS -->
 	<script src="/js/switch-menu.js"></script>
 
