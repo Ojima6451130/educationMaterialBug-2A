@@ -10,11 +10,35 @@
 <link
 	href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600&family=Inter:wght@400;500;600&display=swap"
 	rel="stylesheet">
-
+<link
+	href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700&display=swap"
+	rel="stylesheet">
+<link
+	href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
+	rel="stylesheet">
+<link
+	href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap"
+	rel="stylesheet">
+<link
+	href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700&display=swap"
+	rel="stylesheet">
+<link
+	href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap"
+	rel="stylesheet">
+<link
+	href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=M+PLUS+Rounded+1c:wght@300;400;500;700&display=swap"
+	rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link
+	href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wght@6..144,1..1000&display=swap"
+	rel="stylesheet">
 </head>
 
 <body>
+	
 	<img src="/img/switch_console.png" class="switch-bg">
+	
 
 	<!-- 上部ステータス（時刻・バッテリー） -->
 	<div class="status-bar">
@@ -24,80 +48,165 @@
 			<div id="battery-level"></div>
 		</div>
 	</div>
+	
 
 	<!-- メニュー全体 -->
 	<div class="menu-wrapper">
 
-		<div class="menu" id="menu">
+		<div th:if="${authority_id == adminAuthority}" class="menu" id="menu">
 			<div class="select-frame"></div>
-
-			<a href="/kikin/monthlyShiftCheck" class="app-card">
-				<p>月別シフト確認</p> <img src="/img/pokemon.jpg" class="app-img">
-
-			</a> <a href="/kikin/dailyShift" class="app-card">
-				<p>日別シフト確認</p> <img src="/img/zeruda.jpg" class="app-img">
-
-			</a> <a href="/kikin/workRecordCheck" class="app-card">
-				<p>勤務実績確認</p> <img src="/img/pikmin.jpg" class="app-img">
-
-			</a> <a href="/kikin/workRecordInput" class="app-card">
-				<p>勤務実績入力</p> <img src="/img/atsumori.jpg" class="app-img">
-
-			</a> <a href="/kikin/workDateRequestCheck" class="app-card">
-				<p>出席希望日確認</p> <img src="/img/carby.jpg" class="app-img">
-
-			</a> <a href="/kikin/monthlyShiftInput" class="app-card">
-				<p>月別シフト入力</p> <img src="/img/draque.jpg" class="app-img">
-
-			</a> <a href="/kikin/employeeMstMnt" class="app-card">
-				<p>社員マスタメンテナンス</p> <img src="/img/mariocart.jpg" class="app-img">
-
-			</a> <a href="/kikin/shiftMstMnt" class="app-card">
-				<p>シフトマスタメンテナンス</p> <img src="/img/xenoblade.jpg" class="app-img">
-
-			</a> <a href="/kikin/baseShiftInput" class="app-card">
-				<p>基本シフト登録</p> <img src="/img/splatoon.jpg" class="app-img">
-
-			</a>
-
-		</div>
+			
+		
+			<div class="app-card">
+				<span class="app-title">月別シフト確認</span>
+				<a href="/kikin/monthlyShiftCheck">
+					<img src="/img/pokemon.jpg" class="app-img">
+				</a>
+			</div>
+			
+			<div class="app-card">
+				<span class="app-title">日別シフト確認</span>
+				<a href="/kikin/dailyShift">
+					<img src="/img/atsumori.jpg" class="app-img">
+				</a>
+			</div>
+			
+			<div class="app-card">
+				<span class="app-title">勤務実績確認</span>
+				<a href="/kikin/workRecordCheck">
+					<img src="/img/draque.jpg" class="app-img">
+				</a>
+			</div>
+			
+			<div class="app-card">
+				<span class="app-title">勤務実績入力</span>
+				<a href="/kikin/workRecordInput">
+					<img src="/img/momotetsu.jpg" class="app-img">
+				</a>
+			</div>
+			 
+			<div class="app-card">
+				<span class="app-title">出席希望日確認</span>
+				<a href="/kikin/workDateRequestCheck">
+					<img src="/img/pikmin.jpg" class="app-img">
+				</a>
+			</div>
+			
+			<div class="app-card">
+				<span class="app-title">月別シフト入力</span>
+				<a href="/kikin/monthlyShiftInput">
+					<img src="/img/splatoon.jpg" class="app-img">
+				</a>
+			</div>
+			
+			<div class="app-card">
+				<span class="app-title">社員マスタメンテナンス</span>
+				<a href="/kikin/employeeMstMnt">
+					<img src="/img/sumabura.jpg" class="app-img">
+				</a>
+			</div>
+			
+			<div class="app-card">
+				<span class="app-title">シフトマスタメンテナンス</span>
+				<a href="/kikin/shiftMstMnt">
+					<img src="/img/zeruda.jpg" class="app-img">
+				</a>
+			</div>
+			
+			<div class="app-card">
+				<span class="app-title">基本シフト登録</span>
+				<a href="/kikin/baseShiftInput">
+					<img src="/img/carby.jpg" class="app-img">
+				</a>
+			</div> 
+			 
+	
 	</div>
-	<!-- 下部バー背景 -->
+      <div th:if="${authority_id == userAuthority}" class="menu" id="menu">
+      			<div class="select-frame"></div>
+      			
+          <div class="app-card">
+				<span class="app-title">月別シフト確認</span>
+				<a href="/kikin/monthlyShiftCheck">
+					<img src="/img/pokemon.jpg" class="app-img">
+				</a>
+			</div>
+			
+			<div class="app-card">
+				<span class="app-title">日別シフト確認</span>
+				<a href="/kikin/dailyShift">
+					<img src="/img/atsumori.jpg" class="app-img">
+				</a>
+			</div>
+			
+			
+			<div class="app-card">
+				<span class="app-title">勤務実績入力</span>
+				<a href="/kikin/workRecordInput">
+					<img src="/img/momotetsu.jpg" class="app-img">
+				</a>
+			</div>
+			 
+			<div class="app-card">
+				<span class="app-title">出勤希望日入力</span>
+				<a href="/kikin/workDateRequestInput">
+					<img src="/img/splatoon.jpg" class="app-img">
+				</a>
+			</div>
+			
+			<div class="app-card">
+				<span class="app-title">基本シフト確認</span>
+				<a href="/kikin/BaseShiftCheck">
+					<img src="/img/sumabura.jpg" class="app-img">
+				</a>
+			</div>
+			
+			
+	</div>
+</div>
+
 <div class="bottom-bar-bg"></div>
 
-<!-- Switch 下部メニュー -->
-<div class="system-menu" id="systemMenu">
+	<!-- Switch 下部メニュー -->
+	<div class="system-menu" id="systemMenu">
 
-    <div class="bottom-select-frame" id="bottomSelectFrame"></div>
+		<div class="bottom-select-frame" id="bottomSelectFrame"></div>
 
-    <div class="system-icon"><img src="/img/news.png"><span>ニュース</span></div>
-    <div class="system-icon"><img src="/img/store.png"><span>ストア</span></div>
-    <div class="system-icon"><img src="/img/album.png"><span>アルバム</span></div>
-    <div class="system-icon"><img src="/img/controller.png"><span>コントローラー</span></div>
-    <div class="system-icon"><img src="/img/settings.png"><span>設定</span></div>
-    <div class="system-icon"><img src="/img/power.png"><span>スリープ</span></div>
-</div>
+		<div class="system-icon">
+			<img src="/img/news.png"><span>ニュース</span>
+		</div>
+		<div class="system-icon">
+			<img src="/img/store.png"><span>ストア</span>
+		</div>
+		<div class="system-icon">
+			<img src="/img/album.png"><span>アルバム</span>
+		</div>
+		<div class="system-icon">
+			<img src="/img/controller.png"><span>コントローラー</span>
+		</div>
+		<div class="system-icon">
+			<img src="/img/settings.png"><span>設定</span>
+		</div>
+		<div class="system-icon">
+			<img src="/img/power.png"><span>スリープ</span>
+		</div>
+	</div>
 
-<div class="switch-left-icon">
-    <img src="/img/switch_bottom_icon.png" alt="switch icon">
-</div>
+	<div class="switch-left-icon">
+		<img src="/img/switch_bottom_icon.png" alt="switch icon">
+	</div>
 
-<div class="bottom-help" id="bottomHelp">
-    <span id="help-plus">
-        <span class="btn-icon invert-btn">＋</span>オプション
-    </span>
-    <span id="help-a-start">
-        <span class="btn-icon invert-btn">A</span>はじめる
-    </span>
-    <span id="help-a-select">
-        <span class="btn-icon invert-btn">A</span>決定
-    </span>
-</div>
+	<div class="bottom-help" id="bottomHelp">
+		<span id="help-plus"> <span class="btn-icon invert-btn">＋</span>オプション
+		</span> <span id="help-a-start"> <span class="btn-icon invert-btn">A</span>はじめる
+		</span> <span id="help-a-select"> <span class="btn-icon invert-btn">A</span>決定
+		</span>
+	</div>
 
 
 	<!-- ホワイトフラッシュ -->
 	<div id="flash"></div>
-
+			
 	<!-- JS -->
 	<script src="/js/switch-menu.js"></script>
 

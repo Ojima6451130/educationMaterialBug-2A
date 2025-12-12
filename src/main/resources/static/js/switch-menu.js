@@ -63,7 +63,8 @@ function updateMenuPosition() {
 // ===========================
 function updateScale() {
     cards.forEach((card, i) => {
-        card.classList.toggle("scaled", i === index);
+        const isActive = (i === index);
+        card.classList.toggle("active", isActive); // ← これを追加！
     });
 }
 
@@ -75,8 +76,8 @@ function updateSelectFrame() {
     const rect = cards[index].getBoundingClientRect();
     const menuRect = menu.getBoundingClientRect();
 
-    const x = rect.left - menuRect.left - 7;
-    const y = rect.top - menuRect.top - 5;
+    const x = rect.left - menuRect.left - 6;
+    const y = rect.top - menuRect.top;
 
     selectFrame.style.transform = `translate(${x}px, ${y}px)`;
 }
@@ -97,7 +98,7 @@ function updateBottomFrame() {
     const rect = item.getBoundingClientRect();
     const parentRect = document.querySelector(".system-menu").getBoundingClientRect();
 
-    const x = rect.left - parentRect.left + 16;
+    const x = rect.left - parentRect.left + 7;
     const y = rect.top - parentRect.top - 4;
 
     bottomFrame.style.opacity = 1;
@@ -137,15 +138,21 @@ document.addEventListener("keydown", (e) => {
         updateMenuPosition();
         updateScale();
         updateSelectFrame();
+		showActiveTopTitle();
 
-        // ▼ 下段へ移動
-        if (e.key === "ArrowDown") {
-            focusTop = false;
-			selectFrame.style.opacity = 0;
-            updateBottomFrame();
-			updateBottomHelp(); 
-            return;
-        }
+		// ▼ 下段へ移動
+		if (e.key === "ArrowDown") {
+		    focusTop = false;
+
+		    // ★ 上段タイトルをすべて消す（これが必要）
+		    hideAllTopTitles();
+
+		    selectFrame.style.opacity = 0;
+		    updateBottomFrame();
+		    updateBottomHelp();
+		    return;
+		}
+
 
         // ▼ Aボタン
         if (e.key === "Enter") {
@@ -168,18 +175,28 @@ document.addEventListener("keydown", (e) => {
         updateBottomFrame();
 		updateBottomHelp(); 
 
-        // ▼ 上段へ戻る
-        if (e.key === "ArrowUp") {
-            focusTop = true;
-			// 下段アイコンの active を全消し
-			bottomItems.forEach(item => item.classList.remove("active"));
+		// ▼ 上段へ戻る
+		if (e.key === "ArrowUp") {
+		    focusTop = true;
 
-            bottomFrame.style.opacity = 0;
-            updateSelectFrame();
-			selectFrame.style.opacity = 1;
-			updateBottomHelp(); 
-            return;
-        }
+		    // 下段 active を全て消す
+		    bottomItems.forEach(item => item.classList.remove("active"));
+
+		    // 選択中カードだけ active を復活
+		    cards.forEach((card, i) => {
+		        card.classList.toggle("active", i === index);
+		    });
+
+		    // ★ 選択中タイトルだけ復活させる
+		    showActiveTopTitle();
+
+		    bottomFrame.style.opacity = 0;
+		    updateSelectFrame();
+		    selectFrame.style.opacity = 1;
+		    updateBottomHelp();
+		    return;
+		}
+
 
         // ▼ Aボタン
         if (e.key === "Enter") {
@@ -245,4 +262,17 @@ function updateBottomHelp() {
         aSelect.style.display = "inline";
     }
 }
+
+function hideAllTopTitles() {
+    document.querySelectorAll(".app-title").forEach(t => {
+        t.style.opacity = "0";
+    });
+}
+function showActiveTopTitle() {
+    document.querySelectorAll(".app-title").forEach((t, i) => {
+        t.style.opacity = (i === index) ? "1" : "0";
+    });
+}
+
+
 
