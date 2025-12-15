@@ -24,7 +24,7 @@ import jp.co.kikin.constant.DbConstant.M_employee;
  * @author naraki
  *
  */
-public class EmployeeMstMntLogicOriginal {
+public class EmployeeMstMntLogic {
 
     /**
      * 社員マスタの更新系の処理を行う
