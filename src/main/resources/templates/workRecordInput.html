@@ -2,287 +2,379 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-  <meta http-equiv="Pragma" content="no-cache">
-  <meta http-equiv="Cache-Control" content="no-cache">
-  <meta http-equiv="Expires" content="Thu, 01 Dec 1994 16:00:00 GMT">
-  <title>勤務実績入力画面</title>
-  <link rel="stylesheet" media="all" th:href="@{/css/common.css}" />
-  <script type="text/javascript" th:src="@{/js/common.js}"></script>
-  <script type="text/javascript" th:src="@{/js/message.js}"></script>
-  <script type="text/javascript" th:src="@{/js/checkCommon.js}"></script>
-  <script>
-
-    /**
-       * 登録へ
-       */
-    function register(event) {
-      if(event){
-        event.preventDefault();
-      }
-
-      // 一覧のサイズ
-      var row = document.querySelectorAll(".list")
-      var listSize = row.length;
-
-      // 開始時間エラーメッセージ
-      var startTimeErrMsg = '';
-      // 終了時間エラーメッセージ
-      var endTimeErrMsg = '';
-      // 休憩時間エラーメッセージ
-      var breakTimeErrMsg = '';
-      // From - To エラーメッセージ
-      var fromToErrMsg = '';
-      // エラーメッセージ
-      var errorMsg = '';
-
-
-      with (document.forms['registForm'].elements) {
-
-        for (var i = 0; i < listSize; i++) {
-
-          // 開始時間を取得する。
-          var startTimeInput  = document.querySelector('#WorkRecordInputList' + i + '\\.startTime');
-          var startTimeValue = startTimeInput.value;
-          // 終了時間を取得する。
-          var endTimeInput = document.querySelector('#WorkRecordInputList' + i + '\\.endTime');
-          var endTimeValue = endTimeInput.value;
-          // 休憩時間を取得する。
-          var breakTimeInput = document.querySelector('#WorkRecordInputList' + i + '\\.breakTime');
-          var breakTimeValue = breakTimeInput.value;
-
-          // 背景色をクリアする
-          startTimeInput.style.backgroundColor = 'white';
-          endTimeInput.style.backgroundColor = 'white';
-          breakTimeInput.style.backgroundColor = 'white';
-
-          if (startTimeValue  == "" && endTimeValue == "" && breakTimeValue == "") {
-            continue;
-          }
-
-          // 時間チェック
-          if (!startTimeErrMsg) {
-            if (!checkTime(startTimeValue)) {
-              var strArr = ['開始時間'];
-              startTimeErrMsg = getMessage('E-MSG-000004', strArr);
-              startTimeInput.style.backgroundColor = 'red';
-            }else{
-              startTimeInput.style.backgroundColor = 'white';
-            }
-          }
-          if (!endTimeErrMsg) {
-            if (!checkTime(endTimeValue)) {
-              var strArr = ['終了時間'];
-              endTimeErrMsg = getMessage('E-MSG-000004', strArr);
-              endTimeInput.style.backgroundColor = 'red';
-            }else{
-              endTimeInput.style.backgroundColor = 'white';
-            }
-          }
-          if (!breakTimeErrMsg) {
-            if (!checkTime(breakTimeValue)) {
-              var strArr = ['休憩時間'];
-              breakTimeErrMsg = getMessage('E-MSG-000004', strArr);
-              breakTimeInput.style.backgroundColor = 'red';
-            }else{
-              breakTimeInput.style.backgroundColor = 'white';
-            }
-          }
-
-          // from - to のチェック
-          if (!checkTimeCompare(startTimeValue, endTimeValue)) {
-            if (checkTime(startTimeValue) && checkTime(endTimeValue)) {
-              fromToErrMsg = getMessageCodeOnly('E-MSG-000005');
-              startTimeInput.style.backgroundColor = 'red';
-              endTimeInput.style.backgroundColor = 'red';
-            }
-          }
-
-        }
-      }
-
-      // エラーメッセージ
-      errorMsg = startTimeErrMsg + endTimeErrMsg + breakTimeErrMsg + fromToErrMsg;
-
-      if (errorMsg) {
-        alert(errorMsg);
-        // エラー
-        return false;
-      }
-
-      document.getElementById("registForm").submit();
-    }
-
-
-  </script>
-</head>
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Expires" content="Thu, 01 Dec 1994 16:00:00 GMT">
 
 <title>勤務実績入力画面</title>
 
-<style>
-  .weekday {
-    color: black;
-  }
+<link
+	href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+	rel="stylesheet">
+<link rel="icon" href="/img/workrecord/mario.png">
+<link rel="stylesheet" media="all" th:href="@{/css/common.css}" />
+<link rel="stylesheet" th:href="@{/css/workrecordinput.css}">
+<script type="text/javascript" th:src="@{/js/common.js}"></script>
+<script type="text/javascript" th:src="@{/js/message.js}"></script>
+<script type="text/javascript" th:src="@{/js/checkCommon.js}"></script>
 
-  .saturday {
-    color: blue;
-  }
 
-  .sunday {
-    color: red;
-  }
+</head>
 
-  .holiday {
-    background-color: yellow;
-  }
-</style>
 
 
 <body>
-  <div id="wrapper">
-    <div id="header">
-      <table class="centered-container">
-        <tr>
-          <td id="headLeft">
-            <form action="/kikin/menu" method="post">
-              <input value="戻る" type="submit" class="smallButton" />
-            </form>
-          </td>
-          <td id="headCenter">
-            勤務実績入力
-          </td>
-          <td id="headRight">
-            <input value="ログアウト" type="button" class="smallButton" onclick="logout()" />
-          </td>
-        </tr>
-      </table>
-    </div>
+	<div id="famicom-theme">
 
-    <div id="businessBody">
-      <form action="/kikin/workRecordInput/search" method="post" th:object="${workRecordInputForm}">
-        <label>表示年月：</label>
-        <select name="yearMonth" id="yearMonth">
-          <!-- yearMonthValues リストをループして表示 -->
-          <option th:each="entry : ${yearMonthCmbMap.entrySet()}" th:text="${entry.value}" th:value="${entry.key}"
-            th:selected="${entry.key == workRecordInputForm.yearMonth}" th:inline="text">[[${yearMonth}]>
-          </option>
-        </select>
-        <input value="検索" type="submit"/>
-        <div style="float: right; width: 300px; text-align: center; box-sizing: border-box;">
-          社員ID&nbsp;<span th:text="${loginUserDto.employeeId}"></span>
-          ：社員名&nbsp;<span th:text="${loginUserDto.employeeName}"></span>
-        </div>
-      </form>
-    </div>
+		<div id="wrapper">
 
-    <div id="businessBody" style="justify-content: center;">
-      <form action="/kikin/workRecordInput/regist" id="registForm" method="post" th:object="${workRecordInputForm}">
-        <table class="overflowFixed">
-          <thead class="tableHeader" style="display: block; position: sticky; top: 0; width: max-content;">
-            <tr>
-              <td style="width: 70px; text-align: center; box-sizing: border-box;">
-                日付
-              </td>
-              <td style="width: 50px; text-align: center; box-sizing: border-box;">
-                曜日
-              </td>
-              <td style="width: 70px; text-align: center; box-sizing: border-box;">
-                シフト
-              </td>
-              <td style="width: 100px; text-align: center; box-sizing: border-box;">
-                開始時刻
-              </td>
-              <td style="width: 100px; text-align: center; box-sizing: border-box;">
-                終了時刻
-              </td>
-              <td style="width: 100px; text-align: center; box-sizing: border-box;">
-                休憩
-              </td>
-              <td style="width: 100px; text-align: center; box-sizing: border-box;">
-                実働時間
-              </td>
-              <td style="width: 100px; text-align: center; box-sizing: border-box;">
-                時間外
-              </td>
-              <td style="width: 100px; text-align: center; box-sizing: border-box;">
-                休日
-              </td>
-              <td style="width: 250px; text-align: center; box-sizing: border-box;">
-                備考
-              </td>
-            </tr>
-          </thead>
-          <tbody class="tableBody" style="display: block; width: max-content; height: 400px; overflow-y: scroll; scrollbar-gutter: stable;">
-            <tr th:each="workRecordInput, iterStat : ${workRecordInputForm.workRecordInputList }" class="list">
-              <td style="width: 70px; text-align: center; box-sizing: border-box;">
-                <span th:text="${workRecordInput.workDayDisp}"></span>
-              </td>
-              <td style="width: 50px; text-align: center; box-sizing: border-box;"
-                th:class="${workRecordInput.weekDay == '土' ? 'fontBlue' : (workRecordInput.weekDay == '日' or workRecordInput.publicHolidayFlg) ? 'fontRed' : 'fontBlack'}">
-                <span th:text="${workRecordInput.weekDay}"></span>
-              </td>
+			<div id="header">
+				<table class="centered-container">
+					<tr>
+						<td id="headLeft">
+							<form action="/kikin/menu" method="post"
+								onsubmit="return goBackWithSound(this)">
+								<input value="戻る" type="submit" class="smallButton" />
+							</form>
+						</td>
+						<td id="headCenter"><img
+							src="/img/workrecord/coin_sparkle.gif" class="coin"
+							onclick="playCoin(); addCoin();"> 勤務実績入力 <img
+							src="/img/workrecord/coin_sparkle.gif" class="coin"
+							onclick="playCoin(); addCoin();"></td>
+						<td id="headRight"><input value="ログアウト" type="button"
+							class="smallButton" onclick="logoutWithSound()" /></td>
+					</tr>
+				</table>
+			</div>
 
-              <td style="width: 70px; text-align: center; box-sizing: border-box;">
-                <span th:text="${workRecordInput.symbol}"></span>
-              </td>
-              <td style="width: 100px; text-align: center; box-sizing: border-box;">
-                <input type="text" th:field="*{WorkRecordInputList[__${iterStat.index}__].startTime}"
-                  style="width: 90px;" />
-              </td>
-              <td style="width: 100px; text-align: center; box-sizing: border-box;">
-                <input type="text" th:field="*{WorkRecordInputList[__${iterStat.index}__].endTime}"
-                  style="width: 90px;" />
-              </td>
-              <td style="width: 100px; text-align: center; box-sizing: border-box;">
-                <input type="text" th:field="*{WorkRecordInputList[__${iterStat.index}__].breakTime}"
-                  style="width: 90px;" />
-              </td>
-              <td style="width: 100px; text-align: center; box-sizing: border-box;">
-                <span th:text="${workRecordInput.actualWorkTime}"></span>
-              </td>
-              <td style="width: 100px; text-align: center; box-sizing: border-box;">
-                <span th:text="${workRecordInput.overTime}"></span>
-              </td>
-              <td style="width: 100px; text-align: center; box-sizing: border-box;">
-                <span th:text="${workRecordInput.holidayTime}"></span>
-              </td>
-              <td style="width: 250px; text-align: center; box-sizing: border-box;">
-                <input type="text" th:field="*{WorkRecordInputList[__${iterStat.index}__].remark}"
-                  style="width: 240px;" />
-              </td>
-              <input type="hidden" th:field="*{WorkRecordInputList[__${iterStat.index}__].workDay}" />
-              <input type="hidden" th:field="*{WorkRecordInputList[__${iterStat.index}__].employeeId}" />
-              <input type="hidden" th:field="*{WorkRecordInputList[__${iterStat.index}__].startTimeShift}" />
-              <input type="hidden" th:field="*{WorkRecordInputList[__${iterStat.index}__].breakTimeShift}" />
-              <input type="hidden" th:field="*{WorkRecordInputList[__${iterStat.index}__].endTimeShift}" />
-              <input type="hidden" th:field="*{WorkRecordInputList[__${iterStat.index}__].workDayDisp}" />
-              <input type="hidden" th:field="*{WorkRecordInputList[__${iterStat.index}__].weekDay}" />
-              <input type="hidden" th:field="*{WorkRecordInputList[__${iterStat.index}__].symbol}" />
-              <input type="hidden" th:field="*{WorkRecordInputList[__${iterStat.index}__].actualWorkTime}" />
-              <input type="hidden" th:field="*{WorkRecordInputList[__${iterStat.index}__].overTime}" />
-              <input type="hidden" th:field="*{WorkRecordInputList[__${iterStat.index}__].holidayTime}" />
-            </tr>
-          </tbody>
-        </table>
-      </div>
+			<div id="businessBody">
+				<form action="/kikin/workRecordInput/search" method="post"
+					th:object="${workRecordInputForm}">
+					<label>表示年月：</label> <select name="yearMonth" id="yearMonth">
+						<option th:each="entry : ${yearMonthCmbMap.entrySet()}"
+							th:text="${entry.value}" th:value="${entry.key}"
+							th:selected="${entry.key == workRecordInputForm.yearMonth}">
+						</option>
+					</select> <input value="検索" type="submit" />
+					<div style="float: right; width: 300px; text-align: center;">
+						社員ID <span th:text="${loginUserDto.employeeId}"></span> ：社員名 <span
+							th:text="${loginUserDto.employeeName}"></span>
+					</div>
+				</form>
+			</div>
 
-      <div id="footer">
-        <table>
-          <tr>
-            <td id="footLeft">
+			<div id="businessBody" style="justify-content: center;">
+				<!-- ★ form はここで開始 -->
+				<form action="/kikin/workRecordInput/regist" id="registForm"
+					method="post" th:object="${workRecordInputForm}">
+					<div class="tableWrapper">
+						<div class="tableScroll">
 
-            </td>
-            <td id="footCenter">
+							<table class="overflowFixed">
+								<tr>
+									<th class="col-day">日付</th>
+									<th class="col-week">曜日</th>
+									<th class="col-shift">シフト</th>
+									<th class="col-start">開始時刻</th>
+									<th class="col-end">終了時刻</th>
+									<th class="col-break">休憩</th>
+									<th class="col-work">実働時間</th>
+									<th class="col-over">時間外</th>
+									<th class="col-holiday">休日</th>
+									<th class="col-remark">備考</th>
 
-            </td>
-            <td id="footRight">
-              <input value="登録" type="submit" form="registForm" class="smallButton" onclick="register(event)"/>
-            </td>
-          </tr>
-        </table>
-      </form>
-    </div>
+								</tr>
+								<tr
+									th:each="workRecordInput, iterStat : ${workRecordInputForm.workRecordInputList}"
+									class="list">
+									<td class="col-day"><span
+										th:text="${workRecordInput.workDayDisp}"></span></td>
 
-  </div>
+									<td class="col-week"
+										th:classappend="${workRecordInput.weekDay == '土' ? 'fontBlue' :
+                            (workRecordInput.weekDay == '日' or workRecordInput.publicHolidayFlg)
+                             ? 'fontRed' : 'fontBlack'}">
+										<span th:text="${workRecordInput.weekDay}"></span>
+									</td>
+
+									<td class="col-shift"><span
+										th:text="${workRecordInput.symbol}"></span></td>
+
+									<td class="col-start"><input type="text"
+										th:field="*{WorkRecordInputList[__${iterStat.index}__].startTime}" /></td>
+
+									<td class="col-end"><input type="text"
+										th:field="*{WorkRecordInputList[__${iterStat.index}__].endTime}" /></td>
+
+									<td class="col-break"><input type="text"
+										th:field="*{WorkRecordInputList[__${iterStat.index}__].breakTime}" /></td>
+
+									<td style="text-align: center;"><span
+										th:text="${workRecordInput.actualWorkTime}"></span></td>
+
+									<td style="text-align: center;"><span
+										th:text="${workRecordInput.overTime}"></span></td>
+
+									<td style="text-align: center;"><span
+										th:text="${workRecordInput.holidayTime}"></span></td>
+
+
+									<td class="col-remark"><input type="text"
+										th:field="*{WorkRecordInputList[__${iterStat.index}__].remark}" />
+
+										<!-- hidden fields（そのまま） --> <input type="hidden"
+										th:field="*{WorkRecordInputList[__${iterStat.index}__].workDay}" />
+										<input type="hidden"
+										th:field="*{WorkRecordInputList[__${iterStat.index}__].employeeId}" />
+										<input type="hidden"
+										th:field="*{WorkRecordInputList[__${iterStat.index}__].startTimeShift}" />
+										<input type="hidden"
+										th:field="*{WorkRecordInputList[__${iterStat.index}__].breakTimeShift}" />
+										<input type="hidden"
+										th:field="*{WorkRecordInputList[__${iterStat.index}__].endTimeShift}" />
+										<input type="hidden"
+										th:field="*{WorkRecordInputList[__${iterStat.index}__].workDayDisp}" />
+										<input type="hidden"
+										th:field="*{WorkRecordInputList[__${iterStat.index}__].weekDay}" />
+										<input type="hidden"
+										th:field="*{WorkRecordInputList[__${iterStat.index}__].symbol}" />
+										<input type="hidden"
+										th:field="*{WorkRecordInputList[__${iterStat.index}__].actualWorkTime}" />
+										<input type="hidden"
+										th:field="*{WorkRecordInputList[__${iterStat.index}__].overTime}" />
+										<input type="hidden"
+										th:field="*{WorkRecordInputList[__${iterStat.index}__].holidayTime}" />
+									</td>
+								</tr>
+								</tbody>
+
+							</table>
+						</div>
+					</div>
+					<div id="footer">
+						<div id="coin-counter">
+							<img src="/img/workrecord/coin_sparkle.gif" class="coin small">
+							<span id="coinCount">×00</span>
+						</div>
+
+						<button id="registButton" type="button" class="smallButton"
+							onclick="register(event)">登録</button>
+					</div>
+
+				</form>
+				<!-- ★ form 閉じタグはここが正しい -->
+
+			</div>
+			<!-- businessBody -->
+
+		</div>
+		<!-- wrapper -->
+
+	</div>
+	<!-- famicom-theme -->
 </body>
 
+<!-- ここが body の最終行付近 -->
+<script>
+	/**
+	 * 登録へ
+	 */
+	function register(event) {
+		if (event) {
+			event.preventDefault();
+		}
+
+		// 一覧のサイズ
+		var row = document.querySelectorAll(".list");
+		var listSize = row.length;
+
+		var startTimeErrMsg = '';
+		var endTimeErrMsg = '';
+		var breakTimeErrMsg = '';
+		var fromToErrMsg = '';
+		var errorMsg = '';
+
+		with (document.forms['registForm'].elements) {
+
+			for (var i = 0; i < listSize; i++) {
+
+				var startTimeInput = document
+						.querySelector('#WorkRecordInputList' + i
+								+ '\\.startTime');
+				var startTimeValue = startTimeInput.value;
+
+				var endTimeInput = document
+						.querySelector('#WorkRecordInputList' + i
+								+ '\\.endTime');
+				var endTimeValue = endTimeInput.value;
+
+				var breakTimeInput = document
+						.querySelector('#WorkRecordInputList' + i
+								+ '\\.breakTime');
+				var breakTimeValue = breakTimeInput.value;
+
+				startTimeInput.style.backgroundColor = 'white';
+				endTimeInput.style.backgroundColor = 'white';
+				breakTimeInput.style.backgroundColor = 'white';
+
+				if (startTimeValue === "" && endTimeValue === ""
+						&& breakTimeValue === "") {
+					continue;
+				}
+
+				if (!startTimeErrMsg) {
+					if (!checkTime(startTimeValue)) {
+						var strArr = [ '開始時間' ];
+						startTimeErrMsg = getMessage('E-MSG-000004', strArr);
+						startTimeInput.style.backgroundColor = 'red';
+					}
+				}
+
+				if (!endTimeErrMsg) {
+					if (!checkTime(endTimeValue)) {
+						var strArr = [ '終了時間' ];
+						endTimeErrMsg = getMessage('E-MSG-000004', strArr);
+						endTimeInput.style.backgroundColor = 'red';
+					}
+				}
+
+				if (!breakTimeErrMsg) {
+					if (!checkTime(breakTimeValue)) {
+						var strArr = [ '休憩時間' ];
+						breakTimeErrMsg = getMessage('E-MSG-000004', strArr);
+						breakTimeInput.style.backgroundColor = 'red';
+					}
+				}
+
+				if (!checkTimeCompare(startTimeValue, endTimeValue)) {
+					if (checkTime(startTimeValue) && checkTime(endTimeValue)) {
+						fromToErrMsg = getMessageCodeOnly('E-MSG-000005');
+						startTimeInput.style.backgroundColor = 'red';
+						endTimeInput.style.backgroundColor = 'red';
+					}
+				}
+			}
+		}
+
+		errorMsg = startTimeErrMsg + endTimeErrMsg + breakTimeErrMsg
+				+ fromToErrMsg;
+
+		if (errorMsg) {
+		    // ★ マリオ死亡音
+		    sound.death.pause();
+		    sound.death.currentTime = 0;
+		    sound.death.play();
+
+		    alert(errorMsg);
+		    return false;
+		}
+		
+		sound.oneUp.pause();
+		sound.oneUp.currentTime = 0;
+		sound.oneUp.play();
+
+		setTimeout(() => {
+		    document.getElementById("registForm").submit();
+		}, 900); // ← 1UP音をしっかり聞かせる
+		
+	}
+	
+	
+
+	
+	/* =========================================================
+	 * 定数
+	 * ========================================================= */
+	const COIN_KEY = "workrecord_coin";
+	const MAX_COIN = 10;
+
+	/* =========================================================
+	 * 効果音
+	 * ========================================================= */
+	const sound = {
+	    coin: new Audio("/sound/workrecord/coin.mp3"),
+	    jump: new Audio("/sound/workrecord/jump.mp3"),
+	    dokan: new Audio("/sound/workrecord/dokan.mp3"),
+	    oneUp: new Audio("/sound/workrecord/1up.mp3"),
+		death: new Audio("/sound/workrecord/marioIsDeath.mp3")
+	};
+
+	Object.values(sound).forEach(s => s.volume = 0.8);
+
+	/* =========================================================
+	 * コイン管理
+	 * ========================================================= */
+	let coinCount = Number(sessionStorage.getItem(COIN_KEY)) || 0;
+	updateCoinView();
+
+	function addCoin() {
+	    coinCount++;
+
+	    if (coinCount >= MAX_COIN) {
+	        sound.oneUp.currentTime = 0;
+	        sound.oneUp.play();
+	        coinCount = 0;
+	    }
+
+	    sessionStorage.setItem(COIN_KEY, coinCount);
+	    updateCoinView();
+	    animateCoin();
+	}
+
+	function updateCoinView() {
+	    document.getElementById("coinCount").textContent =
+	        "×" + String(coinCount).padStart(2, "0");
+	}
+
+	function animateCoin() {
+	    const counter = document.getElementById("coinCount");
+	    counter.classList.add("coin-pop");
+	    setTimeout(() => counter.classList.remove("coin-pop"), 200);
+	}
+
+	/* =========================================================
+	 * 効果音ラッパー
+	 * ========================================================= */
+	function playCoin()  { sound.coin.currentTime = 0;  sound.coin.play(); }
+	function playJump()  { sound.jump.currentTime = 0;  sound.jump.play(); }
+	function playDokan() { sound.dokan.currentTime = 0; sound.dokan.play(); }
+
+	/* =========================================================
+	 * 画面遷移
+	 * ========================================================= */
+	function goBackWithSound(form) {
+	    sessionStorage.removeItem(COIN_KEY);
+	    playJump();
+	    setTimeout(() => form.submit(), 800);
+	    return false;
+	}
+
+	function logoutWithSound() {
+	    sessionStorage.removeItem(COIN_KEY);
+	    playDokan();
+	    setTimeout(() => logout(), 800);
+	}
+
+	function playOneUp() {
+	    sound.oneUp.pause();       // ★ ここ
+	    sound.oneUp.currentTime = 0;
+	    sound.oneUp.play();
+	}
+
+	function playOneUpAndSubmit(event) {
+	    event.preventDefault();
+
+	    sound.oneUp.pause();
+	    sound.oneUp.currentTime = 0;
+	    sound.oneUp.play();
+
+	    // ★ 1UP音を聞かせる時間
+	    setTimeout(() => {
+	        document.getElementById("registForm").submit();
+	    }, 800); // ← 好みで 600〜1200ms
+	}
+
+	
+	</script>
 </html>
