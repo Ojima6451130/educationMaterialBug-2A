@@ -24,6 +24,9 @@ public class LoginDto {
     private String employeeNameKana;
     // 権限ID
     private String authorityId;
+    // ログイン者アイコン
+    private String icon;
+
 
 	public String getEmployeeId() {
 		return employeeId;

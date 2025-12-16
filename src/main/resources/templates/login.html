@@ -2,34 +2,84 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>Switch Login</title>
+<title>勤怠管理アプリ ログイン</title>
 <link rel="stylesheet" th:href="@{/css/login.css}">
+<link
+	href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600&display=swap"
+	rel="stylesheet">
+<link
+	href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600&family=Inter:wght@400;500;600&display=swap"
+	rel="stylesheet">
+<link
+	href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700&display=swap"
+	rel="stylesheet">
+<link
+	href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
+	rel="stylesheet">
+<link
+	href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap"
+	rel="stylesheet">
+<link
+	href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700&display=swap"
+	rel="stylesheet">
+<link
+	href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap"
+	rel="stylesheet">
+<link
+	href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=M+PLUS+Rounded+1c:wght@300;400;500;700&display=swap"
+	rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link
+	href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wght@6..144,1..1000&display=swap"
+	rel="stylesheet">
+<link rel="icon" href="/img/switch_icon2.jpg">
 </head>
 <body>
+<body>
 
-	<!-- ホワイトフラッシュ -->
-	<div id="flash"></div>
+  <!-- ホワイトフラッシュ -->
+  <div id="flash"></div>
 
-	<div class="login-wrapper">
+  <div class="login-wrapper">
 
-		<!-- Switch本体（ふわふわ + 傾き） -->
-		<div class="switch-wrapper" id="switch">
-			<img src="/img/switch_console.png" class="switch-img">
+    <!-- Switch本体（ふわふわ + 傾き） -->
+    <div class="switch-wrapper" id="switch">
+      <img src="/img/switch_console.png" class="switch-img">
 
+      <!-- 中央UI -->
+      <div class="lock-center">
+
+        <!-- HOMEアイコン -->
+        <div class="home-circle">
+          <img src="/img/home_icon.png" alt="HOME">
+        </div>
+
+
+        <!-- ログインフォーム -->
+        <form action="/kikin/dologin" method="post"
+              id="loginForm" class="login-box">
+
+          <input type="text" name="employeeId" placeholder="社員番号">
+          <input type="password" name="password" placeholder="パスワード">
 			
-			<!-- ログインフォーム -->
-			<form action="/kikin/dologin" method="post" id="loginForm" class="login-box">
-				<input type="text" name="employeeId" placeholder="社員番号"> <input
-					type="password" name="password" placeholder="パスワード">
-					
-				<button type="submit" id="loginButton">Login</button>
-				<button type="reset" id="loginButton">Reset</button>
-			</form>
-
+		<!-- Joy-Con（右） -->
+		<div class="joycon joycon-right">
+		  <button class="joy-btn btn-a" data-action="login" type="submit"></button>
+		  <button class="joy-btn btn-b" type="reset"></button>
 		</div>
-	</div>
-	
+		
+          <button type="submit" id="loginButton" data-action="login"><span class="btn-icon invert-btn">A</span>はじめる</button>
+          <button type="reset" class="reset-btn"><span class="btn-icon resett-btn">B</span>リセット</button>
+        
+        </form>
 
-	<script src="/js/login.js"></script>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/login.js"></script>
+</body>
+
 </body>
 </html>
