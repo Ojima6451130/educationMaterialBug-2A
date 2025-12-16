@@ -13,7 +13,14 @@
 <meta http-equiv="Cache-Control" content="no-cache">
 <meta http-equiv="Expires" content="Thu, 01 Dec 1994 16:00:00 GMT">
 <title>月別シフト入力画面</title>
-<link rel="stylesheet" media="all" th:href="@{/css/common.css}" />
+<link rel="stylesheet" media="all"
+	th:href="@{/css/monthlyShiftInput.css}" />
+<link
+	href="https://fonts.googleapis.com/css2?family=Kosugi+Maru&display=swap"
+	rel="stylesheet">
+
+
+<link rel="icon" href="/img/monthlyShiftInput/pikumin4.png">
 <script type="text/javascript" th:src="@{/js/common.js}"></script>
 <script type="text/javascript" th:src="@{/js/message.js}"></script>
 <style>
@@ -25,6 +32,10 @@
 </head>
 
 <body>
+	<!-- 背景動画 -->
+	<video id="bg-video" autoplay muted loop playsinline>
+		<source src="/video/pikumin.mp4" type="video/mp4">
+	</video>
 	<div id="wrapper">
 		<div id="header">
 			<table class="centered-container">
@@ -424,14 +435,15 @@
 					<td id="footRight"><input type="hidden" name="countPage"
 						th:value="${monthlyShiftInputForm.countPage}" /> <input
 						type="hidden" name="offset"
-						th:value="${monthlyShiftInputForm.offset}" /> <input
-						value="登録" type="submit" class="smallButton"
+						th:value="${monthlyShiftInputForm.offset}" /> <input value="登録"
+						type="submit" class="smallButton"
 						formaction="/kikin/monthlyShiftInput/regist" /></td>
 				</tr>
 			</table>
 		</div>
 		</form>
 	</div>
+	<img class="pikumin">
 	<script>
 		function openWindow() {
 			// 新しいウィンドウを開く
@@ -442,7 +454,107 @@
 							"menubar=no, toolbar=no, scrollbars=auto, resizable=yes, width=520px, height=650px");
 
 		}
+		
+		
+		const PIKUMIN_COUNT = 80;
+
+		const pikuminImages = [
+			"/img/monthlyShiftInput/pikumin_red.png",
+			"/img/monthlyShiftInput/pikumin_blue.png",
+			"/img/monthlyShiftInput/pikumin_yellow.png",
+			"/img/monthlyShiftInput/pikumin_rock.png",
+			"/img/monthlyShiftInput/pikumin_feather.png",
+			"/img/monthlyShiftInput/pikumin_white.png",
+			"/img/monthlyShiftInput/pikumin_purple.png",
+			"/img/monthlyShiftInput/pikumin_ice.png"
+		];
+
+		const pikumins = [];
+		let mouseX = window.innerWidth / 2;
+		let mouseY = window.innerHeight / 2;
+
+		let lastMoveTime = Date.now();
+		const STOP_TIME = 600; // ms
+		const CIRCLE_RADIUS = 80;
+
+		const CURSOR_OFFSET_X = -30;
+		const CURSOR_OFFSET_Y = -25;
+
+		document.addEventListener("mousemove", e => {
+		    mouseX = e.clientX + CURSOR_OFFSET_X;
+		    mouseY = e.clientY + CURSOR_OFFSET_Y;
+		    lastMoveTime = Date.now();
+		});
+
+
+		for (let i = 0; i < PIKUMIN_COUNT; i++) {
+			const p = document.createElement("img");
+
+			p.src = pikuminImages[Math.floor(Math.random() * pikuminImages.length)];
+			p.className = "pikumin pikumin-walk";
+			p.style.position = "fixed";
+
+			
+
+			document.body.appendChild(p);
+
+			pikumins.push({
+				  el: p,
+				  x: Math.random() * window.innerWidth,
+				  y: Math.random() * window.innerHeight,
+
+				  speed: 0.008 + Math.random() * 0.012,        // 通常追従
+				  gatherSpeed: 0.016 + Math.random() * 0.024,  // 集合（個体差大）
+
+				  angle: (Math.PI * 2 / PIKUMIN_COUNT) * i,
+
+				  wobble: Math.random() * Math.PI * 2,       // ルート用
+				  wobbleSpeed: 0.02 + Math.random() * 0.04   // 揺れ速度
+				});
+
+		}
+
+		function animate() {
+
+			  // マウスが止まっているか判定
+			  const stopped = Date.now() - lastMoveTime > STOP_TIME;
+
+			  pikumins.forEach(p => {
+
+			    // ===== 目標位置 =====
+			    let targetX = mouseX;
+			    let targetY = mouseY;
+
+			    // マウス停止 → 円形集合
+			    if (stopped) {
+			      targetX += Math.cos(p.angle) * CIRCLE_RADIUS;
+			      targetY += Math.sin(p.angle) * CIRCLE_RADIUS;
+			    }
+
+			    // ===== スピード（個体差）=====
+			    const moveSpeed = stopped ? p.gatherSpeed : p.speed;
+
+			    // ===== ルートの揺らぎ =====
+			    p.wobble += p.wobbleSpeed;
+			    const offsetX = Math.cos(p.wobble) * 12;
+			    const offsetY = Math.sin(p.wobble) * 12;
+
+			    // ===== 移動 =====
+			    p.x += (targetX + offsetX - p.x) * moveSpeed;
+			    p.y += (targetY + offsetY - p.y) * moveSpeed;
+
+			    p.el.style.left = p.x + "px";
+			    p.el.style.top  = p.y + "px";
+			  });
+
+			  requestAnimationFrame(animate);
+			}
+
+
+
+		animate();
 	</script>
+
 </body>
 
 </html>

@@ -6,7 +6,10 @@
 <meta http-equiv="Cache-Control" content="no-cache">
 <meta http-equiv="Expires" content="Thu, 01 Dec 1994 16:00:00 GMT">
 <title>月別シフト確認画面</title>
-<link rel="stylesheet" media="all" th:href="@{/css/common.css}" />
+<link rel="stylesheet" media="all" th:href="@{/css/monthlyShiftCheck.css}" />
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<link rel="icon" href="/img/monthlyShiftCheck/street_fighter2.png">
+
 <script type="text/javascript" th:src="@{/js/common.js}"></script>
 <script type="text/javascript" th:src="@{/js/message.js}"></script>
 </head>
@@ -48,7 +51,7 @@
 					th:text="${monthlyShiftCheckForm.maxPage}"></span>
 			</form>
 		</div>
-		<div id="businessBody" style="overflow-x: hidden; overflow-y: hidden;">
+		<div id="businessBody">
 			<table class="daysTable">
 				<thead style="display: block; position: sticky;">
 					<tr class="tableHeader">
@@ -75,7 +78,7 @@
 					</tr>
 				</thead>
 				<tbody
-					style="display: block; max-height: 400px; height: 490px; overflow-y: scroll;">
+					style="display: block; max-height: 400px; height: 490px;">
 					<tr th:each="monthlyShiftCheck : ${monthlyShiftCheckBean}"
 						class="tableBody">
 						<td class="tableBody" style="width: 150px; text-align: center;">
@@ -168,6 +171,132 @@
 			</table>
 		</div>
 	</div>
+	
+
+<div class="character-bar">
+    <img id="ryu" src="/img/monthlyShiftCheck/ryu.png" alt="キャラ1">
+    <img src="/img/monthlyShiftCheck/ken.png" alt="キャラ2">
+    <img src="/img/monthlyShiftCheck/edomondo.png" alt="キャラ3">
+    <img src="/img/monthlyShiftCheck/cyunri.png" alt="キャラ4">
+    <img src="/img/monthlyShiftCheck/buranka.png" alt="キャラ5">
+    <img src="/img/monthlyShiftCheck/zangiefu.png" alt="キャラ6">
+    <img src="/img/monthlyShiftCheck/gairu.png" alt="キャラ7">
+    <img src="/img/monthlyShiftCheck/darushimu.png" alt="キャラ8">
+</div>
+	
+	<script>
+
+	// ====== 状態管理 ======
+	let commandMode = false;      // コマンド受付中？
+	let hadokenMode = false;      // 波動拳モード？
+	let commandSequence = [];     // 入力履歴
+
+	// ====== リュウをクリックでコマンド受付開始 ======
+	document.getElementById("ryu").addEventListener("click", () => {
+	    commandMode = true;
+	    hadokenMode = false;
+	    commandSequence = [];
+
+	    
+	    alert("波動拳のコマンドを入力してください！");
+	});
+
+	// ====== キーボードのコマンド判定 ======
+	document.addEventListener("keydown", (e) => {
+
+    if (!commandMode) return;
+
+    // 下 or 右 を押したら記録
+    if (e.key === "ArrowDown" || e.key === "ArrowRight") {
+        commandSequence.push(e.key);
+    }
+
+    // P を押した瞬間に ↓ → が揃ってるか確認
+    if (e.key === "p" || e.key === "P") {
+        const seq = commandSequence.join(",");
+
+        // ↓ → の順で入力されていれば成功
+        if (seq === "ArrowDown,ArrowRight") {
+            activateHadoken();
+        }else {
+            failHadoken();   
+        }
+
+        // 成否にかかわらずコマンドリセット
+        commandSequence = [];
+    }
+
+});
+
+
+	// ====== 波動拳発動 ======
+	function activateHadoken() {
+	    
+
+	    commandMode = false;
+	    hadokenMode = true;
+	    
+	    
+
+	    // マウスカーソルを波動拳に変更
+	    document.body.style.cursor = "url('/img/Hadoken.png') 16 16, auto";
+
+	    alert("波動拳！シフトをクリックすると削除できます！");
+	}
+	
+	function failHadoken() {
+	    
+
+	    commandMode = false;
+
+	    alert("コマンド入力失敗！連帯責任で誰かのシフトが増えます！");
+
+	    addRandomShift();
+	}
+
+	function addRandomShift() {
+	    // シフトセルを全部取得
+	    const cells = Array.from(document.querySelectorAll(".tableBody"))
+	        .filter(cell => cell.textContent.trim() === "");
+
+	    // 空きがなければ何もしない
+	    if (cells.length === 0) return;
+
+	    // ランダムに1セル選択
+	    const target = cells[Math.floor(Math.random() * cells.length)];
+
+	    // シフト追加
+	    target.textContent = "日";  // ← 好きな記号にしてOK
+	    target.style.backgroundColor = "#FFCCCC";
+
+	    
+	}
+
+	
+
+	// ====== セルクリック時の削除処理 ======
+	document.addEventListener("click", (e) => {
+
+	    if (!hadokenMode) return;
+
+	    // シフトセル以外では反応しない
+	    if (!e.target.classList.contains("tableBody")) return;
+
+	    // セル内容削除
+	    e.target.textContent = "";
+	    e.target.style.backgroundColor = "lightblue";
+
+	    
+
+	    // 波動拳モード終了 ＆ カーソルを戻す
+	    hadokenMode = false;
+	    document.body.style.cursor = "auto";
+
+	    alert("シフトを削除しました！");
+	});
+
+
+</script>
 </body>
 
 </html>
