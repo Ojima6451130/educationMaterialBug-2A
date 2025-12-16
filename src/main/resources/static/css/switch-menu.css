@@ -83,8 +83,8 @@ body {
     height: 60px;
     border-radius: 50%;
     object-fit: cover;
-    border: 3.5px solid #3af0dc;
-    box-shadow: 0 0 5px rgba(56, 220, 211, 0.8);
+    border: 5px solid #3af0dc;
+    box-shadow: 0 0 1px rgba(56, 220, 211, 0.8);
 }
 
 .user-name {
