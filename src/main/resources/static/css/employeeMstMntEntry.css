@@ -1,0 +1,196 @@
+/* ==========================
+   参戦カットイン全体
+   ========================== */
+#entryOverlay {
+  position: fixed;
+  inset: 0;
+  background: black;
+  z-index: 99999;
+
+  /* ★ 初期は暗い */
+  opacity: 0.5;
+  transition: opacity 0.15s ease-out;
+}
+
+#entryOverlay.show {
+  opacity: 1;
+}
+
+.entry-cutin {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* ==========================
+   青い斜め帯（細 → 太）
+   ========================== */
+.entry-band {
+  position: absolute;
+  top: 50%;
+  left: -10%;
+  width: 120%;
+  height: 80%;
+
+  background:
+    /* 中央上部の光 */
+    radial-gradient(
+      circle at 50% 18%,
+      rgba(255,255,255,0.6) 0%,
+      rgba(255,255,255,0.35) 18%,
+      rgba(255,255,255,0.15) 35%,
+      rgba(255,255,255,0) 60%
+    ),
+    linear-gradient(
+      135deg,
+      #1e90ff,
+      #0050c8
+    );
+
+  transform:
+    translateY(-50%)
+    rotate(-6deg)
+    scaleY(0.6);
+
+  opacity: 0;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+}
+
+#entryOverlay.show .entry-band {
+  animation: band-grow 0.15s ease-out forwards;
+}
+
+@keyframes band-grow {
+  from {
+    opacity: 0;
+    transform:
+      translateY(-50%)
+      rotate(-6deg)
+      scaleY(0.6);
+  }
+  to {
+    opacity: 1;
+    transform:
+      translateY(-50%)
+      rotate(-6deg)
+      scaleY(1);
+  }
+}
+
+/* ==========================
+   テキスト（大→縮みつつ出現）
+   ========================== */
+.entry-text {
+  position: absolute;
+  left: 6%;
+  top: 70%;
+  transform-origin: left center;
+
+  font-family: "Bebas Neue", sans-serif;
+  z-index: 10;
+  line-height: 0.95;
+
+  opacity: 0;
+  transform:
+    translateY(-50%)
+    scale(1.35)
+    perspective(900px)
+    rotateY(20deg)
+    skewX(-8deg);
+
+  text-shadow: -12px 12px 0 rgba(0,0,0,0.85);
+}
+
+#entryOverlay.show .entry-text {
+  animation: text-pop 0.35s cubic-bezier(.2,1.6,.4,1) forwards;
+}
+
+@keyframes text-pop {
+  0% {
+    opacity: 0;
+    transform:
+      translateY(-50%)
+      scale(1.35)
+      perspective(900px)
+      rotateY(20deg)
+      skewX(-8deg);
+  }
+  100% {
+    opacity: 1;
+    transform:
+      translateY(-50%)
+      scale(1)
+      perspective(900px)
+      rotateY(12deg)
+      skewX(-6deg);
+  }
+}
+
+/* 社員名 */
+.entry-name {
+  font-size: 160px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  color: #fff;
+}
+
+/* 参戦!! */
+.entry-join {
+  font-size: 120px;
+  font-weight: 900;
+  letter-spacing: 4px;
+  color: #ff9800;
+}
+
+
+.entry-character {
+  position: absolute;
+  right: 6%;
+  bottom: 0;
+  height: 100%;
+  z-index: 5;
+
+  opacity: 0;
+  transform-origin: center bottom;
+
+  filter: drop-shadow(0 20px 30px rgba(0,0,0,0.8));
+}
+
+/* ★ 拡大 → 左へスライド */
+#entryOverlay.show .entry-character {
+  animation:
+    character-grow 0.15s cubic-bezier(.2,1.6,.4,1) forwards,
+    character-slide-left 2.35s cubic-bezier(.2,.8,.3,1) forwards;
+  animation-delay:
+    0s,
+    0.15s; /* ← 拡大が終わってからスライド */
+}
+
+/* ==========================
+   拡大アニメーション
+   ========================== */
+@keyframes character-grow {
+  0% {
+    opacity: 0;
+    transform: scale(0.70) translateX(0);
+    filter: brightness(0);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateX(0);
+    filter: brightness(1);
+  }
+}
+
+/* ==========================
+   左へじわっとスライド
+   ========================== */
+@keyframes character-slide-left {
+  from {
+    transform: scale(1) translateX(0);
+  }
+  to {
+    transform: scale(1) translateX(-10px); /* ← 調整ポイント */
+  }
+}
