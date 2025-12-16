@@ -61,6 +61,7 @@
       th:src="@{'/img/employee/' + ${nextEmployeeNo} + '.png'}"
       alt="new challenger"
       class="challenger-silhouette"
+      onerror="this.onerror=null; this.src='/img/employee/default.png';"
     >
 
   </div>

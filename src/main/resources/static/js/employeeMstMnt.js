@@ -20,6 +20,9 @@ document.addEventListener("DOMContentLoaded", () => {
 	// employeeId → 画像ファイル名
 	function getImagePath(employeeId) {
 		const num = employeeId.replace("sh", "");
+		imgElement.onerror = () => {
+		    imgElement.src = "/img/employee/default.png";
+		  };
 		return `/img/employee/${num}.png`;
 	}
 
