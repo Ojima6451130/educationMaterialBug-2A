@@ -16,6 +16,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import jp.co.kikin.constant.CommonConstant;
 import jp.co.kikin.constant.RequestSessionNameConstant;
+import jp.co.kikin.dto.LoginUserDto;
+
 
 /**
  * 説明：メニュー画面コントローラ
@@ -32,6 +34,12 @@ public class MenuController {
             throws Exception {
         return view("init", session, request, model);
     }
+    
+    @RequestMapping("/logout")
+    public String logout(HttpSession session) {
+        session.invalidate(); // セッション破棄
+        return "redirect:/kikin/";
+    }
 
     /**
      * 画面情報取得処理.
@@ -42,14 +50,23 @@ public class MenuController {
      */
     private String view(String processType, HttpSession session, HttpServletRequest req, Model model) throws Exception {
 
-        // ログインユーザー情報セット
-        model.addAttribute("authority_id",
-                session.getAttribute(RequestSessionNameConstant.SESSION_CMN_LOGIN_USER_AUTHORITY_ID));
+        // ログインユーザー情報
+        LoginUserDto loginUser =
+            (LoginUserDto) session.getAttribute(
+                RequestSessionNameConstant.SESSION_CMN_LOGIN_USER_INFO
+            );
 
-        // 定数
+        model.addAttribute("loginUser", loginUser);
+
+        // 権限
+        model.addAttribute("authority_id",
+            session.getAttribute(RequestSessionNameConstant.SESSION_CMN_LOGIN_USER_AUTHORITY_ID));
+
         model.addAttribute("userAuthority", CommonConstant.Authority.USER.getId());
         model.addAttribute("adminAuthority", CommonConstant.Authority.ADMIN.getId());
 
         return "menu";
     }
+
+    
 }

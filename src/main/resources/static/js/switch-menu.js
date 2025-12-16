@@ -1,4 +1,26 @@
 // ===========================
+// ログイン直後はカーソル初期化（上下共通）
+// ===========================
+const params = new URLSearchParams(window.location.search);
+
+if (params.get("reset") === "1") {
+  localStorage.removeItem("menuIndex");
+  localStorage.removeItem("bottomIndex");
+
+  // URL をきれいに
+  history.replaceState(null, "", window.location.pathname);
+}
+
+
+
+// ===========================
+// 初回アクセス判定（menu 直アクセス時のみ index を消す）
+// ===========================
+if (!document.referrer.includes("/kikin")) {
+  localStorage.removeItem("menuIndex");
+}
+
+// ===========================
 // Switch ホームメニュー制御
 // ===========================
 
@@ -7,8 +29,23 @@ const menu = document.getElementById("menu");
 const cards = document.querySelectorAll(".app-card");
 const selectFrame = document.querySelector(".select-frame");
 
-let index = 0;
 menu._x = 0;
+
+let index = 0;
+const savedIndex = localStorage.getItem("menuIndex");
+if (savedIndex !== null) {
+  index = parseInt(savedIndex, 10);
+}
+
+let bottomIndex = 0;
+const savedBottomIndex = localStorage.getItem("bottomIndex");
+if (savedBottomIndex !== null) {
+  bottomIndex = parseInt(savedBottomIndex, 10);
+}
+
+const seDecide = new Audio("/sound/Nintendo_Switch_起動音.wav");
+seDecide.volume = 0.4;
+
 
 // フォーカス状態（true = 上段, false = 下段）
 let focusTop = true;
@@ -19,7 +56,6 @@ let focusTop = true;
 // ===========================
 const bottomItems = document.querySelectorAll(".system-icon");
 const bottomFrame = document.getElementById("bottomSelectFrame");
-let bottomIndex = 0;
 
 
 // ===========================
@@ -113,104 +149,18 @@ function updateBottomFrame() {
 // ===========================
 document.addEventListener("keydown", (e) => {
 
-    // ---------------------------
-    // HOME：中央に戻る
-    // ---------------------------
-    if (e.key === "h" || e.key === "H") {
-        index = Math.floor(cards.length / 2);
-        focusTop = true;
-        updateMenuPosition();
-        updateScale();
-        updateSelectFrame();
-        bottomFrame.style.opacity = 0;
-        return;
+  // スリープ中
+  if (isSleeping) {
+    if (e.key === "Escape") {
+      toggleSleep(); // 復帰
     }
+    return;
+  }
 
-
-    // ---------------------------
-    // 上段フォーカス
-    // ---------------------------
-    if (focusTop) {
-
-        if (e.key === "ArrowRight" && index < cards.length - 1) index++;
-        if (e.key === "ArrowLeft" && index > 0) index--;
-
-        updateMenuPosition();
-        updateScale();
-        updateSelectFrame();
-		showActiveTopTitle();
-
-		// ▼ 下段へ移動
-		if (e.key === "ArrowDown") {
-		    focusTop = false;
-
-		    // ★ 上段タイトルをすべて消す（これが必要）
-		    hideAllTopTitles();
-
-		    selectFrame.style.opacity = 0;
-		    updateBottomFrame();
-		    updateBottomHelp();
-		    return;
-		}
-
-
-        // ▼ Aボタン
-		if (e.key === "Enter") {
-		    const link = cards[index].querySelector("a");
-		    if (link) {
-		        const url = link.getAttribute("href");
-		        playLaunchAnimation(cards[index], url);
-		    }
-		}
-
-
-        return;
-    }
-
-
-    // ---------------------------
-    // 下段フォーカス
-    // ---------------------------
-    if (!focusTop) {
-
-        if (e.key === "ArrowRight" && bottomIndex < bottomItems.length - 1) bottomIndex++;
-        if (e.key === "ArrowLeft" && bottomIndex > 0) bottomIndex--;
-
-        updateBottomFrame();
-		updateBottomHelp(); 
-
-		// ▼ 上段へ戻る
-		if (e.key === "ArrowUp") {
-		    focusTop = true;
-
-		    // 下段 active を全て消す
-		    bottomItems.forEach(item => item.classList.remove("active"));
-
-		    // 選択中カードだけ active を復活
-		    cards.forEach((card, i) => {
-		        card.classList.toggle("active", i === index);
-		    });
-
-		    // ★ 選択中タイトルだけ復活させる
-		    showActiveTopTitle();
-
-		    bottomFrame.style.opacity = 0;
-		    updateSelectFrame();
-		    selectFrame.style.opacity = 1;
-		    updateBottomHelp();
-		    return;
-		}
-
-
-        // ▼ Aボタン
-		if (e.key === "Enter") {
-		    const url = bottomItems[bottomIndex].dataset.url; // href の代わりに data-url
-		    if (url) playLaunchAnimation(bottomItems[bottomIndex], url);
-		}
-
-        return;
-    }
+  handleInput(e.key);
 });
+
+
 
 
 // ===========================
@@ -230,15 +180,17 @@ function playLaunchAnimation(card, url) {
 // ===========================
 // カードのクリックもアニメにする
 // ===========================
-document.querySelectorAll(".app-card").forEach(card => {
-    card.addEventListener("click", (e) => {
-        e.preventDefault();
-        const link = card.querySelector("a");
-        if (link) {
-            const url = link.getAttribute("href");
-            playLaunchAnimation(card, url);
-        }
-    });
+
+document.querySelectorAll(".app-card").forEach((card, i) => {
+  card.addEventListener("click", (e) => {
+    e.preventDefault();
+
+    // ★ ここも保存
+    localStorage.setItem("menuIndex", i);
+
+    const link = card.querySelector("a");
+    if (link) playLaunchAnimation(card, link.href);
+  });
 });
 
 
@@ -283,5 +235,193 @@ function showActiveTopTitle() {
     });
 }
 
+function handleInput(key) {
+    // keydown の e.key と同じ値を渡す想定
+
+    // HOME
+    if (key === "h" || key === "H") {
+        index = Math.floor(cards.length / 2);
+        focusTop = true;
+        updateMenuPosition();
+        updateScale();
+        updateSelectFrame();
+        bottomFrame.style.opacity = 0;
+        updateBottomHelp();
+        return;
+    }
+
+    // ===========================
+    // 上段フォーカス
+    // ===========================
+    if (focusTop) {
+        if (key === "ArrowRight" && index < cards.length - 1) index++;
+        if (key === "ArrowLeft" && index > 0) index--;
+
+        updateMenuPosition();
+        updateScale();
+        updateSelectFrame();
+        showActiveTopTitle();
+
+        // 下段へ
+        if (key === "ArrowDown") {
+            focusTop = false;
+            hideAllTopTitles();
+            selectFrame.style.opacity = 0;
+            updateBottomFrame();
+            updateBottomHelp();
+            return;
+        }
+
+		if (key === "Enter") {
+
+		  // ★ 上段で遷移したことを明示
+		  localStorage.setItem("menuFocus", "top");
+		  localStorage.setItem("menuIndex", index);
+
+		  // ★ 下段の履歴は必ず消す
+		  localStorage.removeItem("bottomIndex");
 
 
+		  const link = cards[index].querySelector("a");
+		  if (link) playLaunchAnimation(cards[index], link.href);
+		}
+
+
+		
+
+        return;
+    }
+
+    // ===========================
+    // 下段フォーカス
+    // ===========================
+    if (!focusTop) {
+        if (key === "ArrowRight" && bottomIndex < bottomItems.length - 1) bottomIndex++;
+        if (key === "ArrowLeft" && bottomIndex > 0) bottomIndex--;
+
+        updateBottomFrame();
+        updateBottomHelp();
+
+        // 上段へ戻る
+        if (key === "ArrowUp") {
+            focusTop = true;
+            bottomItems.forEach(item => item.classList.remove("active"));
+            showActiveTopTitle();
+            bottomFrame.style.opacity = 0;
+            updateSelectFrame();
+            selectFrame.style.opacity = 1;
+            updateBottomHelp();
+            return;
+        }
+
+		if (key === "Enter") {
+		  const item = bottomItems[bottomIndex];
+
+		  // ★ 下段で遷移したことを保存
+		  localStorage.setItem("menuFocus", "bottom");
+		  localStorage.setItem("bottomIndex", bottomIndex);
+
+		  if (item.dataset.action === "sleep") {
+		    toggleSleep();
+		    return;
+		  }
+
+		  const url = item.dataset.url;
+		  if (url) playLaunchAnimation(item, url);
+		}
+
+
+
+    }
+}
+
+document.querySelectorAll(".joy-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+
+    // ★ HOMEボタン（ログアウト）
+    if (btn.dataset.action === "logout") {
+      logout();
+      return;
+    }
+
+    const key = btn.dataset.key;
+    handleInput(key);
+  });
+});
+
+
+window.addEventListener("pageshow", () => {
+
+  // ===== 共通リセット =====
+  isSleeping = false;
+
+  const overlay = document.getElementById("sleepOverlay");
+  if (overlay) overlay.classList.remove("active");
+
+  const flash = document.getElementById("flash");
+  if (flash) flash.style.opacity = 0;
+
+  // ===== 保存状態取得 =====
+  const focus = localStorage.getItem("menuFocus");
+
+  // ======================
+  // 上段復帰
+  // ======================
+  if (focus === "top" || focus === null) {
+
+    focusTop = true;
+
+    const savedIndex = localStorage.getItem("menuIndex");
+    if (savedIndex !== null) {
+      index = parseInt(savedIndex, 10);
+    }
+
+    bottomItems.forEach(i => i.classList.remove("active"));
+    bottomFrame.style.opacity = 0;
+
+    updateMenuPosition();
+    updateScale();
+    updateSelectFrame();
+    showActiveTopTitle();
+    selectFrame.style.opacity = 1;
+    updateBottomHelp();
+
+    return;
+  }
+})
+  // ======================
+  // 下段復帰
+  // ======================
+  if (focus === "bottom") {
+
+    focusTop = false;
+
+    const savedBottomIndex = localStorage.getItem("bottomIndex");
+    if (savedBottomIndex !== null) {
+      bottomIndex = parseInt(savedBottomIndex, 10);
+    }
+
+    hideAllTopTitles();
+    selectFrame.style.opacity = 0;
+
+    updateBottomFrame();
+    updateBottomHelp();
+  }
+
+
+
+
+
+
+
+// ===========================
+// ログアウト
+// ===========================
+	
+function logout() {
+  window.location.href = "/kikin/logout";
+  const flash = document.getElementById("flash");
+    if (flash) {
+      flash.style.opacity = 1;
+    }
+}

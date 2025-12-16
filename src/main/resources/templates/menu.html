@@ -33,68 +33,101 @@
 <link
 	href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wght@6..144,1..1000&display=swap"
 	rel="stylesheet">
+<link rel="icon" href="/img/switch_icon2.jpg">
 </head>
 
 <body>
+	<div class="joycon joycon-left">
+	
+	  <!-- ボタン（透明） -->
+	  <button class="joy-btn btn-a" data-key="Enter"></button>
+	  <button class="joy-btn btn-b" data-key="Escape"></button>
+	</div>
+	<div class="joycon joycon-right">
+	
+	  <!-- ボタン（透明） -->
+	  <button class="joy-btn btn-right" data-key="ArrowRight"></button>
+	  <button class="joy-btn btn-left" data-key="ArrowLeft"></button>
+	  <button class="joy-btn btn-up" data-key="ArrowUp"></button>
+	  <button class="joy-btn btn-down" data-key="ArrowDown"></button>
+	  
+	  <button class="joy-btn btn-home" data-action="logout"></button>
+	  
+	</div>
 
+	
 	<img src="/img/switch_console.png" class="switch-bg">
 
 
+	<!-- メニュー全体 -->
+	<div class="menu-wrapper">
+	
+	<!-- ログインユーザーアイコン -->
+	<div class="user-profile" th:if="${loginUser != null}">
+	   <img class="user-icon"
+							th:src="@{'/img/employee/' + ${#strings.substring(loginUser.employeeId, 2)} + '.png'}"
+							onerror="this.src='/img/employee/default.png'">
+	
+	   <span class="user-name"
+	         th:text="${loginUser.employeeName}">
+	   </span>
+	</div>
+
+	
 	<!-- 上部ステータス（時刻・バッテリー） -->
 	<div class="status-bar">
 
 		<span id="clock"></span>
+		<img src="/img/wifi.png" class="wifi">
 		<div id="battery">
 			<div id="battery-level"></div>
 		</div>
 	</div>
 
 
-	<!-- メニュー全体 -->
-	<div class="menu-wrapper">
-		<div id="menu">
+		<div class="menu" id="menu">
 
-			<div th:if="${authority_id == adminAuthority}" class="menu">
+			<div th:if="${authority_id == adminAuthority}" class="menu-inner">
 			<div class="select-frame"></div>
 
 
 				<div class="app-card">
 					<span class="app-title">月別シフト確認</span> <a
-						href="/kikin/monthlyShiftCheck"> <img src="/img/pokemon.jpg"
+						href="/kikin/monthlyShiftCheck"> <img src="/img/streetfighter2.jpg"
 						class="app-img">
 					</a>
 				</div>
 
 				<div class="app-card">
 					<span class="app-title">日別シフト確認</span> <a href="/kikin/dailyShift">
-						<img src="/img/atsumori.jpg" class="app-img">
+						<img src="/img/splatoon.jpg" class="app-img">
 					</a>
 				</div>
 
 				<div class="app-card">
 					<span class="app-title">勤務実績確認</span> <a
-						href="/kikin/workRecordCheck"> <img src="/img/draque.jpg"
+						href="/kikin/workRecordCheck"> <img src="/img/mother2.png"
 						class="app-img">
 					</a>
 				</div>
 
 				<div class="app-card">
 					<span class="app-title">勤務実績入力</span> <a
-						href="/kikin/workRecordInput"> <img src="/img/momotetsu.jpg"
+						href="/kikin/workRecordInput"> <img src="/img/supermario.png"
 						class="app-img">
 					</a>
 				</div>
 
 				<div class="app-card">
 					<span class="app-title">出席希望日確認</span> <a
-						href="/kikin/workDateRequestCheck"> <img src="/img/pikmin.jpg"
+						href="/kikin/workDateRequestCheck"> <img src="/img/atsumori.jpg"
 						class="app-img">
 					</a>
 				</div>
 
 				<div class="app-card">
 					<span class="app-title">月別シフト入力</span> <a
-						href="/kikin/monthlyShiftInput"> <img src="/img/splatoon.jpg"
+						href="/kikin/monthlyShiftInput"> <img src="/img/pikmin.jpg"
 						class="app-img">
 					</a>
 				</div>
@@ -108,40 +141,39 @@
 
 				<div class="app-card">
 					<span class="app-title">シフトマスタメンテナンス</span> <a
-						href="/kikin/shiftMstMnt"> <img src="/img/zeruda.jpg"
+						href="/kikin/shiftMstMnt"> <img src="/img/carby.jpg"
 						class="app-img">
 					</a>
 				</div>
 
 				<div class="app-card">
 					<span class="app-title">基本シフト登録</span> <a
-						href="/kikin/baseShiftInput"> <img src="/img/carby.jpg"
+						href="/kikin/baseShiftInput"> <img src="/img/zelda.jpg"
 						class="app-img">
 					</a>
 				</div>
 
-
 			</div>
-			<div th:if="${authority_id == userAuthority}" class="menu">
+			<div th:if="${authority_id == userAuthority}" class="menu-inner">
 						<div class="select-frame"></div>
 
 				<div class="app-card">
 					<span class="app-title">月別シフト確認</span> <a
-						href="/kikin/monthlyShiftCheck"> <img src="/img/pokemon.jpg"
+						href="/kikin/monthlyShiftCheck"> <img src="/img/streetfighter2.jpg.jpg"
 						class="app-img">
 					</a>
 				</div>
 
 				<div class="app-card">
 					<span class="app-title">日別シフト確認</span> <a href="/kikin/dailyShift">
-						<img src="/img/atsumori.jpg" class="app-img">
+						<img src="/img/splatoon.jpg" class="app-img">
 					</a>
 				</div>
 
 
 				<div class="app-card">
 					<span class="app-title">勤務実績入力</span> <a
-						href="/kikin/workRecordInput"> <img src="/img/momotetsu.jpg"
+						href="/kikin/workRecordInput"> <img src="/img/supermario.png"
 						class="app-img">
 					</a>
 				</div>
@@ -149,19 +181,18 @@
 				<div class="app-card">
 					<span class="app-title">出勤希望日入力</span> <a
 						href="/kikin/workDateRequestInput"> <img
-						src="/img/splatoon.jpg" class="app-img">
+						src="/img/momotetsu.jpg" class="app-img">
 					</a>
 				</div>
 
 				<div class="app-card">
 					<span class="app-title">基本シフト確認</span> <a
-						href="/kikin/BaseShiftCheck"> <img src="/img/sumabura.jpg"
+						href="/kikin/BaseShiftCheck"> <img src="/img/pokemon.jpg"
 						class="app-img">
 					</a>
 				</div>
 			</div>
 		</div>
-	</div>
 
 	<div class="bottom-bar-bg"></div>
 
@@ -170,10 +201,10 @@
 
 		<div class="bottom-select-frame" id="bottomSelectFrame"></div>
 
-		<div class="system-icon"  data-url="https://docs.google.com/spreadsheets/d/1rt4qp8b0rDMtVtNDRrfhqqFqjhRlKc88/edit?gid=705472983#gid=705472983">
+		<div class="system-icon"  data-url="https://www.nintendo.com/jp/topics/list">
 			<img src="/img/news.png"><span>ニュース</span>
 		</div>
-		<div class="system-icon"  data-url="/kikin/news">
+		<div class="system-icon"  data-url="https://store-jp.nintendo.com/?srsltid=AfmBOoqJdf9nXj65GEtYWTnG3i35XKqs0qoCSpFc2NngmB37xyJJsccn">
 			<img src="/img/store.png"><span>ストア</span>
 		</div>
 		<div class="system-icon">
@@ -185,9 +216,10 @@
 		<div class="system-icon">
 			<img src="/img/settings.png"><span>設定</span>
 		</div>
-		<div class="system-icon">
-			<img src="/img/power.png"><span>スリープ</span>
+		<div class="system-icon" data-action="sleep">
+ 			<img src="/img/power.png"><span>スリープ</span>
 		</div>
+
 	</div>
 
 	<div class="switch-left-icon">
@@ -204,9 +236,14 @@
 
 	<!-- ホワイトフラッシュ -->
 	<div id="flash"></div>
+	</div>
 
 	<!-- JS -->
 	<script src="/js/switch-menu.js"></script>
-
+	<div id="sleepOverlay">
+	</div>
+	
+	<audio id="se-cursor" src="/sound/Nintendo_Switch_起動音.wav" preload="auto"></audio>
+	
 </body>
 </html>
