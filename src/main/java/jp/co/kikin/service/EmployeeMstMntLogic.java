@@ -83,7 +83,7 @@ public class EmployeeMstMntLogic {
      * @param loginUserDto ログインユーザーDto
      * @author naraki
      */
-    public void registerM_employee(EmployeeMstMntDto employeeMstMntDto, LoginUserDto loginUserDto) throws Exception{
+    public String registerM_employee(EmployeeMstMntDto employeeMstMntDto, LoginUserDto loginUserDto) throws Exception{
 
         // 社員マスタDao
         EmployeeMstMntDao employeeMstMntDao = new EmployeeMstMntDao();
@@ -96,6 +96,8 @@ public class EmployeeMstMntLogic {
 
         // 登録
         employeeMstMntDao.registerEmployeeMst(employeeMstMntDto, loginUserDto);
+        
+        return nextEmployeeID;
 
     }
 
@@ -133,5 +135,33 @@ public class EmployeeMstMntLogic {
         }
 
         return m_employeeList;
+    }
+    
+    public String getNextEmployeeNo(LoginUserDto loginUserDto) throws Exception {
+
+        // 既存社員データを取得（すでにあるメソッドを流用）
+        List<EmployeeMstMntDto> list = this.getEmployeeData(loginUserDto);
+
+        int max = 0;
+
+        for (EmployeeMstMntDto dto : list) {
+            String empId = dto.getEmployeeId(); // 例: "sh0023"
+            if (empId == null) continue;
+            if (!empId.startsWith("sh")) continue;
+
+            // "sh" の後ろを取り出す
+            String numStr = empId.substring(2);
+
+            // 数字じゃないものは除外
+            if (!numStr.matches("\\d+")) continue;
+
+            int n = Integer.parseInt(numStr);
+            if (n > max) max = n;
+        }
+
+        int next = max + 1;
+
+        // 4桁0埋め → "0024"
+        return String.format("%04d", next);
     }
 }

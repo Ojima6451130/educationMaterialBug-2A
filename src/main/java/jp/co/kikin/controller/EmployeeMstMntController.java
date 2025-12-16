@@ -165,11 +165,26 @@ public class EmployeeMstMntController {
      * @throws Exception
      */
     @RequestMapping(value = SCREEN_PATH_REGIST)
-    public String regist(HttpServletRequest request, HttpSession session,
-                                EmployeeMstMntForm employeeMstMntForm, Model model, BindingResult bindingResult) throws Exception {
+    public String regist(HttpServletRequest request,
+                         HttpSession session,
+                         EmployeeMstMntForm employeeMstMntForm,
+                         Model model,
+                         BindingResult bindingResult) throws Exception {
+
+        LoginUserDto loginUserDto = (LoginUserDto) session
+            .getAttribute(RequestSessionNameConstant.SESSION_CMN_LOGIN_USER_INFO);
+
+        EmployeeMstMntLogic logic = new EmployeeMstMntLogic();
+
+        // ★ 次の社員番号を取得（例：0024）
+        String nextEmployeeNo = logic.getNextEmployeeNo(loginUserDto);
+
+        // ★ model に入れる（これが全て）
+        model.addAttribute("nextEmployeeNo", nextEmployeeNo);
 
         return "employeeMstMntRegister";
     }
+
 
 
     /**
@@ -247,4 +262,6 @@ public class EmployeeMstMntController {
 
         return EmployeeMstMntDtoList;
     }
+    
+
 }

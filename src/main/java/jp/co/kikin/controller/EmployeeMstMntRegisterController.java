@@ -84,22 +84,18 @@ public class EmployeeMstMntRegisterController {
         // ロジック生成
         EmployeeMstMntLogic employeeMstMntLogic = new EmployeeMstMntLogic();
         
-        //登録
-        employeeMstMntLogic.registerM_employee(m_employeeDto, loginUserDto);
-        
-        // 権限セレクトボックスの取得
-        ComboListUtilLogic comboListUtils = new ComboListUtilLogic();
-        Map<String, String> comboMap = comboListUtils.getCombo(CategoryId.AUTHORITY.getCategoryId(),
-                Mcategory.DISPLAY.getName(), false);
+     // 登録（社員IDを受け取る）
+        String newEmployeeId =
+            employeeMstMntLogic.registerM_employee(m_employeeDto, loginUserDto);
 
-        // 取得したセレクトボックスのマップをフォームへセットする。
-        employeeMstMntRegisterForm.setAuthorityCmbMap(comboMap);
+        // "sh0024" → "0024"
+        String employeeNo = newEmployeeId.replace("sh", "");
 
-       
+        model.addAttribute("entryEmployeeName", employeeName);
+        model.addAttribute("entryEmployeeNo", employeeNo);
 
-        String redirectUrl = "redirect:/kikin/employeeMstMnt";
+        return "employeeMstMntEntry";
 
-        return redirectUrl;
     }
 
     /**

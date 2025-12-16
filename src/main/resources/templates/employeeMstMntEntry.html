@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>ENTRY</title>
+
+<link rel="stylesheet" th:href="@{/css/employeeMstMntEntry.css}">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet"
+  href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap">
+
+</head>
+<body>
+
+<!-- 参戦カットイン -->
+<div id="entryOverlay" class="show">
+
+  <div class="entry-cutin">
+
+    <!-- 青い斜め帯 -->
+    <div class="entry-band"></div>
+
+    <!-- テキスト -->
+    <div class="entry-text">
+      <div class="entry-name" th:text="${entryEmployeeName}">SHIN EMPLOYEE</div>
+      <div class="entry-join">参戦!!</div>
+    </div>
+
+    
+    <img
+  th:src="@{'/img/employee/' + ${entryEmployeeNo} + '.png'}"
+  class="entry-character"
+  alt="new fighter">
+    
+
+  </div>
+</div>
+
+<script>
+document.getElementById("entryOverlay").classList.add("show");
+
+  setTimeout(() => {
+    location.href = "/kikin/employeeMstMnt";
+  }, 2500);
+</script>
+
+</body>
+</html>
