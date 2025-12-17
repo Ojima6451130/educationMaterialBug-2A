@@ -1,0 +1,46 @@
+@font-face {
+	font-family: 'Unown';
+	src: url('../fonts/Unown.ttf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+}
+
+.bg-image {
+	position: fixed;
+	inset: 0;
+	background-image: url("../img/Pokemon_Back.png");
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+	z-index: -2;
+}
+
+.shift-row {
+	padding: 8px 0;
+}
+
+.dailyShiftTable {
+	opacity: 0.9;
+}
+
+.title-daily-shift {
+	background-image: url("../img/Pokemon_Title.png");
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: 35% auto; /* ← ここが重要 */
+	height: 100px; /* これ以上増やさない */
+	padding-top: 50px
+}
+
+#header {
+	margin-bottom: 70px; /* ← まずはここ */
+}
+
+#headRight, #headLeft {
+	padding-bottom: 50px;
+}
+
+.smallButton {
+	font-family: 'Unown', 'Press Start 2P', monospace;
+	font-size: 20px; /* 通常より大きめ */
+}

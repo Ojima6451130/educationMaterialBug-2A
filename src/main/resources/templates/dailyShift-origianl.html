@@ -7,15 +7,11 @@
 <meta http-equiv="Expires" content="Thu, 01 Dec 1994 16:00:00 GMT">
 <title>日別シフト確認</title>
 <link rel="stylesheet" media="all" th:href="@{/css/common.css}" />
-<link rel="stylesheet" media="all"
-	th:href="@{/css/dailySift.Pokemon.css}" />
-<link rel="icon" href="../img/Ampharos.png">
 <script type="text/javascript" th:src="@{/js/common.js}"></script>
 <script type="text/javascript" th:src="@{/js/message.js}"></script>
 </head>
 
 <body>
-	<div class="bg-image"></div>
 	<div id="wrapper">
 		<div id="header">
 
@@ -23,13 +19,13 @@
 				<tr>
 					<td id="headRight">
 						<form action="/kikin/menu" method="post">
-							<input value="BACK" type="submit" class="smallButton" />
+							<input value="戻る" type="submit" class="smallButton" />
 						</form>
 					</td>
-					<td id="headCenter" class="title-daily-shift"></td>
+					<td id="headCenter">日別シフト確認画面</td>
 					<td id="headLeft">
 						<form action="/kikin/" method="post">
-							<input value="LOGOUT" type="button" class="smallButton"
+							<input value="ログアウト" type="button" class="smallButton"
 								onclick="logout()" />
 						</form>
 					</td>
@@ -48,9 +44,8 @@
 				<span class="date"
 					th:text="${#temporals.format(
               T(java.time.LocalDate).parse(dailyShiftForm.yearMonthDayDisplay),
-              'yyyy/MM/dd')}"></span>
-				<a
-					th:href="@{/kikin/dailyShift/search(yearMonthDayDisplay=${nextDay})}">翌日</a>
+              'yyyy/MM/dd')}"></span> 
+ 				<a	th:href="@{/kikin/dailyShift/search(yearMonthDayDisplay=${nextDay})}">翌日</a>
 			</div>
 		</form>
 		<div id="businessBody"
