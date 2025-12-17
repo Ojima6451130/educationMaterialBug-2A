@@ -6,8 +6,11 @@
 <meta http-equiv="Cache-Control" content="no-cache">
 <meta http-equiv="Expires" content="Thu, 01 Dec 1994 16:00:00 GMT">
 <title>月別シフト確認画面</title>
-<link rel="stylesheet" media="all" th:href="@{/css/monthlyShiftCheck.css}" />
-<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<link rel="stylesheet" media="all"
+	th:href="@{/css/monthlyShiftCheck.css}" />
+<link
+	href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+	rel="stylesheet">
 <link rel="icon" href="/img/monthlyShiftCheck/street_fighter2.png">
 
 <script type="text/javascript" th:src="@{/js/common.js}"></script>
@@ -24,7 +27,9 @@
 							<input value="戻る" type="submit" class="smallButton" />
 						</form>
 					</td>
-					<td id="headCenter">月別シフト確認</td>
+					<td id="headCenter"><img
+						src="/img/monthlyShiftCheck/monthlyShiftCheck_title.png"
+						alt="MonthlyShiftCheck" class="header-logo"></td>
 					<td id="headRight"><input value="ログアウト" type="button"
 						class="smallButton" onclick="logout()" /></td>
 				</tr>
@@ -77,8 +82,7 @@
 						</td>
 					</tr>
 				</thead>
-				<tbody
-					style="display: block; max-height: 400px; height: 490px;">
+				<tbody style="display: block; max-height: 400px; height: 490px;">
 					<tr th:each="monthlyShiftCheck : ${monthlyShiftCheckBean}"
 						class="tableBody">
 						<td class="tableBody" style="width: 150px; text-align: center;">
@@ -171,19 +175,19 @@
 			</table>
 		</div>
 	</div>
-	
 
-<div class="character-bar">
-    <img id="ryu" src="/img/monthlyShiftCheck/ryu.png" alt="キャラ1">
-    <img src="/img/monthlyShiftCheck/ken.png" alt="キャラ2">
-    <img src="/img/monthlyShiftCheck/edomondo.png" alt="キャラ3">
-    <img src="/img/monthlyShiftCheck/cyunri.png" alt="キャラ4">
-    <img src="/img/monthlyShiftCheck/buranka.png" alt="キャラ5">
-    <img src="/img/monthlyShiftCheck/zangiefu.png" alt="キャラ6">
-    <img src="/img/monthlyShiftCheck/gairu.png" alt="キャラ7">
-    <img src="/img/monthlyShiftCheck/darushimu.png" alt="キャラ8">
-</div>
-	
+
+	<div class="character-bar">
+		<img id="ryu" src="/img/monthlyShiftCheck/ryu.png" alt="キャラ1"> <img
+			src="/img/monthlyShiftCheck/ken.png" alt="キャラ2"> <img
+			src="/img/monthlyShiftCheck/edomondo.png" alt="キャラ3"> <img
+			src="/img/monthlyShiftCheck/cyunri.png" alt="キャラ4"> <img
+			src="/img/monthlyShiftCheck/buranka.png" alt="キャラ5"> <img
+			src="/img/monthlyShiftCheck/zangiefu.png" alt="キャラ6"> <img
+			src="/img/monthlyShiftCheck/gairu.png" alt="キャラ7"> <img
+			src="/img/monthlyShiftCheck/darushimu.png" alt="キャラ8">
+	</div>
+
 	<script>
 
 	// ====== 状態管理 ======

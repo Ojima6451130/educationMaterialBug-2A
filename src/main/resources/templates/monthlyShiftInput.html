@@ -32,10 +32,6 @@
 </head>
 
 <body>
-	<!-- 背景動画 -->
-	<video id="bg-video" autoplay muted loop playsinline>
-		<source src="/video/pikumin.mp4" type="video/mp4">
-	</video>
 	<div id="wrapper">
 		<div id="header">
 			<table class="centered-container">
@@ -45,7 +41,9 @@
 							<input value="戻る" type="submit" class="smallButton" />
 						</form>
 					</td>
-					<td id="headCenter">月別シフト入力</td>
+					<td id="headCenter"><img
+						src="/img/monthlyShiftInput/monthlyShiftInput.png" alt="月別シフト入力"
+						class="header-logo"></td>
 					<td id="headRight"><input value="ログアウト" type="button"
 						class="smallButton" onclick="logout()" /></td>
 				</tr>
@@ -418,6 +416,10 @@
 				</tbody>
 			</table>
 		</div>
+		<div id="bottom-deco">
+			<img src="/img/monthlyShiftInput/seibutsu.png" alt=""
+				class="bottom-image">
+		</div>
 		<div id="footer">
 			<table>
 				<tr>
@@ -456,7 +458,7 @@
 		}
 		
 		
-		const PIKUMIN_COUNT = 80;
+		const PIKUMIN_COUNT = 64;
 
 		const pikuminImages = [
 			"/img/monthlyShiftInput/pikumin_red.png",
@@ -503,13 +505,13 @@
 				  x: Math.random() * window.innerWidth,
 				  y: Math.random() * window.innerHeight,
 
-				  speed: 0.008 + Math.random() * 0.012,        // 通常追従
+				  speed: 0.009 + Math.random() * 0.03,        // 通常追従
 				  gatherSpeed: 0.016 + Math.random() * 0.024,  // 集合（個体差大）
 
 				  angle: (Math.PI * 2 / PIKUMIN_COUNT) * i,
 
 				  wobble: Math.random() * Math.PI * 2,       // ルート用
-				  wobbleSpeed: 0.02 + Math.random() * 0.04   // 揺れ速度
+				  wobbleSpeed: 0.04 + Math.random() * 0.06   // 揺れ速度
 				});
 
 		}
