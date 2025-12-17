@@ -1,0 +1,34 @@
+  /* このページ専用：footerを下に寄せる */
+  #wrapper {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .page-footer {
+    margin-top: auto;   /* ★これが決定打 */
+    text-align: right;
+    padding-top: 10px;
+  }
+  
+  html, body {
+  background-image: url("/img/splatoon_back2.png");
+  }
+
+  input[type="text"] {
+  width: 100%;
+  background: #fff;
+  color: #000;
+  border: 2px solid var(--ink-green);
+  border-radius: 14px;
+  padding: 6px;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.tableBody {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+#businessBody {
+	margin-top: 30px;
+}
