@@ -1,0 +1,326 @@
+@font-face {
+  font-family: "ikamodoki";
+  src: url("../fonts/ikamodoki.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+
+
+/* ==========================
+   カラーパレット
+   ========================== */
+:root {
+  --ink-green: #19f7a1;
+  --ink-pink: #ff4fd8;
+  --ink-purple: #7a5cff;
+  --ink-blue: #00cfff;
+  --ink-yellow: #ffe600;
+
+  --panel-bg: #141414; 
+  --body-bg: #111;
+}
+
+/* ==========================
+   html / body（画面固定）
+   ========================== */
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: "Noto Sans JP", "Bebas Neue", sans-serif;
+
+  /* ★ 背景画像 */
+  background-image: url("/img/splatoon_back.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+
+  /* ★ 読み込み失敗・隙間対策 */
+  background-color: #141414;
+
+  color: #fff;
+  display: flex;
+  justify-content: center; /* 横中央 */
+  align-items: center;     /* 縦中央 */
+}
+
+
+/* ==========================
+   インクフレーム（最前面）
+   ========================== */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: url("/img/splatoon_frame.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  pointer-events: none;
+  z-index: 9999;
+  filter: drop-shadow(0 0 18px rgba(0,0,0,0.45));
+}
+
+/* ==========================
+   中央ステージ（wrapper）
+   ========================== */
+#wrapper {
+  width: 900px;
+  max-height: calc(100vh - 160px); /* ★ height → max-height */
+  padding: 40px;
+   background: transparent;
+  border-radius: 26px;
+  position: relative;
+  z-index: 1;
+
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;               /* wrapper自体はスクロールさせない */
+}
+
+/* ==========================
+   ヘッダー
+   ========================== */
+#header {
+  background: linear-gradient(135deg, var(--ink-purple), var(--ink-blue));
+  border-radius: 18px;
+  padding: 12px;
+  color: #fff;
+  flex-shrink: 0;
+   padding-left: 100px;   /* ★左右を内側へ */
+  padding-right: 60px;
+}
+
+#header table {
+  width: 100%;
+  table-layout: fixed;
+}
+
+#headLeft,
+#headRight {
+  width: 150px;
+}
+
+#headCenter {
+  font-family: "ikamodoki", "Noto Sans JP", sans-serif;
+  font-size: 26px;
+  font-weight: normal;
+  text-align: center;
+  letter-spacing: 2px;
+  text-shadow: 0 0 10px rgba(255,255,255,0.6);
+}
+
+#headCenter {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+
+
+/* ==========================
+   業務エリア
+   ========================== */
+#businessBody {
+  flex: 1;
+  overflow: hidden;     /* ★ここでスクロール */
+}
+
+/* ==========================
+   テーブル全体
+   ========================== */
+   
+
+
+.overflowFixed {
+  border-collapse: separate;
+  border-spacing: 0 12px;
+
+  width: max-content;   /* ★中身の幅にする */
+  margin: 0 auto;       /* ★完全中央 */
+
+}
+
+/* シンボル列（thead / tbody 共通） */
+td, th {
+  white-space: nowrap;   /* ★改行させない */
+}
+
+
+
+
+
+/* ==========================
+   テーブルヘッダ
+   ========================== */
+.tableHeader td {
+  background: var(--ink-yellow);
+  color: #000;
+  font-weight: 900;
+  border-radius: 14px;
+  padding: 10px;
+  text-align: center;
+}
+
+/* ==========================
+   テーブル行（カード風）
+   ========================== */
+.tableBody {
+  background: rgba(255,255,255,0.06);
+  border-radius: 18px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.tableBody:hover {
+  transform: scale(1.015);
+  box-shadow: 0 0 18px var(--ink-blue);
+}
+
+.tableBody td {
+  padding: 8px;
+  color: #fff;
+  text-align: center;
+}
+
+/* ==========================
+   テキスト入力
+   ========================== */
+input[type="text"] {
+  width: 100%;
+  background: #000;
+  color: #fff;
+  border: 2px solid var(--ink-green);
+  border-radius: 14px;
+  padding: 6px;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+input[type="text"]:focus {
+  outline: none;
+  border-color: var(--ink-pink);
+  box-shadow: 0 0 12px var(--ink-pink);
+  transform: scale(1.05);
+}
+
+/* ==========================
+   チェックボックス
+   ========================== */
+input[type="checkbox"] {
+  width: 22px;
+  height: 22px;
+  accent-color: var(--ink-pink);
+  cursor: pointer;
+  transform: scale(1.2);
+}
+
+/* ==========================
+   ボタン（スプラ感）
+   ========================== */
+.smallButton {
+  background: linear-gradient(135deg, var(--ink-green), var(--ink-blue));
+  border: none;
+  border-radius: 30px;
+  color: #000;
+  font-weight: 900;
+  padding: 10px 24px;
+  font-size: 16px;
+  cursor: pointer;
+  box-shadow: 0 6px 0 #0a7;
+  transition: all 0.15s ease;
+}
+
+.smallButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 9px 0 #0a7;
+}
+
+.smallButton:active {
+  transform: translateY(3px);
+  box-shadow: 0 3px 0 #0a7;
+}
+
+/* ==========================
+   フッター
+   ========================== */
+#footer {
+  margin-top: 5px;
+  flex-shrink: 0;
+}
+
+#footer table {
+  width: 100%;
+}
+
+#footLeft,
+#footCenter,
+#footRight {
+  text-align: center;
+}
+
+/* ==========================
+   レスポンシブ安全対策
+   ========================== */
+@media (max-width: 1000px) {
+  #wrapper {
+    width: calc(100% - 120px);
+    margin: 60px auto;
+  }
+}
+/* ==========================
+   左右キャラクター
+   ========================== */
+.side-character {
+  position: absolute;   /* ★ fixed → absolute */
+  width: 360px;              /* キャラサイズ */
+  max-width: 22vw;           /* 画面小さい時の保険 */
+  pointer-events: none;      /* クリック邪魔しない */
+  z-index: 2;                /* 背景より上、wrapperより下 */
+  top: 50%;                       /* 画面の中央基準 */
+  transform: translateY(-50%);    /* 完全中央に補正 */
+  opacity: 0; /* 初期は見えない */
+}
+
+
+
+
+
+/* 左キャラ */
+.side-character.left {
+  left: 180px;
+  animation: slideInLeft 1.2s ease-out forwards;
+
+}
+
+/* 右キャラ */
+.side-character.right {
+  right: 200px;
+  animation: slideInRight 1.2s ease-out forwards;
+}
+
+@keyframes slideInLeft {
+  from {
+    transform: translate(-40px, -50%);
+    opacity: 0;
+  }
+  to {
+    transform: translate(0, -50%);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translate(40px, -50%);
+    opacity: 0;
+  }
+  to {
+    transform: translate(0, -50%);
+    opacity: 1;
+  }
+}

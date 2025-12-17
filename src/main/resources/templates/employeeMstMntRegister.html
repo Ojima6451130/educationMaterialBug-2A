@@ -27,6 +27,10 @@
 </head>
 
 <body>
+<audio id="bgm" src="/sounds/sb_register.wav" loop></audio>
+<audio id="challengerSound" preload="auto">
+  <source src="/sounds/sb_challenger.mp3" type="audio/mpeg">
+</audio>
 
 <div class="game-frame">
 
@@ -115,6 +119,33 @@
   </div>
 </div>
 <img id="fakeCursor" src="/img/1Pcursor.png">
+
+<script>
+window.addEventListener("load", () => {
+
+  // 効果音
+  const se = document.getElementById("challengerSound");
+  // BGM
+  const bgm = document.getElementById("bgm");
+
+  if (se) {
+    se.currentTime = 0;
+    se.volume = 1.0;
+
+    se.play().then(() => {
+      // 効果音が鳴った後にBGM開始（スマブラ感）
+      setTimeout(() => {
+        if (bgm) {
+          bgm.volume = 0.4;
+          bgm.play().catch(()=>{});
+        }
+      }, 1500);
+    }).catch(e => {
+      console.log("SE 再生ブロック", e);
+    });
+  }
+});
+</script>
 
 
 

@@ -63,7 +63,10 @@ body {
 
 .title {
   font-family: "Bebas Neue", sans-serif;
-  font-size: 28px;
+  font-size: 34px;
+  line-height: 1;
+  margin: 0;
+  padding: 0;
   color: var(--gold);
   letter-spacing: 1px;
   text-shadow:
@@ -71,7 +74,13 @@ body {
      3px -3px 0 #000,
     -3px  3px 0 #000,
      3px  3px 0 #000;
+  transform: translateY(3px);
 }
+
+.top-bar {
+  height: 64px;
+}
+
 
 .top-btn {
   position: absolute;
@@ -87,6 +96,7 @@ body {
     0 4px 10px rgba(0,0,0,0.6),
     inset 0 -2px 0 rgba(0,0,0,0.2);
   transition: transform .08s ease;
+  transform: translateY(3px);
 }
 
 .top-btn:active {

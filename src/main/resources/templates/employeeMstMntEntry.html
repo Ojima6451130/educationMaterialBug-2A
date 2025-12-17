@@ -36,13 +36,32 @@
 		</div>
 	</div>
 
+	<audio id="entrySound" preload="auto">
+    <source src="/sounds/sb_entry.mp3" type="audio/mpeg">
+</audio>
 	<script>
-document.getElementById("entryOverlay").classList.add("show");
+  // 参戦演出を表示
+  document.getElementById("entryOverlay").classList.add("show");
 
+  // ★ 音を鳴らす
+  const sound = document.getElementById("entrySound");
+  if (sound) {
+    sound.currentTime = 0;
+    sound.volume = 1.0;
+    setTimeout(() => {
+        sound.play().catch(e => {
+          console.log("音声再生がブロックされました", e);
+        });
+      }, 150); // ← ここが遅延時間（ミリ秒）
+    }
+
+
+  // 一定時間後に一覧画面へ
   setTimeout(() => {
     location.href = "/kikin/employeeMstMnt";
   }, 2500);
 </script>
+
 
 </body>
 </html>

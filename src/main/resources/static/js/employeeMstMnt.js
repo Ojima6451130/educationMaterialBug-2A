@@ -2,6 +2,9 @@
 // 社員マスタメンテナンス JS
 // ===============================
 
+// Ready to Fight 効果音
+const readySound = new Audio("/sounds/sb_ready.mp3");
+readySound.volume = 0.9; // 音量（0.0〜1.0）
 
 // -------------------------------
 // 社員アイコンクリック処理
@@ -13,17 +16,14 @@ document.addEventListener("DOMContentLoaded", () => {
 	const detailName = document.getElementById("detailName");
 	const detailIcon = document.getElementById("detailIcon");
 	const forms = document.querySelectorAll(".detail-form");
-	const readyBanner = document.getElementById("readyBanner");
 
 
 
 	// employeeId → 画像ファイル名
+	
 	function getImagePath(employeeId) {
-		const num = employeeId.replace("sh", "");
-		imgElement.onerror = () => {
-		    imgElement.src = "/img/employee/default.png";
-		  };
-		return `/img/employee/${num}.png`;
+	  const num = employeeId.replace("sh", "");
+	  return `/img/employee/${num}.png`;
 	}
 
 	icons.forEach(icon => {
@@ -44,8 +44,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
 			// 左下パネルの名前差し替え
 			detailName.textContent = employeeName;
-
+			
 			// 左下の画像差し替え
+			detailIcon.onerror = () => {
+			  detailIcon.src = "/img/employee/default.png";
+			};
 			detailIcon.src = getImagePath(employeeId);
 
 			// 対応する詳細フォームを表示（active切り替え）
@@ -75,11 +78,15 @@ function showReadyBanner() {
 
   // 一度消す
   readyBanner.classList.remove("show");
+  
+  // ★ 音をリセットして再生
+    readySound.currentTime = 0;
+    readySound.play();
 
   // 次フレームで再表示（アニメーションを必ず発火させる）
   setTimeout(() => {
      readyBanner.classList.add("show");
-   }, 120); // ← 80〜150ms がちょうどいい
+   }, 150); // ← 80〜150ms がちょうどいい
 }
 
 
