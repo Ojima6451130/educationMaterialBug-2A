@@ -7,40 +7,27 @@
     <meta http-equiv="Expires" content="Thu, 01 Dec 1994 16:00:00 GMT">
     <title>出勤希望日入力画面</title>
     <link rel="stylesheet" media="all" th:href="@{/css/common.css}" />
-    <link rel="stylesheet" media="all" th:href="@{/css/workDateRequestInput.css}" />
     <script type="text/javascript" th:src="@{/js/common.js}"></script>
     <script type="text/javascript" th:src="@{/js/message.js}"></script>
-    <link rel="icon" href="/img/まめっち.png">
 </head>
 
 <body>
-	<audio src="/sound/puchipuchi.wav" autoplay loop></audio>
+
     <div id="wrapper">
         <div id="header">
           <table  class="centered-container">
             <tr>
-              <td id="headLeft" class="back-area">
+              <td id="headLeft">
                 <form action="/kikin/menu" method="post">
-                    <input value="戻る" type="submit" class="smallButton" />
+                    <input value="戻る" type="submit" class="smallButton" />  
                 </form>
-                    <img src="/img/またくるねー.png"
-				       class="back-hover-img"
-				       alt="back">
               </td>
               <td id="headCenter">
-                <img src="/img/puchipuchi.title.png" class="title">
+                出勤希望入力
               </td>
-              <td id="headRight" class="logout-area">
-				  <input value="ログアウト"
-				         type="button"
-				         class="smallButton logout-btn"
-				         onclick="logout()" />
-				
-				  <img src="/img/もうこないからねー.png"
-				       class="logout-hover-img"
-				       alt="logout">
-			  </td>
-
+              <td id="headRight">
+                <input value="ログアウト" type="button" class="smallButton"  onclick="logout()" />
+              </td>
             </tr>
           </table>
         </div>
@@ -292,8 +279,6 @@
             </tr>
           </table>
         </div>
-        
-        <img src="/img/まるっち.png" class="marucchi">
     </div>
     <script>
       function openWindow() {
