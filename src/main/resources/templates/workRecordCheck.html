@@ -2,152 +2,243 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-  <meta http-equiv="Pragma" content="no-cache">
-  <meta http-equiv="Cache-Control" content="no-cache">
-  <meta http-equiv="Expires" content="Thu, 01 Dec 1994 16:00:00 GMT">
-  <title>勤務実績確認画面</title>
-  <link rel="stylesheet" media="all" th:href="@{/css/common.css}" />
-  <script type="text/javascript" th:src="@{/js/common.js}"></script>
-  <script type="text/javascript" th:src="@{/js/message.js}"></script>
-</head>
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Expires" content="Thu, 01 Dec 1994 16:00:00 GMT">
 <title>勤務実績確認画面</title>
-
-<style>
-  .weekday {
-    color: black;
-  }
-
-  .saturday {
-    color: blue;
-  }
-
-  .sunday {
-    color: red;
-  }
-
-  .holiday {
-    background-color: yellow;
-  }
-</style>
+<link rel="icon" href="../img/workrecordcheck/doseisan.png">
+<link rel="stylesheet" media="all" th:href="@{/css/common.css}" />
+<link
+	href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap"
+	rel="stylesheet">
+<link rel="stylesheet" th:href="@{/css/workrecordcheck.css}">
+<script type="text/javascript" th:src="@{/js/common.js}"></script>
+<script type="text/javascript" th:src="@{/js/message.js}"></script>
+</head>
 
 <body>
-  <div id="wrapper">
-    <div id="header">
-      <table class="centered-container">
-        <tr>
-          <td id="headLeft">
-            <form action="/kikin/menu" method="post">
-              <input value="戻る" type="submit" class="smallButton" />
-            </form>
-          </td>
-          <td id="headCenter">
-            勤務実績確認
-          </td>
-          <td id="headRight">
-            <input value="ログアウト" type="button" class="smallButton" onclick="logout()" />
-          </td>
-        </tr>
-      </table>
-    </div>
+	<audio id="battleBgm" loop>
+		<source src="/sounds/workrecordcheck/starman_bgm.mp3" type="audio/mpeg">
+	</audio>
 
-    <div id="businessBody">
-      <form action="/kikin/workRecordCheck/search" method="post" th:object="${workRecordInputForm}">
-        <label>表示年月：</label>
-        <select name="yearMonth" id="yearMonth">
-          <!-- yearMonthValues リストをループして表示 -->
-          <option th:each="entry : ${yearMonthCmbMap.entrySet()}" th:text="${entry.value}" th:value="${entry.key}"
-            th:selected="${entry.key == workRecordInputForm.yearMonth}" th:inline="text">[[${yearMonth}]>
-          </option>
-        </select>
-        <div style="display: inline; float: right;">
-          社員名：
-          <select name="employeeId" id="employeeId">
-            <option th:each="entry : ${employeeCmbMap.entrySet()}" th:text="${entry.value}" th:value="${entry.key}"
-              th:selected="${entry.key == workRecordInputForm.employeeId}" th:inline="text">[[${entry.key}]>
-            </option>
-          </select>
-        </div>
-        <input value="検索" type="submit" />
-      </form>
-    </div>
-    <br>
+	<div class="layout-root">
 
-    <div class="businessBody">
-      <table class="overflowFixed">
-        <thead class="tableHeader" style="display: block; position: sticky; top: 0; width: max-content;">
-          <tr>
-            <td style="width: 70px; text-align: center; box-sizing: border-box;">
-              日付
-            </td>
-            <td style="width: 50px; text-align: center; box-sizing: border-box;">
-              曜日
-            </td>
-            <td style="width: 70px; text-align: center; box-sizing: border-box;">
-              シフト
-            </td>
-            <td style="width: 100px; text-align: center; box-sizing: border-box;">
-              開始時刻
-            </td>
-            <td style="width: 100px; text-align: center; box-sizing: border-box;">
-              終了時刻
-            </td>
-            <td style="width: 100px; text-align: center; box-sizing: border-box;">
-              休憩
-            </td>
-            <td style="width: 100px; text-align: center; box-sizing: border-box;">
-              実働時間
-            </td>
-            <td style="width: 100px; text-align: center; box-sizing: border-box;">
-              時間外
-            </td>
-            <td style="width: 100px; text-align: center; box-sizing: border-box;">
-              休日
-            </td>
-            <td style="width: 250px; text-align: center; box-sizing: border-box;">
-              備考
-            </td>
-          </tr>  
-        </thead>
-        <tbody class="tableBody" style="display: block; width: max-content; height: 400px; overflow-y: scroll; scrollbar-gutter: stable;">
-          <tr th:each="workRecordCheck, iterStat : ${WorkRecordInputList}" class="list">
-            <td style="width: 70px; text-align: center; box-sizing: border-box;">
-              <span th:text="${workRecordCheck.workDayDisp}"></span>
-            </td>
-            <td style="width: 50px; text-align: center; box-sizing: border-box;"
-              th:class="${workRecordCheck.weekDay == '土' ? 'fontBlue' : (workRecordCheck.weekDay == '日' or workRecordCheck.publicHolidayFlg) ? 'fontRed' : 'fontBlack'}">
-              <span th:text="${workRecordCheck.weekDay}"></span>
-            </td>
+		<div class="area-command">
+			<div class="command-box">
+				<div class="command-title">勤務実績確認</div>
 
-            <td style="width: 70px; text-align: center; box-sizing: border-box;">
-              <span th:text="${workRecordCheck.symbol}"></span>
-            </td>
-            <td style="width: 100px; text-align: center; box-sizing: border-box;">
-              <span th:text="${workRecordCheck.startTime}"></span>
-            </td>
-            <td style="width: 100px; text-align: center; box-sizing: border-box;">
-              <span th:text="${workRecordCheck.endTime}"></span>
-            </td>
-            <td style="width: 100px; text-align: center; box-sizing: border-box;">
-              <span th:text="${workRecordCheck.breakTime}"></span>
-            </td>
-            <td style="width: 100px; text-align: center; box-sizing: border-box;">
-              <span th:text="${workRecordCheck.actualWorkTime}"></span>
-            </td>
-            <td style="width: 100px; text-align: center; box-sizing: border-box;">
-              <span th:text="${workRecordCheck.overTime}"></span>
-            </td>
-            <td style="width: 100px; text-align: center; box-sizing: border-box;">
-              <span th:text="${workRecordCheck.holidayTime}"></span>
-            </td>
-            <td style="width: 250px; text-align: center; box-sizing: border-box;">
-              <span type="text" th:text="${workRecordCheck.remark}"></span>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-  </div>
+				<form action="/kikin/menu" method="post" onsubmit="resetBgmState()">
+					<button type="submit" class="command-btn">▶ 戻る</button>
+				</form>
+
+				<button class="command-btn" onclick="resetBgmState(); logout();">
+					▶ ログアウト</button>
+
+			</div>
+		</div>
+
+		<div class="area-comment">
+
+			<div class="comment-box">
+				<div class="comment-text" id="starmanComment">スターマンはようすをみている…</div>
+			</div>
+
+			<div class="starman-area">
+				<img id="starmanImg" src="/img/workrecordcheck/starman.png"
+					alt="starman">
+			</div>
+
+
+		</div>
+
+		<div class="area-search">
+			<div class="command-box">
+				<form id="searchForm" action="/kikin/workRecordCheck/search"
+					method="post" th:object="${WorkRecordInputForm}">
+
+					<div class="command-title">表示条件</div>
+					<div class="command-item">
+						表示年月 <select name="yearMonth">
+							<option th:each="entry : ${yearMonthCmbMap.entrySet()}"
+								th:value="${entry.key}" th:text="${entry.value}"
+								th:selected="${entry.key == workRecordInputForm.yearMonth}">
+							</option>
+						</select>
+					</div>
+
+					<div class="command-item">
+						社員名 <select name="employeeId">
+							<option th:each="entry : ${employeeCmbMap.entrySet()}"
+								th:value="${entry.key}" th:text="${entry.value}"
+								th:selected="${entry.key == workRecordInputForm.employeeId}">
+							</option>
+						</select>
+					</div>
+
+					<button type="submit" class="command-btn">▶ 検索</button>
+				</form>
+			</div>
+		</div>
+
+
+		<!-- 下中央：シフト表示 -->
+		<div class="area-main">
+			<table class="overflowFixed">
+				<thead class="tableHeader"
+					style="display: block; position: sticky; top: 0; width: max-content;">
+					<tr>
+						<td
+							style="width: 70px; text-align: center; box-sizing: border-box;">
+							日付</td>
+						<td
+							style="width: 50px; text-align: center; box-sizing: border-box;">
+							曜日</td>
+						<td
+							style="width: 70px; text-align: center; box-sizing: border-box;">
+							シフト</td>
+						<td
+							style="width: 100px; text-align: center; box-sizing: border-box;">
+							開始時刻</td>
+						<td
+							style="width: 100px; text-align: center; box-sizing: border-box;">
+							終了時刻</td>
+						<td
+							style="width: 100px; text-align: center; box-sizing: border-box;">
+							休憩</td>
+						<td
+							style="width: 100px; text-align: center; box-sizing: border-box;">
+							実働時間</td>
+						<td
+							style="width: 100px; text-align: center; box-sizing: border-box;">
+							時間外</td>
+						<td
+							style="width: 100px; text-align: center; box-sizing: border-box;">
+							休日</td>
+						<td
+							style="width: 250px; text-align: center; box-sizing: border-box;">
+							備考</td>
+					</tr>
+				</thead>
+				<tbody class="tableBody"
+					style="display: block; width: max-content; overflow-y: scroll; scrollbar-gutter: stable;">
+					<tr th:each="workRecordCheck, iterStat : ${WorkRecordInputList}"
+						class="list">
+						<td
+							style="width: 70px; text-align: center; box-sizing: border-box;">
+							<span th:text="${workRecordCheck.workDayDisp}"></span>
+						</td>
+						<td
+							style="width: 50px; text-align: center; box-sizing: border-box;"
+							th:class="${workRecordCheck.weekDay == '土' ? 'fontBlue' : (workRecordCheck.weekDay == '日' or workRecordCheck.publicHolidayFlg) ? 'fontRed' : 'fontBlack'}">
+							<span th:text="${workRecordCheck.weekDay}"></span>
+						</td>
+
+						<td
+							style="width: 70px; text-align: center; box-sizing: border-box;">
+							<span th:text="${workRecordCheck.symbol}"></span>
+						</td>
+						<td
+							style="width: 100px; text-align: center; box-sizing: border-box;">
+							<span th:text="${workRecordCheck.startTime}"></span>
+						</td>
+						<td
+							style="width: 100px; text-align: center; box-sizing: border-box;">
+							<span th:text="${workRecordCheck.endTime}"></span>
+						</td>
+						<td
+							style="width: 100px; text-align: center; box-sizing: border-box;">
+							<span th:text="${workRecordCheck.breakTime}"></span>
+						</td>
+						<td
+							style="width: 100px; text-align: center; box-sizing: border-box;">
+							<span th:text="${workRecordCheck.actualWorkTime}"></span>
+						</td>
+						<td
+							style="width: 100px; text-align: center; box-sizing: border-box;">
+							<span th:text="${workRecordCheck.overTime}"></span>
+						</td>
+						<td
+							style="width: 100px; text-align: center; box-sizing: border-box;">
+							<span th:text="${workRecordCheck.holidayTime}"></span>
+						</td>
+						<td
+							style="width: 250px; text-align: center; box-sizing: border-box;">
+							<span type="text" th:text="${workRecordCheck.remark}"></span>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
 </body>
+
+<script>
+function resetBgmState() {
+  sessionStorage.removeItem("bgmTime");
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  const bgm = document.getElementById("battleBgm");
+  if (!bgm) return;
+
+  bgm.volume = 0.4;
+
+  const savedTime = sessionStorage.getItem("bgmTime");
+  if (savedTime) {
+    bgm.currentTime = parseFloat(savedTime);
+  }
+
+  bgm.play().then(() => {
+    bgm.muted = false;
+  }).catch(() => {});
+
+  window.addEventListener("beforeunload", () => {
+    sessionStorage.setItem("bgmTime", bgm.currentTime);
+  });
+});
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+  const form = document.getElementById("searchForm");
+  const comment = document.getElementById("starmanComment");
+  const starman = document.getElementById("starmanImg");
+
+  if (!form || !comment || !starman) return;
+
+  /* ===== コメント設定 ===== */
+  const COMMENT_DISPLAY_TIME = 200000;
+  const DEFAULT_TEXT = "スターマンはまだようすをみている…";
+  let timer = null;
+
+  form.addEventListener("submit", () => {
+
+    const ym = form.querySelector("select[name='yearMonth']");
+    const emp = form.querySelector("select[name='employeeId']");
+
+    const ymText = ym.options[ym.selectedIndex].text;
+    const empText = emp.options[emp.selectedIndex].text;
+
+    comment.textContent =
+      `スターマンは\n${ymText}、\n${empText} の シフトを\n検索した！`;
+
+    if (timer) clearTimeout(timer);
+
+    timer = setTimeout(() => {
+      comment.textContent = DEFAULT_TEXT;
+    }, COMMENT_DISPLAY_TIME);
+
+    starman.classList.remove("starman-shake"); 
+    void starman.offsetWidth;                  
+    starman.classList.add("starman-shake");
+
+    setTimeout(() => {
+      starman.classList.remove("starman-shake");
+    }, 2000);
+  });
+
+});
+</script>
 
 </html>
