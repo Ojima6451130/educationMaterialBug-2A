@@ -1,0 +1,172 @@
+@font-face {
+  font-family: "yasashisa";
+  src: url("../fonts/yasashisa.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  
+}
+
+body {
+    overflow: hidden;
+    width:100%;
+    font-family: "yasashisa", "Bebas Neue", sans-serif;
+    font-size: 25px;
+    margin: auto;
+}
+
+.bg {
+	background-image: url("/img/atsumori_bg.png");
+	background-size: cover;                /* 画面いっぱい */
+	background-position: center;           /* 中央寄せ */
+	background-repeat: no-repeat;           /* 繰り返さない */
+	min-height: 100vh; 
+	transform: scale(0.9);                     /* 画面高さ */
+}
+
+#wrapper {
+    width:99%;
+    height:100%;
+    padding:0px;
+    margin-top: -40px;
+}
+
+
+/*
+* ヘッダー、フッター共通定義
+*/
+#header,#businessBody,#footer {
+    width: 100%;
+    padding: 5px;
+}
+
+/*
+* ヘッダー定義
+*/
+#header {
+  z-index: 1000;
+  padding: 0; 
+  position: relative;
+}
+#headLeft {
+    text-align:center;
+    top: -35px;
+}
+
+#headRight {
+    text-align:center;
+    top: -35px;
+}
+
+#headCenter {
+  text-align: center;
+}
+
+.title {
+  height: 115px;
+  position: relative;
+  top: 10px;
+}
+.overlap-search {
+  position: relative;
+  z-index: 10;
+  
+}
+#businessBody {
+    height: 82%;
+    overflow: auto;
+    position: relative;
+    z-index: 1;
+    padding: 0;
+}
+.table-hd{
+    background-image: url("/img/atsumori_hedder.png");
+	position: static; 
+}
+
+.tableHeader {
+    font-weight: bold;
+    border: 3px solid black;
+    border-collapse: collapse;
+
+}
+.tableHeader td, .tableHeader th {
+        padding: 0;
+        border: 3px solid black;
+}
+.table-bg{
+    background-image: url("/img/atsumori_callender.png");
+    scrollbar-gutter: stable;
+    background-attachment: local;
+	
+}
+.tableBody {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+.tableBody td, .tableBody th {
+        padding: 0;
+        border: 3px solid black;
+        opacity: 0.7;
+}
+
+.daysTable {
+    border-collapse: collapse;
+    table-layout: auto;
+    margin: 0 auto;
+    width: max-content;
+}
+.daysTable td, .daysTable th {
+    padding: 0;
+}
+
+
+/* thead・tbody 共通で横幅を固定 */
+.daysTable > thead.table-hd,
+.daysTable > tbody.table-bg {
+    width: max-content;
+    margin: 0 auto;
+}
+.daysTable > thead.table-hd {
+    background-position: center;
+    box-sizing: border-box;
+    margin-right: 15.5px;
+}
+
+.centered-container {
+    width: 80%;
+    margin: 0 auto;
+}
+
+/*
+* ボタンサイズ通常
+*/
+.smallButton {
+    width: 100px;
+    height: 30px;
+}
+
+/*
+* ボタンサイズ大
+*/
+.bigButton {
+    width: 200px;
+    height: 50px;
+    margin: 10px 0;
+}
+
+/*
+* ボタンサイズロング
+*/
+.longButton {
+    width: 200px;
+    height: 30px;
+}
+
+
+/*
+* 戻るボタンのスタイル
+*/
+.backButton {
+    top: 5px;
+    left: 10px;
+}
