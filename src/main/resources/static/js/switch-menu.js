@@ -12,6 +12,7 @@ if (params.get("reset") === "1") {
 }
 
 
+let isSleeping = false;
 
 // ===========================
 // 初回アクセス判定（menu 直アクセス時のみ index を消す）
@@ -388,7 +389,7 @@ window.addEventListener("pageshow", () => {
 
     return;
   }
-})
+
   // ======================
   // 下段復帰
   // ======================
@@ -408,7 +409,7 @@ window.addEventListener("pageshow", () => {
     updateBottomHelp();
   }
 
-
+});
 
 
 
@@ -424,4 +425,23 @@ function logout() {
     if (flash) {
       flash.style.opacity = 1;
     }
+}
+
+// ===========================
+// スリープ切り替え
+// ===========================
+function toggleSleep() {
+  const overlay = document.getElementById("sleepOverlay");
+
+  if (!overlay) return;
+
+  if (!isSleeping) {
+    // スリープON
+    isSleeping = true;
+    overlay.classList.add("active");
+  } else {
+    // スリープOFF
+    isSleeping = false;
+    overlay.classList.remove("active");
+  }
 }
